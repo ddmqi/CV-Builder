@@ -1021,7 +1021,52 @@
   .cv-page.mobile-preview .cv-entry-title   { font-size: 8pt  !important; }
   .cv-page.mobile-preview .cv-bullets       { font-size: 7.5pt !important; }
 
-  /* ENTRY FORMAT PICKER */
+  /* INDIVIDUAL BULLET FIELDS */
+  .bullet-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 4px; }
+  .bullet-row {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .bullet-drag-handle {
+    color: var(--muted); font-size: 14px; cursor: grab;
+    opacity: 0.4; flex-shrink: 0; user-select: none;
+    transition: opacity 0.15s; padding: 0 2px;
+  }
+  .bullet-drag-handle:hover { opacity: 1; color: var(--accent2); }
+  .bullet-drag-handle:active { cursor: grabbing; }
+  .bullet-input {
+    flex: 1; padding: 6px 10px;
+    border: 1px solid var(--border); border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    color: var(--text); background: #fafaf9; outline: none;
+    transition: border 0.2s;
+  }
+  .bullet-input:focus { border-color: var(--accent2); background: white; }
+  .bullet-row.drag-over-bullet { outline: 2px dashed var(--accent); border-radius: 3px; }
+  .bullet-row.dragging-bullet { opacity: 0.3; }
+  .btn-bullet-remove {
+    background: none; border: none; color: #c0392b;
+    cursor: pointer; font-size: 15px; line-height: 1;
+    padding: 0 3px; opacity: 0.5; flex-shrink: 0;
+  }
+  .btn-bullet-remove:hover { opacity: 1; }
+  .btn-bullet-bold {
+    background: var(--accent2); color: white; border: none;
+    border-radius: 3px; font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 700; padding: 2px 7px;
+    cursor: pointer; flex-shrink: 0; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .bullet-row:hover .btn-bullet-bold,
+  .bullet-row:focus-within .btn-bullet-bold { opacity: 1; }
+  .btn-bullet-bold:hover { background: #0f2840; }
+    display: flex; align-items: center; gap: 4px;
+    background: none; border: 1px dashed var(--border);
+    border-radius: 4px; color: var(--muted);
+    font-family: 'DM Sans', sans-serif; font-size: 11px;
+    padding: 5px 10px; cursor: pointer; width: 100%;
+    justify-content: center; transition: all 0.2s; margin-top: 2px;
+  }
+  .btn-add-bullet:hover { border-color: var(--accent); color: var(--accent); }
   .efmt-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
   .efmt-btn {
     flex: 1; min-width: 80px;
@@ -1086,12 +1131,124 @@
     color: #856404; margin-top: 8px; display: none;
   }
   .ats-name-warning.visible { display: block; }
+  /* AI REFORMULATION */
+  .btn-ai {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white; border: none; border-radius: 3px;
+    font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; cursor: pointer; transition: opacity 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-ai:hover { opacity: 0.85; }
+  .btn-ai:disabled { opacity: 0.5; cursor: wait; }
+
+  .ai-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    z-index: 10000; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .ai-modal-overlay.visible { opacity: 1; pointer-events: all; }
+  .ai-modal {
+    background: white; border-radius: 10px; padding: 24px;
+    width: 520px; max-width: 95vw; max-height: 85vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ai-modal-title {
+    font-size: 15px; font-weight: 700; color: var(--dark);
+    margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+  }
+  .ai-modal-sub {
+    font-size: 11px; color: var(--muted); margin-bottom: 16px;
+  }
+  .ai-original {
+    background: #f9f8f6; border: 1px solid var(--border); border-radius: 5px;
+    padding: 10px 12px; font-size: 11px; color: var(--muted);
+    margin-bottom: 14px; font-style: italic; line-height: 1.4;
+    max-height: 80px; overflow-y: auto;
+  }
+  .ai-proposals { display: flex; flex-direction: column; gap: 8px; }
+  .ai-proposal {
+    border: 1.5px solid var(--border); border-radius: 6px; padding: 10px 12px;
+    font-size: 12px; line-height: 1.5; color: var(--text);
+    cursor: pointer; transition: all 0.15s; position: relative;
+  }
+  .ai-proposal:hover { border-color: #6366f1; background: #f8f7ff; }
+  .ai-proposal-num {
+    font-size: 9px; font-weight: 700; color: #6366f1; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 4px;
+  }
+  .ai-proposal-text { white-space: pre-wrap; }
+  .ai-apply-btn {
+    position: absolute; right: 8px; top: 8px;
+    background: #6366f1; color: white; border: none; border-radius: 3px;
+    font-size: 10px; font-weight: 600; padding: 2px 7px; cursor: pointer;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .ai-proposal:hover .ai-apply-btn { opacity: 1; }
+  .ai-loading {
+    text-align: center; padding: 30px;
+    color: var(--muted); font-size: 13px;
+  }
+  .ai-loading-spinner {
+    display: inline-block; width: 20px; height: 20px;
+    border: 2px solid #e0e0e0; border-top-color: #6366f1;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    margin-right: 8px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ai-modal-footer {
+    margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;
+  }
+  .ai-close-btn {
+    background: none; border: 1px solid var(--border); border-radius: 4px;
+    padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px;
+    cursor: pointer; color: var(--muted);
+  }
+  .ai-close-btn:hover { background: #f0f0f0; }
+  @media print {
+    body { overflow: visible !important; height: auto !important; }
+    header, .cv-tabs-bar, .form-panel, .preview-actions,
+    .density-bar-wrap, .cv-overflow-line, .dup-warning-banner,
+    #dup-warning-banner, .btn-undo, .btn-redo, .btn-focus,
+    .preview-size-toggle, .zoom-row, .btn-gray,
+    .pact-group, .verb-legend { display: none !important; }
+    .app { display: block !important; overflow: visible !important; }
+    .preview-panel {
+      background: white !important; padding: 0 !important;
+      overflow: visible !important; display: block !important;
+      align-items: unset !important;
+    }
+    .preview-panel-inner {
+      transform: none !important; margin: 0 !important;
+    }
+    .cv-page {
+      box-shadow: none !important; width: 100% !important;
+      min-height: auto !important; filter: none !important;
+    }
+    .cv-entry-drag-handle, .cv-section-drag-grip { display: none !important; }
+  }
 </style>
 </head>
 <body>
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toast-msg">Sauvegardé</span></div>
+
+<!-- AI REFORMULATION MODAL -->
+<div class="ai-modal-overlay" id="ai-modal-overlay">
+  <div class="ai-modal">
+    <div class="ai-modal-title">✨ Reformulation IA</div>
+    <div class="ai-modal-sub">3 versions améliorées de ton bullet — clique pour appliquer</div>
+    <div class="ai-original" id="ai-original-text"></div>
+    <div class="ai-proposals" id="ai-proposals">
+      <div class="ai-loading"><span class="ai-loading-spinner"></span>Génération en cours…</div>
+    </div>
+    <div class="ai-modal-footer">
+      <button class="ai-close-btn" onclick="closeAiModal()">Fermer</button>
+    </div>
+  </div>
+</div>
 
 <header>
   <h1>CV Builder — Finance Template</h1>
@@ -1427,6 +1584,12 @@
           <button class="font-btn" id="sep-btn-thin" onclick="setNameSeparator('thin')">Fin</button>
           <button class="font-btn" id="sep-btn-thick" onclick="setNameSeparator('thick')">Épais</button>
         </div>
+
+        <label style="margin-top:14px;">Icônes dans les contacts</label>
+        <div class="font-picker" style="margin-top:6px;">
+          <button class="font-btn active" id="icon-btn-none" onclick="setContactIcons('none')">Aucune</button>
+          <button class="font-btn" id="icon-btn-show" onclick="setContactIcons('show')">📍 📞 ✉ 🔗</button>
+        </div>
       </div>
 
       <!-- MARGINS -->
@@ -1609,6 +1772,12 @@ function redo() {
 
 function restoreFromSnap(snap) {
   Object.assign(state, snap.state);
+  // Migrate old string bullets to arrays
+  (state.education||[]).forEach(e  => { e.note    = toBulletArray(e.note);    });
+  (state.experience||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); });
+  (state.leadership||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); });
+  (state.projects||[]).forEach(e   => { e.bullets = toBulletArray(e.bullets); });
+  (state.hobbies||[]).forEach(e    => { e.bullets = toBulletArray(e.bullets); });
   sectionOrder.length = 0;
   snap.sectionOrder.forEach(s => sectionOrder.push(s));
   Object.assign(sectionLabels, snap.sectionLabels || {});
@@ -1689,31 +1858,31 @@ function showTab(name) {
 function addEdu() {
   pushUndo();
   const id = 'edu-' + (++eduCount);
-  state.education.push({ id, school: '', location: '', degree: '', note: '', date: '' });
+  state.education.push({ id, school: '', location: '', degree: '', note: [], date: '' });
   renderForms();
 }
 function addExp() {
   pushUndo();
   const id = 'exp-' + (++expCount);
-  state.experience.push({ id, company: '', location: '', title: '', date: '', bullets: '' });
+  state.experience.push({ id, company: '', location: '', title: '', date: '', bullets: [] });
   renderForms();
 }
 function addLead() {
   pushUndo();
   const id = 'lead-' + (++leadCount);
-  state.leadership.push({ id, title: '', bullets: '' });
+  state.leadership.push({ id, title: '', bullets: [] });
   renderForms();
 }
 function addProj() {
   pushUndo();
   const id = 'proj-' + (++projCount);
-  state.projects.push({ id, title: '', tech: '', bullets: '' });
+  state.projects.push({ id, title: '', tech: '', bullets: [] });
   renderForms();
 }
 function addHobby() {
   pushUndo();
   const id = 'hobby-' + (++hobbyCount);
-  state.hobbies.push({ id, title: '', bullets: '' });
+  state.hobbies.push({ id, title: '', bullets: [] });
   renderForms();
 }
 
@@ -1809,9 +1978,8 @@ function renderForms() {
       <label>Diplôme / Filière</label>
       <input type="text" value="${esc(e.degree)}" placeholder="MSc Quantitative Finance & Financial Markets" oninput="state.education[${i}].degree=this.value;render()">
       <label>Note / Bullet (facultatif)</label>
-      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('edu-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('edu-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
-      <textarea id="edu-bullets-${i}" class="bullets-input" placeholder="• Top 5% — mention très bien&#10;• Cours : Dérivés, Produits Structurés, Python..." oninput="state.education[${i}].note=this.value;render()">${esc(e.note)}</textarea>
-      <p class="bullets-hint">Une ligne = un bullet point</p>
+      ${renderBulletFields(`education-${i}`, 'note', e.note, 'Ex: Top 5%, mention très bien...')}
+      <p class="bullets-hint">↵ Entrée = nouveau bullet · Retour arrière sur vide = supprimer</p>
       <label>Période</label>
       <input type="text" value="${esc(e.date)}" placeholder="2023 – 2026" oninput="state.education[${i}].date=this.value;render()">
     </div>
@@ -1835,9 +2003,8 @@ function renderForms() {
       <label>Période</label>
       <input type="text" value="${esc(e.date)}" placeholder="Sept. 2025 – Juin 2026" oninput="state.experience[${i}].date=this.value;render()">
       <label>Bullet points</label>
-      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('exp-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('exp-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
-      <textarea id="exp-bullets-${i}" class="bullets-input" placeholder="Pricing de produits structurés Taux, Crédit et Hybrides&#10;Promotion de stratégies de couverture de taux" oninput="state.experience[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
-      <p class="bullets-hint">Une ligne = un bullet point</p>
+      ${renderBulletFields(`experience-${i}`, 'bullets', e.bullets, 'Ex: Pricing de produits structurés...')}
+      <p class="bullets-hint">↵ Entrée = nouveau bullet · Retour arrière sur vide = supprimer</p>
     </div>
   `).join('');
 
@@ -1852,9 +2019,8 @@ function renderForms() {
       <label>Titre</label>
       <input type="text" value="${esc(e.title)}" placeholder="Footballeur Haut Niveau" oninput="state.leadership[${i}].title=this.value;render()">
       <label>Détails</label>
-      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('lead-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('lead-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
-      <textarea id="lead-bullets-${i}" class="bullets-input" placeholder="Nîmes Olympique — Académie Pro (National)&#10;Capitaine de l'équipe de foot d'Assas" oninput="state.leadership[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
-      <p class="bullets-hint">Une ligne = un bullet point</p>
+      ${renderBulletFields(`leadership-${i}`, 'bullets', e.bullets, 'Ex: Nîmes Olympique — Académie Pro...')}
+      <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
     </div>
   `).join('');
 
@@ -1869,9 +2035,9 @@ function renderForms() {
       <label>Titre du projet</label>
       <input type="text" value="${esc(e.title)}" placeholder="Option Trading Learning Interface (Python)" oninput="state.projects[${i}].title=this.value;render()">
       <label>Description / bullets</label>
-      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('proj-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('proj-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
-      <textarea id="proj-bullets-${i}" class="bullets-input" placeholder="Application d'apprentissage pour le trading d'options (Streamlit, Black & Scholes, Monte Carlo)" oninput="state.projects[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
-      <p class="bullets-hint">Une ligne = un bullet point</p>
+      <label>Description / bullets</label>
+      ${renderBulletFields(`projects-${i}`, 'bullets', e.bullets, 'Ex: Développé en Python avec Black & Scholes...')}
+      <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
     </div>
   `).join('');
 
@@ -1887,13 +2053,145 @@ function renderForms() {
       <label>Titre / Catégorie</label>
       <input type="text" value="${esc(e.title)}" placeholder="Sports, Voyages, Musique..." oninput="state.hobbies[${i}].title=this.value;render()">
       <label>Détails (facultatif)</label>
-      <textarea id="hobby-bullets-${i}" class="bullets-input" placeholder="Niveau national en football&#10;Voyagé dans 15 pays" oninput="state.hobbies[${i}].bullets=this.value;render()" style="min-height:50px;">${esc(e.bullets||'')}</textarea>
-      <p class="bullets-hint">Une ligne = un bullet point</p>
+      <label>Détails (facultatif)</label>
+      ${renderBulletFields(`hobbies-${i}`, 'bullets', e.bullets||[], 'Ex: Niveau national, top 20 mondial...')}
+      <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
     </div>
   `).join('');
 }
 
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Migrate old string bullets → array (backwards compat with Firebase data)
+function toBulletArray(val) {
+  if (Array.isArray(val)) return val;
+  if (!val || !val.trim()) return [];
+  return val.split('\n').map(l => l.trim().replace(/^[•\-]\s*|^\*(?!\*)\s*/,'')).filter(Boolean);
+}
+
+// Drag state for bullet rows
+let bDragEntry = null, bDragField = null, bDragIdx = null;
+
+function armBulletDrag(handle, entryRef, field, idx) {
+  const row = handle.closest('.bullet-row');
+  if (row) row.setAttribute('draggable', 'true');
+}
+
+// Render individual bullet fields for a given entry
+function renderBulletFields(entryRef, field, arr, placeholder) {
+  const bullets = toBulletArray(arr);
+  const rows = bullets.map((b, bi) => `
+    <div class="bullet-row"
+      ondragstart="bDragEntry='${entryRef}';bDragField='${field}';bDragIdx=${bi};this.classList.add('dragging-bullet');event.dataTransfer.effectAllowed='move';"
+      ondragend="this.removeAttribute('draggable');this.classList.remove('dragging-bullet');document.querySelectorAll('.bullet-row').forEach(r=>r.classList.remove('drag-over-bullet'));"
+      ondragover="event.preventDefault();document.querySelectorAll('.bullet-row').forEach(r=>r.classList.remove('drag-over-bullet'));this.classList.add('drag-over-bullet');"
+      ondrop="event.preventDefault();dropBullet('${entryRef}','${field}',${bi});">
+      <span class="bullet-drag-handle" onmousedown="armBulletDrag(this,'${entryRef}','${field}',${bi})">⠿</span>
+      <input class="bullet-input" type="text" value="${esc(b)}" placeholder="${placeholder}"
+        id="binput-${entryRef}-${field}-${bi}"
+        oninput="setBullet('${entryRef}','${field}',${bi},this.value)"
+        onkeydown="handleBulletKey(event,'${entryRef}','${field}',${bi})">
+      <button class="btn-bullet-bold" title="Gras (Ctrl+B)" onclick="boldBulletInput('binput-${entryRef}-${field}-${bi}','${entryRef}','${field}',${bi})">B</button>
+      <button class="btn-bullet-remove" onclick="removeBullet('${entryRef}','${field}',${bi})">×</button>
+    </div>`).join('');
+  return `<div class="bullet-list" id="blist-${entryRef}-${field}">${rows}</div>
+    <button class="btn-add-bullet" onclick="addBullet('${entryRef}','${field}')">+ Bullet</button>`;
+}
+
+// Resolve entry ref string to actual state entry
+function resolveEntry(entryRef) {
+  // entryRef format: "education-0", "experience-1", etc.
+  const [section, idx] = entryRef.split('-');
+  return state[section]?.[parseInt(idx)];
+}
+
+function setBullet(entryRef, field, idx, val) {
+  const e = resolveEntry(entryRef);
+  if (!e) return;
+  if (!Array.isArray(e[field])) e[field] = toBulletArray(e[field]);
+  e[field][idx] = val;
+  render();
+}
+
+function addBullet(entryRef, field) {
+  pushUndo();
+  const e = resolveEntry(entryRef);
+  if (!e) return;
+  if (!Array.isArray(e[field])) e[field] = toBulletArray(e[field]);
+  e[field].push('');
+  renderForms();
+  render();
+  // Focus the new input
+  setTimeout(() => {
+    const list = document.getElementById(`blist-${entryRef}-${field}`);
+    if (list) { const inputs = list.querySelectorAll('.bullet-input'); inputs[inputs.length-1]?.focus(); }
+  }, 30);
+}
+
+function removeBullet(entryRef, field, idx) {
+  pushUndo();
+  const e = resolveEntry(entryRef);
+  if (!e) return;
+  if (!Array.isArray(e[field])) e[field] = toBulletArray(e[field]);
+  e[field].splice(idx, 1);
+  renderForms();
+  render();
+}
+
+function dropBullet(entryRef, field, toIdx) {
+  if (bDragEntry !== entryRef || bDragField !== field || bDragIdx === toIdx) return;
+  pushUndo();
+  const e = resolveEntry(entryRef);
+  if (!e) return;
+  if (!Array.isArray(e[field])) e[field] = toBulletArray(e[field]);
+  const item = e[field].splice(bDragIdx, 1)[0];
+  e[field].splice(toIdx, 0, item);
+  bDragIdx = null;
+  renderForms();
+  render();
+}
+
+function boldBulletInput(inputId, entryRef, field, idx) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const start = el.selectionStart, end = el.selectionEnd;
+  if (start === end) return; // nothing selected
+  const selected = el.value.substring(start, end);
+  // Toggle: if already bold, remove; otherwise add
+  const isBold = selected.startsWith('**') && selected.endsWith('**');
+  let newVal;
+  if (isBold) {
+    newVal = el.value.substring(0, start) + selected.slice(2, -2) + el.value.substring(end);
+  } else {
+    newVal = el.value.substring(0, start) + '**' + selected + '**' + el.value.substring(end);
+  }
+  el.value = newVal;
+  el.dispatchEvent(new Event('input'));
+  // Restore selection
+  el.focus();
+  el.setSelectionRange(isBold ? start : start, isBold ? end - 4 : end + 4);
+}
+
+function handleBulletKey(evt, entryRef, field, idx) {
+  // Ctrl+B / Cmd+B = bold
+  if ((evt.ctrlKey || evt.metaKey) && evt.key === 'b') {
+    evt.preventDefault();
+    boldBulletInput(`binput-${entryRef}-${field}-${idx}`, entryRef, field, idx);
+    return;
+  }
+  if (evt.key === 'Enter') {
+    evt.preventDefault();
+    addBullet(entryRef, field);
+  }
+  if (evt.key === 'Backspace' && evt.target.value === '') {
+    evt.preventDefault();
+    removeBullet(entryRef, field, idx);
+    setTimeout(() => {
+      const list = document.getElementById(`blist-${entryRef}-${field}`);
+      if (list && idx > 0) { const inputs = list.querySelectorAll('.bullet-input'); inputs[idx-1]?.focus(); }
+    }, 30);
+  }
+}
 
 // ---- TOAST ----
 let _toastTimer = null;
@@ -2265,6 +2563,7 @@ document.addEventListener('keydown', e => {
   if (ctrl && e.key === 's') { e.preventDefault(); saveToFirebase(); }
   if (ctrl && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
   if (ctrl && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); }
+  if (ctrl && e.key === 'p') { e.preventDefault(); window.print(); }
 });
 let cvFont = 'Times New Roman';
 function setFont(font) {
@@ -2321,9 +2620,10 @@ function boldify(text) {
   return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 }
 
-function parseBullets(text) {
-  if (!text || !text.trim()) return [];
-  return text.split('\n').map(l => l.trim().replace(/^[•\-]\s*|^\*(?!\*)\s*/,'')).filter(Boolean);
+function parseBullets(val) {
+  if (Array.isArray(val)) return val.map(b => b.trim()).filter(Boolean);
+  if (!val || !val.trim()) return [];
+  return val.split('\n').map(l => l.trim().replace(/^[•\-]\s*|^\*(?!\*)\s*/,'')).filter(Boolean);
 }
 
 function bulletHtml(bullets) {
@@ -2406,7 +2706,16 @@ function render() {
   const github   = val('id-github');
   const linkedinHtml = linkedin ? `<a href="https://${linkedin.replace(/^https?:\/\//,'')}" style="color:#1a56a0;text-decoration:underline;">${esc(linkedin.replace(/^https?:\/\//,''))}</a>` : '';
   const githubHtml   = github   ? `<a href="https://${github.replace(/^https?:\/\//,'')}"   style="color:#1a56a0;text-decoration:underline;">${esc(github.replace(/^https?:\/\//,''))}</a>`   : '';
-  const contactParts = [val('id-address'), val('id-phone'), emailHtml, linkedinHtml, githubHtml].filter(Boolean).join(' | ');
+
+  const useIcons = contactIcons === 'show';
+  const iconWrap = (icon, content) => content ? (useIcons ? `${icon} ${content}` : content) : '';
+  const contactParts = [
+    iconWrap('📍', val('id-address')),
+    iconWrap('📞', val('id-phone')),
+    iconWrap('✉', emailHtml),
+    iconWrap('🔗', linkedinHtml),
+    iconWrap('💻', githubHtml)
+  ].filter(Boolean).join(' | ');
 
   const lang = val('sk-lang'), it = val('sk-it'), cert = val('sk-cert');
 
@@ -2783,21 +3092,24 @@ function downloadDocx() {
           return entryWrap(row(titI, datS) + (org ? row(orgB, locB) : '') + bHtml);
 
         case 'inline':
+          // Org — Title on left, Date right, Loc below — all Word-safe via table
           return entryWrap(
             row(
-              `${orgB}${title ? `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;"> — ${boldifyDoc(title)}</i>` : ''}`,
-              datS
+              `${orgB}${title ? `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:normal;"> &mdash; ${boldifyDoc(title)}</i>` : ''}`,
+              datS, '', ''
             ) +
-            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
+            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:1px 0 0 0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
             bHtml
           );
 
         case 'compact':
+          // Single table row: Org · Title (left) | Date (right), Loc below
           return entryWrap(
-            `<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">` +
-            `${boldifyDoc(org)}${title ? ` <span style="font-weight:normal;font-style:italic;">· ${boldifyDoc(title)}</span>` : ''}` +
-            `<span style="font-size:${szDate}pt;"> — ${boldifyDoc(date)}</span></p>` +
-            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:0;">${boldifyDoc(loc)}</p>` : '') +
+            row(
+              `${orgB}${title ? `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:normal;font-style:italic;"> &middot; ${boldifyDoc(title)}</span>` : ''}`,
+              datS, '', ''
+            ) +
+            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:1px 0 0 0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
             bHtml
           );
 
@@ -3009,6 +3321,15 @@ function setEntryFormat(fmt) {
   render();
 }
 
+// ---- CONTACT ICONS ----
+let contactIcons = 'none';
+function setContactIcons(mode) {
+  contactIcons = mode;
+  ['none','show'].forEach(k => document.getElementById('icon-btn-' + k)?.classList.remove('active'));
+  document.getElementById('icon-btn-' + mode)?.classList.add('active');
+  render();
+}
+
 // ---- NAME SEPARATOR ----
 let nameSeparator = 'none';
 function setNameSeparator(style) {
@@ -3035,17 +3356,37 @@ function toggleGrayscale() {
 }
 
 // ---- ZOOM ----
+let _currentZoom = 1;
 function applyZoom(val) {
   const pct = val / 100;
+  _currentZoom = pct;
   const inner = document.getElementById('preview-panel-inner');
   if (!inner) return;
-  // Use transform scale from top-left, then compensate height so scroll area grows correctly
+
   inner.style.transform = `scale(${pct})`;
   inner.style.transformOrigin = 'top center';
-  // Adjust the wrapper height so the parent scrollable area reflects the scaled size
-  // Without this, scroll area stays at original size causing content to be clipped
-  const naturalH = inner.scrollHeight / pct;
-  inner.style.marginBottom = `${(naturalH * pct - naturalH)}px`;
+
+  // Compensate scroll area:
+  // When scaled down, the element "shrinks" visually but keeps its layout size,
+  // leaving white space. We shrink the container height to match visual size.
+  // When scaled up, we expand it so scroll works correctly.
+  const rect = inner.getBoundingClientRect();
+  const naturalH = inner.offsetHeight;
+  const scaledH = naturalH * pct;
+  // Negative margin collapses the extra space when zoomed out
+  inner.style.marginBottom = `${scaledH - naturalH}px`;
+
+  // Also adjust width centering: when zoomed out, center by adding h-margins
+  const naturalW = inner.offsetWidth;
+  const scaledW = naturalW * pct;
+  if (pct < 1) {
+    inner.style.marginLeft = `${(naturalW - scaledW) / 2}px`;
+    inner.style.marginRight = `${(naturalW - scaledW) / 2}px`;
+  } else {
+    inner.style.marginLeft = '';
+    inner.style.marginRight = '';
+  }
+
   document.getElementById('zoom-label').textContent = val + '%';
 }
 
@@ -3208,6 +3549,12 @@ function restoreCV(data) {
   state.leadership = s.leadership || [];
   state.projects   = s.projects   || [];
   state.hobbies    = s.hobbies    || [];
+  // Migrate old string bullets to arrays
+  state.education.forEach(e  => { e.note    = toBulletArray(e.note);    });
+  state.experience.forEach(e => { e.bullets = toBulletArray(e.bullets); });
+  state.leadership.forEach(e => { e.bullets = toBulletArray(e.bullets); });
+  state.projects.forEach(e   => { e.bullets = toBulletArray(e.bullets); });
+  state.hobbies.forEach(e    => { e.bullets = toBulletArray(e.bullets); });
   eduCount  = state.education.length;
   expCount  = state.experience.length;
   leadCount = state.leadership.length;
@@ -3424,7 +3771,7 @@ window._onFirebaseReady = async function(uid) {
     state.education[0].school = 'University Paris II Panthéon ASSAS';
     state.education[0].location = 'Paris, France';
     state.education[0].degree = 'MSc Quantitative Finance & Financial Markets / Magistère in Banking and Finance';
-    state.education[0].note = 'Highly selective dual degree ranked 1st in Banking and Finance specialization (Eduniversal 2023)\nRelevant Coursework: Stochastic Calculus, Derivatives, Structured Products, Fixed Income, VBA, Python';
+    state.education[0].note = ['Highly selective dual degree ranked 1st in Banking and Finance specialization (Eduniversal 2023)', 'Relevant Coursework: Stochastic Calculus, Derivatives, Structured Products, Fixed Income, VBA, Python'];
     state.education[0].date = 'Expected 2026';
     addEdu();
     state.education[1].school = 'University Lyon 3';
@@ -3436,28 +3783,28 @@ window._onFirebaseReady = async function(uid) {
     state.experience[0].location = 'Paris, France';
     state.experience[0].title = 'Rates, Credit & Hybrid Structuring — Apprenticeship';
     state.experience[0].date = 'September 2025 – June 2026';
-    state.experience[0].bullets = 'Pricing all Rates, Credit and Hybrid Structured Products\nPromotion of Interest Rates hedging and investment strategies\nInteraction with Trading and Middle Office on pre-trade and post-trade\nCreation of toolkit to generate trade ideas and automate pricing';
+    state.experience[0].bullets = ['Pricing all Rates, Credit and Hybrid Structured Products', 'Promotion of Interest Rates hedging and investment strategies', 'Interaction with Trading and Middle Office on pre-trade and post-trade', 'Creation of toolkit to generate trade ideas and automate pricing'];
     addExp();
     state.experience[1].company = 'Crédit Agricole CIB';
     state.experience[1].location = 'Paris, France';
     state.experience[1].title = 'Rates, Credit & Hybrid Structuring — Off-Cycle';
     state.experience[1].date = 'November 2024 – May 2025';
-    state.experience[1].bullets = 'Pricing all Rates, Credit and Hybrid Structured Products\nPromotion of Interest Rates hedging and investment strategies\nInteraction with Trading and Middle Office on pre-trade and post-trade\nCreation of toolkit to generate trade ideas and automate pricing';
+    state.experience[1].bullets = ['Pricing all Rates, Credit and Hybrid Structured Products', 'Promotion of Interest Rates hedging and investment strategies', 'Interaction with Trading and Middle Office on pre-trade and post-trade', 'Creation of toolkit to generate trade ideas and automate pricing'];
     addExp();
     state.experience[2].company = 'Société Générale CIB';
     state.experience[2].location = 'Paris La Défense, France';
     state.experience[2].title = 'Cross Asset Structured Products Sales — Off-Cycle';
     state.experience[2].date = 'May 2024 – November 2024';
-    state.experience[2].bullets = 'Assisted sales representatives and engineers on the team, and participated in commercial presentations\nDesigned various sales materials and contributed to the development of sales support tools\nMonitored and reported on products, conducted competitive intelligence, and participated in the entire process of launching new products\nPriced diverse structured products, conducted historical performance simulations, and analyzed product valuations';
+    state.experience[2].bullets = ['Assisted sales representatives and engineers on the team, and participated in commercial presentations', 'Designed various sales materials and contributed to the development of sales support tools', 'Monitored and reported on products, conducted competitive intelligence, and participated in the entire process of launching new products', 'Priced diverse structured products, conducted historical performance simulations, and analyzed product valuations'];
     addLead();
     state.leadership[0].title = 'High Level Footballer';
-    state.leadership[0].bullets = 'Nîmes Olympique Professional Soccer Club Academy (level: National)\nCaptain of Assas Soccer Team';
+    state.leadership[0].bullets = ['Nîmes Olympique Professional Soccer Club Academy (level: National)', 'Captain of Assas Soccer Team'];
     addLead();
     state.leadership[1].title = 'Puissance 4 (Connect 4)';
-    state.leadership[1].bullets = 'Top 20 players in the world\nBased on a principle of parity, allowing me to predict in 3 moves the line where I will win';
+    state.leadership[1].bullets = ['Top 20 players in the world', 'Based on a principle of parity, allowing me to predict in 3 moves the line where I will win'];
     addProj();
     state.projects[0].title = 'Option Trading Learning Interface (Python)';
-    state.projects[0].bullets = 'Developed in python a learning application for option trading (Streamlit, Tkinter, Pandas, Numpy, Black and Scholes Model, Monte Carlo Simulations, Option Strategies)';
+    state.projects[0].bullets = ['Developed in python a learning application for option trading (Streamlit, Tkinter, Pandas, Numpy, Black and Scholes Model, Monte Carlo Simulations, Option Strategies)'];
     renderForms();
     render();
   }
