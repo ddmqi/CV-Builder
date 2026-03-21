@@ -1,0 +1,3467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Builder — Finance Template</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #1a1a2e;
+    --accent: #c8922a;
+    --accent2: #1a3a5c;
+    --bg: #f5f3ef;
+    --panel: #ffffff;
+    --border: #d4cfc8;
+    --text: #2c2c2c;
+    --muted: #7a7a7a;
+    --cv-bg: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--dark);
+    color: white;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    border-bottom: 2px solid var(--accent);
+  }
+  header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  header span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+  }
+
+  /* LAYOUT */
+  .app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* LEFT PANEL — FORM */
+  .form-panel {
+    width: 400px;
+    min-width: 340px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .form-panel::-webkit-scrollbar { width: 4px; }
+  .form-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ---- 2-LEVEL NAV ---- */
+  .nav-primary {
+    display: flex;
+    background: var(--dark);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+  }
+  .nav-primary-btn {
+    flex: 1;
+    padding: 14px 8px 12px;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.38);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .nav-primary-btn .nav-icon { font-size: 18px; line-height: 1; }
+  .nav-primary-btn.active {
+    color: white;
+    border-bottom-color: var(--accent);
+    background: rgba(255,255,255,0.06);
+  }
+  .nav-primary-btn:hover:not(.active) {
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* Secondary nav — dark, single scrollable row */
+  .nav-secondary {
+    display: none;
+    background: #12192b;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-secondary::-webkit-scrollbar { display: none; }
+  .nav-secondary.visible {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .nav-secondary-btn {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.38);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .nav-secondary-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 700;
+  }
+  .nav-secondary-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+  .form-section { display: none; padding: 20px; }
+  .form-section.active { display: block; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+    margin-top: 14px;
+  }
+  label:first-child { margin-top: 0; }
+
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: #fafaf9;
+    transition: border 0.2s;
+    outline: none;
+    resize: none;
+  }
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent2);
+    background: white;
+  }
+  textarea { min-height: 70px; }
+
+  /* CARD items */
+  .card {
+    background: #f9f8f6;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .btn-remove {
+    background: none;
+    border: none;
+    color: #c0392b;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+    opacity: 0.6;
+  }
+  .btn-remove:hover { opacity: 1; }
+
+  .btn-add {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 9px 14px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+    transition: all 0.2s;
+  }
+  .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+  .bullets-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text);
+    background: #fafaf9;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+  }
+  .bullets-input:focus { border-color: var(--accent2); background: white; }
+  .bullets-hint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .bold-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .btn-bold {
+    background: var(--accent2);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .btn-bold:hover { background: #0f2840; }
+  .btn-unbold {
+    background: var(--muted);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 2px 9px;
+    cursor: pointer;
+    text-decoration: line-through;
+  }
+  .btn-unbold:hover { background: #555; }
+  .bold-tip {
+    font-size: 10px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* RIGHT PANEL — CV PREVIEW */
+  .preview-panel {
+    flex: 1;
+    background: #e8e5e0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px;
+  }
+  .preview-panel::-webkit-scrollbar { width: 4px; }
+  .preview-panel::-webkit-scrollbar-thumb { background: #c0bbb5; }
+
+  .preview-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 14px;
+    width: 100%;
+    max-width: 750px;
+    flex-wrap: nowrap;
+  }
+  .pact-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .pact-right { margin-left: auto; }
+
+  .btn-download {
+    background: var(--accent2);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 9px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .btn-download:hover { background: #0f2840; }
+  .btn-download:disabled { background: #999; cursor: not-allowed; }
+
+  .btn-pdf {
+    background: #8b1a1a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 9px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .btn-pdf:hover { background: #5a0f0f; }
+
+
+
+  /* CV TABS */
+  .cv-tabs-bar {
+    background: var(--dark);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 4px;
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+  .cv-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .cv-tab.active { color: white; border-bottom-color: var(--accent); }
+  .cv-tab:hover:not(.active) { color: rgba(255,255,255,0.8); }
+  .cv-tab-rename { background: none; border: none; color: inherit; font: inherit; cursor: text; padding: 0; }
+  .cv-tab-close { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; padding: 0; line-height: 1; }
+  .cv-tab-close:hover { color: #e74c3c; }
+  .cv-tab-add {
+    padding: 6px 10px;
+    background: none;
+    border: 1px dashed rgba(255,255,255,0.3);
+    border-radius: 4px;
+    color: rgba(255,255,255,0.4);
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: all 0.2s;
+  }
+  .cv-tab-add:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* FIREBASE STATUS */
+  .fb-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fb-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #e74c3c;
+    transition: background 0.3s;
+  }
+  .fb-dot.connected { background: #2ecc71; }
+  .fb-dot.saving { background: var(--accent); }
+  .btn-save {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .btn-save:hover { background: #a8721a; }
+  .btn-save:disabled { background: #999; cursor: not-allowed; }
+  .cv-page {
+    background: white;
+    width: 750px;
+    min-height: 1060px;
+    padding: 32px 52px 32px 52px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10pt;
+    line-height: 1.25;
+    color: #000;
+  }
+
+  /* CV STYLES */
+  .cv-name {
+    text-align: center;
+    font-size: 18pt;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .cv-contact {
+    text-align: center;
+    font-size: 9pt;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .cv-section {
+    margin-bottom: 14px;
+  }
+  .cv-section-title {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1px;
+    margin-bottom: 10px;
+  }
+  .cv-entry {
+    margin-bottom: 12px;
+  }
+  .cv-entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    line-height: 1.15;
+  }
+  .cv-entry-org {
+    font-weight: bold;
+    font-size: 11pt;
+  }
+  .cv-entry-loc {
+    font-size: 9pt;
+    font-style: italic;
+    font-weight: bold;
+  }
+  .cv-entry-title {
+    font-style: italic;
+    font-size: 10.5pt;
+  }
+  .cv-entry-date {
+    font-size: 9pt;
+    white-space: nowrap;
+  }
+  .cv-bullets {
+    margin: 1px 0 0 0;
+    padding-left: 32px;
+    font-size: 9.5pt;
+    list-style: none;
+  }
+  .cv-bullets li {
+    margin-bottom: 0px;
+    line-height: 1.2;
+    position: relative;
+  }
+  .cv-bullets li::before {
+    content: '•';
+    font-size: 14pt;
+    position: absolute;
+    left: -16px;
+    top: -2px;
+    line-height: 1;
+  }
+  .cv-plain {
+    font-size: 9.5pt;
+    line-height: 1.3;
+  }
+  .cv-skills-list {
+    margin: 2px 0 0 0;
+    padding-left: 32px;
+    font-size: 9.5pt;
+    list-style: none;
+  }
+  .cv-skills-list li {
+    margin-bottom: 1px;
+    line-height: 1.3;
+    position: relative;
+  }
+  .cv-skills-list li::before {
+    content: '•';
+    font-size: 14pt;
+    position: absolute;
+    left: -16px;
+    top: -2px;
+    line-height: 1;
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--accent2);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent2);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* TOAST NOTIFICATION */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #1e3a2f;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.error { background: #5a1a1a; }
+  .toast-icon { font-size: 16px; }
+
+  /* DRAG & DROP CARDS */
+  .card.drag-over {
+    border: 2px dashed var(--accent);
+    background: #fef9f0;
+  }
+  .card.dragging { opacity: 0.4; }
+  .drag-handle {
+    color: var(--muted);
+    font-size: 16px;
+    cursor: grab;
+    padding: 0 6px 0 0;
+    user-select: none;
+    opacity: 0.4;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+  }
+  .drag-handle:hover { opacity: 1; color: var(--accent2); }
+  .drag-handle:active { cursor: grabbing; }
+
+  /* CLEAR SECTION BUTTON */
+  .btn-clear-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: 1px solid #e0c8c8;
+    border-radius: 4px;
+    color: #b94040;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+    width: 100%;
+    justify-content: center;
+  }
+  .btn-clear-section:hover { background: #fdf0f0; border-color: #c0392b; color: #c0392b; }
+
+  /* STYLE PANEL EXTRAS */
+  .style-group {
+    margin-bottom: 20px;
+  }
+  .style-group-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .font-picker {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .font-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 7px 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    background: #fafaf9;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+  .font-btn.active { border-color: var(--accent2); background: #eaf0f7; color: var(--accent2); font-weight: 600; }
+  .font-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+  .color-swatches {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    align-items: center;
+  }
+  .color-swatch {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2.5px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active { border-color: var(--text); transform: scale(1.15); }
+  .color-custom-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .color-custom-wrap input[type="color"] {
+    width: 30px; height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px;
+    cursor: pointer;
+    background: none;
+  }
+  .color-custom-wrap span {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* PREVIEW DRAG & DROP */
+  .cv-section-title-drag {
+    display: block;
+    position: relative;
+    cursor: default;
+    user-select: none;
+  }
+  .cv-section-drag-grip {
+    position: absolute;
+    left: -18px;
+    top: 0px;
+    font-size: 10pt;
+    opacity: 0;
+    transition: opacity 0.15s;
+    color: #aaa;
+    cursor: grab;
+    line-height: 1.4;
+    user-select: none;
+  }
+  .cv-section-drag-grip:active { cursor: grabbing; }
+  .cv-section-draggable:hover .cv-section-drag-grip { opacity: 0.7; }
+  .cv-section-title-text { user-select: text; display: inline; }
+  .cv-section-draggable.pv-dragging { opacity: 0.35; }
+  .cv-section-draggable.pv-drag-over {
+    outline: 2px dashed #c8922a;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .cv-entry-draggable {
+    position: relative;
+  }
+  .cv-entry-drag-handle {
+    position: absolute;
+    left: -18px;
+    top: 2px;
+    font-size: 11pt;
+    color: #bbb;
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 0.15s;
+    user-select: none;
+    line-height: 1;
+  }
+  .cv-entry-draggable:hover .cv-entry-drag-handle { opacity: 1; }
+  .cv-entry-draggable:active .cv-entry-drag-handle { cursor: grabbing; }
+  .cv-entry-draggable.pv-dragging { opacity: 0.3; }
+  .cv-entry-draggable.pv-drag-over {
+    outline: 2px dashed #c8922a;
+    outline-offset: 1px;
+    border-radius: 2px;
+  }
+
+  /* cv-page padding is controlled dynamically via applyMargins() */
+
+  /* FILENAME INPUT */
+  .filename-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+  .filename-row input {
+    flex: 1;
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+  .filename-ext {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* PAGE DENSITY BAR */
+  .density-bar-wrap {
+    width: 100%;
+    max-width: 750px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .density-bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .density-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s, background 0.3s;
+    background: #2ecc71;
+  }
+  .density-bar-fill.warn { background: var(--accent); }
+  .density-bar-fill.over { background: #e74c3c; }
+  .density-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: right;
+  }
+  .density-label.over { color: #e74c3c; font-weight: 600; }
+
+  /* OVERFLOW LINE ON CV */
+  .cv-overflow-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #e74c3c 0, #e74c3c 8px, transparent 8px, transparent 14px);
+    pointer-events: none;
+    z-index: 10;
+    display: none;
+  }
+  .cv-overflow-line.visible { display: block; }
+  .cv-overflow-label {
+    position: absolute;
+    right: 8px;
+    top: 3px;
+    font-size: 8px;
+    color: #e74c3c;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: white;
+    padding: 0 4px;
+  }
+
+  /* FOCUS MODE */
+  .form-panel.hidden { display: none !important; }
+  .btn-focus {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .btn-focus:hover { background: rgba(255,255,255,0.15); color: white; }
+  .btn-focus.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* UNDO/REDO BAR */
+  .undo-bar {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .btn-undo {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    border-radius: 4px;
+    padding: 4px 9px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .btn-undo:hover:not(:disabled) { background: rgba(255,255,255,0.15); color: white; }
+  .btn-undo:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* EDITABLE SECTION TITLES */
+  .cv-section-title-text {
+    outline: none;
+    cursor: text;
+    border-bottom: 1px dashed transparent;
+    transition: border-color 0.2s;
+    min-width: 40px;
+    display: inline-block;
+  }
+  .cv-section-title-text:hover { border-bottom-color: rgba(0,0,0,0.25); }
+  .cv-section-title-text:focus { border-bottom-color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.03); }
+
+  /* DUPLICATE BUTTON */
+  .btn-duplicate {
+    background: none;
+    border: none;
+    color: var(--accent2);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 4px;
+    opacity: 0.5;
+    margin-right: 2px;
+  }
+  .btn-duplicate:hover { opacity: 1; }
+
+  /* CARD HEADER with drag + duplicate + remove */
+  .card-header { gap: 4px; }
+  .card-actions { display: flex; align-items: center; gap: 2px; }
+
+  /* ---- THEMES ---- */
+  .theme-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .theme-btn {
+    flex: 1; min-width: 80px;
+    padding: 10px 6px 8px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: #fafaf9;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-btn.active { border-color: var(--accent2); background: #eaf0f7; color: var(--accent2); }
+  .theme-preview {
+    width: 48px; height: 32px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .theme-preview .tp-line { position: absolute; left: 4px; right: 4px; border-radius: 1px; }
+  .theme-preview .tp-name { top: 5px; height: 3px; background: #222; left: 6px; right: 6px; }
+  .theme-preview .tp-sec  { top: 13px; height: 2px; }
+  .theme-preview .tp-dot  { top: 18px; left: 4px; width: 28px; height: 1.5px; background: #bbb; }
+  .theme-preview .tp-dot2 { top: 22px; left: 4px; width: 20px; height: 1.5px; background: #ccc; }
+
+  /* ---- WORD COUNTER BADGES ---- */
+  .bullet-word-count {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 0px 4px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    font-family: 'DM Sans', sans-serif;
+    opacity: 0.8;
+    user-select: none;
+  }
+  .wc-ok   { background: #e8f5e9; color: #2e7d32; }
+  .wc-low  { background: #e3f2fd; color: #1565c0; }
+  .wc-warn { background: #fff3e0; color: #e65100; }
+
+  /* ---- ACTION VERB HIGHLIGHT ---- */
+  .bullet-no-verb   { border-left: 3px solid #e67e22; padding-left: 4px; border-radius: 1px; }
+  .bullet-weak-verb { border-left: 3px solid #e74c3c; padding-left: 4px; border-radius: 1px; }
+  .verb-icon       { font-size: 7.5pt; margin-right: 3px; font-family: 'DM Sans', sans-serif; font-style: normal; color: #e67e22; }
+  .verb-icon-weak  { color: #e74c3c; }
+
+  /* Verb legend */
+  .verb-legend {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+    padding: 0 4px;
+  }
+  .verb-legend.visible { display: flex; }
+  .verb-legend-dot {
+    width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+  }
+  .ats-score-ring {
+    width: 76px; height: 76px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 19px; font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    border: 5px solid var(--border); transition: border-color 0.4s, color 0.4s;
+  }
+  .ats-score-ring.good { border-color: #2ecc71; color: #1a7a40; }
+  .ats-score-ring.warn { border-color: #e67e22; color: #a05000; }
+  .ats-score-ring.bad  { border-color: #e74c3c; color: #8b1a1a; }
+  .ats-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .ats-summary h3 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .ats-summary p  { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .ats-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .ats-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; font-family: 'DM Sans'; }
+  .ats-tag.found   { background: #e8f5e9; color: #2e7d32; }
+  .ats-tag.missing { background: #fce4ec; color: #c62828; }
+  .ats-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--muted); margin: 12px 0 6px; display: block; }
+  .btn-ats-check {
+    background: var(--accent2); color: white; border: none; border-radius: 4px;
+    padding: 9px 16px; font-family: 'DM Sans', sans-serif; font-size: 12px;
+    font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px;
+    letter-spacing: 0.04em; transition: background 0.2s; text-transform: uppercase;
+  }
+  .btn-ats-check:hover { background: #0f2840; }
+
+  /* ---- MOBILE PREVIEW TOGGLE ---- */
+  .preview-size-toggle {
+    display: flex; gap: 3px; align-items: center;
+    background: rgba(0,0,0,0.15); border-radius: 5px; padding: 2px;
+  }
+  .psz-btn {
+    padding: 4px 9px; border: none; border-radius: 3px;
+    background: transparent; color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .psz-btn.active { background: white; color: var(--dark); font-weight: 700; }
+  .cv-page.mobile-preview {
+    width: 375px !important;
+    font-size: 8pt !important;
+  }
+  .cv-page.mobile-preview .cv-name          { font-size: 13pt !important; }
+  .cv-page.mobile-preview .cv-section-title { font-size: 9pt  !important; }
+  .cv-page.mobile-preview .cv-entry-org     { font-size: 8.5pt !important; }
+  .cv-page.mobile-preview .cv-entry-title   { font-size: 8pt  !important; }
+  .cv-page.mobile-preview .cv-bullets       { font-size: 7.5pt !important; }
+
+  /* ENTRY FORMAT PICKER */
+  .efmt-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .efmt-btn {
+    flex: 1; min-width: 80px;
+    padding: 8px 6px 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px; background: #fafaf9;
+    font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600;
+    color: var(--muted); cursor: pointer; text-align: center;
+    transition: all 0.2s; display: flex; flex-direction: column;
+    align-items: center; gap: 5px;
+  }
+  .efmt-btn.active { border-color: var(--accent2); background: #eaf0f7; color: var(--accent2); }
+  .efmt-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+  .efmt-preview {
+    width: 52px; height: 30px; border: 1px solid #ddd; border-radius: 2px;
+    background: white; position: relative; overflow: hidden;
+  }
+  .efmt-line {
+    position: absolute; left: 4px; right: 4px; height: 2px; border-radius: 1px;
+  }
+  .cv-page.grayscale { filter: grayscale(100%) !important; }
+  .btn-gray {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.55);
+    border-radius: 4px; padding: 4px 9px;
+    font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-gray:hover { background: rgba(255,255,255,0.15); color: white; }
+  .btn-gray.active { background: #555; color: white; border-color: #888; }
+
+  /* ZOOM SLIDER */
+  .zoom-row {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.15); border-radius: 5px; padding: 3px 8px;
+  }
+  .zoom-row input[type="range"] {
+    width: 70px; accent-color: var(--accent); cursor: pointer;
+  }
+  .zoom-label {
+    font-size: 10px; color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif; min-width: 32px; text-align: right;
+  }
+  .preview-panel-inner {
+    transition: width 0.2s;
+    transform-origin: top left;
+  }
+
+  /* VALIDATION WARNINGS */
+  .field-warning {
+    font-size: 10px; color: #c0392b; margin-top: 3px;
+    font-family: 'DM Sans', sans-serif; display: none;
+  }
+  .field-warning.visible { display: block; }
+  input.invalid { border-color: #e74c3c !important; background: #fff8f8 !important; }
+
+  /* ATS WARNING BANNER */
+  .ats-name-warning {
+    background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;
+    padding: 6px 10px; font-size: 10px; font-family: 'DM Sans', sans-serif;
+    color: #856404; margin-top: 8px; display: none;
+  }
+  .ats-name-warning.visible { display: block; }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toast-msg">Sauvegardé</span></div>
+
+<header>
+  <h1>CV Builder — Finance Template</h1>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="undo-bar">
+      <button class="btn-undo" id="btn-undo" onclick="undo()" disabled title="Annuler (Ctrl+Z)">↩</button>
+      <button class="btn-undo" id="btn-redo" onclick="redo()" disabled title="Rétablir (Ctrl+Y)">↪</button>
+    </div>
+    <button class="btn-focus" id="btn-focus" onclick="toggleFocus()" title="Mode focus">⛶ Focus</button>
+    <div class="fb-status">
+      <div class="fb-dot" id="fb-dot"></div>
+      <span id="fb-label" style="font-size:11px;color:rgba(255,255,255,0.4);"></span>
+      <button class="btn-save" id="btn-save" onclick="saveToFirebase()" disabled>💾 Sauvegarder</button>
+    </div>
+  </div>
+</header>
+
+<!-- CV TABS -->
+<div class="cv-tabs-bar" id="cv-tabs-bar">
+  <!-- rendered by JS -->
+</div>
+
+<div class="app">
+  <!-- FORM PANEL -->
+  <div class="form-panel">
+
+    <!-- PRIMARY NAV -->
+    <div class="nav-primary">
+      <button class="nav-primary-btn active" id="nav-contenu" onclick="showPrimaryNav('contenu')">
+        <span class="nav-icon">📄</span>Contenu
+      </button>
+      <button class="nav-primary-btn" id="nav-ats" onclick="showPrimaryNav('ats')">
+        <span class="nav-icon">🔍</span>ATS Check
+      </button>
+      <button class="nav-primary-btn" id="nav-style" onclick="showPrimaryNav('style')">
+        <span class="nav-icon">🎨</span>Style
+      </button>
+    </div>
+
+    <!-- SECONDARY NAV (only for Contenu) -->
+    <div class="nav-secondary visible" id="nav-secondary">
+      <button class="nav-secondary-btn active" id="subnav-identity" onclick="showTab('identity')">Identité</button>
+      <button class="nav-secondary-btn" id="subnav-education" onclick="showTab('education')">Formation</button>
+      <button class="nav-secondary-btn" id="subnav-experience" onclick="showTab('experience')">Expérience</button>
+      <button class="nav-secondary-btn" id="subnav-leadership" onclick="showTab('leadership')">Leadership</button>
+      <button class="nav-secondary-btn" id="subnav-skills" onclick="showTab('skills')">Compétences</button>
+      <button class="nav-secondary-btn" id="subnav-projects" onclick="showTab('projects')">Projets</button>
+      <button class="nav-secondary-btn" id="subnav-hobbies" onclick="showTab('hobbies')">Hobbies</button>
+    </div>
+
+    <!-- IDENTITY -->
+    <div id="tab-identity" class="form-section active">
+      <label>Prénom Nom</label>
+      <input type="text" id="id-name" placeholder="David MAQUOI" oninput="render();checkNameATS()">
+      <div class="ats-name-warning" id="ats-name-warning">⚠ Caractères spéciaux détectés dans le nom — certains systèmes ATS pourraient mal les interpréter.</div>
+      <label>Adresse</label>
+      <input type="text" id="id-address" placeholder="58 rue des vignes, 75016 Paris, France" oninput="render()">
+      <label>Téléphone</label>
+      <input type="text" id="id-phone" placeholder="+33(0)7 66 23 92 52" oninput="render()">
+      <label>Email</label>
+      <input type="text" id="id-email" placeholder="dmaquoi11@gmail.com" oninput="render();validateEmail()">
+      <div class="field-warning" id="email-warning">⚠ Format d'email invalide</div>
+      <label>LinkedIn (URL ou identifiant)</label>
+      <input type="text" id="id-linkedin" placeholder="linkedin.com/in/david-maquoi" oninput="render()">
+      <label>GitHub (facultatif)</label>
+      <input type="text" id="id-github" placeholder="github.com/dmaquoi" oninput="render()">
+    </div>
+
+    <!-- EDUCATION -->
+    <div id="tab-education" class="form-section">
+      <button class="btn-clear-section" onclick="clearSection('education')">🗑 Tout effacer — Formation</button>
+      <div id="edu-list"></div>
+      <button class="btn-add" onclick="addEdu()">+ Ajouter une formation</button>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div id="tab-experience" class="form-section">
+      <button class="btn-clear-section" onclick="clearSection('experience')">🗑 Tout effacer — Expériences</button>
+      <div id="exp-list"></div>
+      <button class="btn-add" onclick="addExp()">+ Ajouter une expérience</button>
+    </div>
+
+    <!-- LEADERSHIP -->
+    <div id="tab-leadership" class="form-section">
+      <button class="btn-clear-section" onclick="clearSection('leadership')">🗑 Tout effacer — Leadership</button>
+      <div id="lead-list"></div>
+      <button class="btn-add" onclick="addLead()">+ Ajouter</button>
+    </div>
+
+    <!-- SKILLS -->
+    <div id="tab-skills" class="form-section">
+      <label>Langues</label>
+      <input type="text" id="sk-lang" placeholder="French (Native); English (Fluent)" oninput="render()">
+      <label>IT / Outils</label>
+      <input type="text" id="sk-it" placeholder="Python (Advanced), VBA (Advanced), Bloomberg Terminal..." oninput="render()">
+      <label>Certifications</label>
+      <input type="text" id="sk-cert" placeholder="Bloomberg Market Concepts (BMC)..." oninput="render()">
+    </div>
+
+    <!-- PROJECTS -->
+    <div id="tab-projects" class="form-section">
+      <button class="btn-clear-section" onclick="clearSection('projects')">🗑 Tout effacer — Projets</button>
+      <div id="proj-list"></div>
+      <button class="btn-add" onclick="addProj()">+ Ajouter un projet</button>
+    </div>
+
+    <!-- HOBBIES -->
+    <div id="tab-hobbies" class="form-section">
+      <button class="btn-clear-section" onclick="clearSection('hobbies')">🗑 Tout effacer — Hobbies</button>
+      <div id="hobbies-list"></div>
+      <button class="btn-add" onclick="addHobby()">+ Ajouter un hobby</button>
+    </div>
+
+    <!-- ATS CHECK -->
+    <div id="tab-ats" class="form-section">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:14px;font-style:italic;">Colle une offre d'emploi ci-dessous pour analyser l'adéquation avec ton CV.</p>
+      <label>Offre d'emploi</label>
+      <textarea id="ats-jobdesc" class="bullets-input" style="min-height:130px;font-size:12px;" placeholder="Colle ici le texte complet de l'offre (Sales, Trading, Structuring...)"></textarea>
+      <button class="btn-ats-check" onclick="runAtsCheck()">🔍 Analyser l'adéquation</button>
+      <div id="ats-results" style="margin-top:16px;display:none;">
+        <div class="ats-header">
+          <div class="ats-score-ring" id="ats-ring">—</div>
+          <div class="ats-summary">
+            <h3 id="ats-title">Analyse ATS</h3>
+            <p id="ats-subtitle"></p>
+          </div>
+        </div>
+        <span class="ats-section-label">✅ Mots-clés présents</span>
+        <div class="ats-tags" id="ats-found"></div>
+        <span class="ats-section-label" style="margin-top:14px;">❌ Mots-clés manquants</span>
+        <div class="ats-tags" id="ats-missing"></div>
+      </div>
+    </div>
+
+    <!-- STYLE -->
+    <div id="tab-style" class="form-section">
+
+      <!-- THEMES -->
+      <div class="style-group">
+        <div class="style-group-title">Thème visuel</div>
+        <div class="theme-picker">
+          <button class="theme-btn active" id="theme-btn-classic" onclick="applyTheme('classic')">
+            <div class="theme-preview">
+              <div class="tp-line tp-name"></div>
+              <div class="tp-line tp-sec" style="background:#000;height:2px;"></div>
+              <div class="tp-line tp-dot"></div>
+              <div class="tp-line tp-dot2"></div>
+            </div>
+            Classic
+          </button>
+          <button class="theme-btn" id="theme-btn-goldman" onclick="applyTheme('goldman')">
+            <div class="theme-preview">
+              <div class="tp-line tp-name"></div>
+              <div class="tp-line tp-sec" style="background:#0d2d5e;height:3px;"></div>
+              <div class="tp-line tp-dot"></div>
+              <div class="tp-line tp-dot2"></div>
+            </div>
+            Goldman
+          </button>
+          <button class="theme-btn" id="theme-btn-bnp" onclick="applyTheme('bnp')">
+            <div class="theme-preview">
+              <div class="tp-line tp-name"></div>
+              <div class="tp-line tp-sec" style="background:#009A44;height:2px;"></div>
+              <div class="tp-line tp-dot"></div>
+              <div class="tp-line tp-dot2"></div>
+            </div>
+            BNP
+          </button>
+          <button class="theme-btn" id="theme-btn-minimal" onclick="applyTheme('minimal')">
+            <div class="theme-preview">
+              <div class="tp-line tp-name" style="background:#111;"></div>
+              <div class="tp-line tp-sec" style="background:#111;height:1px;top:14px;"></div>
+              <div class="tp-line tp-dot"></div>
+              <div class="tp-line tp-dot2"></div>
+            </div>
+            Minimal
+          </button>
+        </div>
+      </div>
+
+      <!-- ENTRY FORMAT -->
+      <div class="style-group">
+        <div class="style-group-title">Format des entrées</div>
+        <div class="efmt-picker">
+          <button class="efmt-btn active" id="efmt-classic" onclick="setEntryFormat('classic')">
+            <div class="efmt-preview">
+              <div class="efmt-line" style="top:6px;background:#222;width:28px;left:4px;right:auto;"></div>
+              <div class="efmt-line" style="top:6px;background:#999;width:16px;right:4px;left:auto;"></div>
+              <div class="efmt-line" style="top:13px;background:#aaa;width:22px;font-style:italic;"></div>
+              <div class="efmt-line" style="top:13px;background:#bbb;width:12px;right:4px;left:auto;"></div>
+            </div>
+            Classic
+          </button>
+          <button class="efmt-btn" id="efmt-job-first" onclick="setEntryFormat('job-first')">
+            <div class="efmt-preview">
+              <div class="efmt-line" style="top:6px;background:#666;width:24px;font-style:italic;"></div>
+              <div class="efmt-line" style="top:6px;background:#bbb;width:12px;right:4px;left:auto;"></div>
+              <div class="efmt-line" style="top:13px;background:#222;width:28px;"></div>
+              <div class="efmt-line" style="top:13px;background:#999;width:14px;right:4px;left:auto;"></div>
+            </div>
+            Poste d'abord
+          </button>
+          <button class="efmt-btn" id="efmt-inline" onclick="setEntryFormat('inline')">
+            <div class="efmt-preview">
+              <div class="efmt-line" style="top:6px;background:#222;width:18px;"></div>
+              <div class="efmt-line" style="top:6px;background:#888;width:14px;left:24px;right:auto;font-style:italic;"></div>
+              <div class="efmt-line" style="top:6px;background:#bbb;width:10px;right:4px;left:auto;"></div>
+              <div class="efmt-line" style="top:14px;background:#bbb;width:16px;"></div>
+            </div>
+            Inline
+          </button>
+          <button class="efmt-btn" id="efmt-compact" onclick="setEntryFormat('compact')">
+            <div class="efmt-preview">
+              <div class="efmt-line" style="top:8px;background:#222;width:14px;"></div>
+              <div class="efmt-line" style="top:8px;background:#888;width:12px;left:18px;right:auto;"></div>
+              <div class="efmt-line" style="top:8px;background:#bbb;width:10px;right:4px;left:auto;"></div>
+            </div>
+            Compact
+          </button>
+        </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:8px;font-style:italic;">S'applique aux Expériences et Formations.</p>
+      </div>
+
+      <!-- FONT FAMILY -->
+      <div class="style-group">
+        <div class="style-group-title">Police du CV</div>
+        <div class="font-picker">
+          <button class="font-btn active" onclick="setFont('Times New Roman')" id="font-btn-times" style="font-family:'Times New Roman',serif;">Times New Roman</button>
+          <button class="font-btn" onclick="setFont('Garamond')" id="font-btn-garamond" style="font-family:'EB Garamond',Garamond,serif;">Garamond</button>
+          <button class="font-btn" onclick="setFont('Calibri')" id="font-btn-calibri" style="font-family:'Calibri',sans-serif;">Calibri</button>
+        </div>
+      </div>
+
+      <!-- ACCENT COLOR -->
+      <div class="style-group">
+        <div class="style-group-title">Couleur des titres de section</div>
+        <div class="color-swatches">
+          <div class="color-swatch active" style="background:#000000;" onclick="setAccentColor('#000000',this)" title="Noir classique"></div>
+          <div class="color-swatch" style="background:#1a3a5c;" onclick="setAccentColor('#1a3a5c',this)" title="Bleu marine"></div>
+          <div class="color-swatch" style="background:#c8922a;" onclick="setAccentColor('#c8922a',this)" title="Or"></div>
+          <div class="color-swatch" style="background:#8b1a1a;" onclick="setAccentColor('#8b1a1a',this)" title="Bordeaux"></div>
+          <div class="color-swatch" style="background:#1a5c3a;" onclick="setAccentColor('#1a5c3a',this)" title="Vert foncé"></div>
+          <div class="color-swatch" style="background:#3d3d6b;" onclick="setAccentColor('#3d3d6b',this)" title="Violet"></div>
+          <div class="color-swatch" style="background:#2a6099;" onclick="setAccentColor('#2a6099',this)" title="Bleu roi"></div>
+        </div>
+        <div class="color-custom-wrap">
+          <input type="color" id="color-custom" value="#000000" oninput="setAccentColor(this.value, null, true)">
+          <span>Couleur personnalisée</span>
+        </div>
+      </div>
+
+      <!-- FILENAME -->
+      <div class="style-group">
+        <div class="style-group-title">Nom du fichier exporté</div>
+        <div class="filename-row">
+          <input type="text" id="export-filename" placeholder="David_MAQUOI_CV" value="">
+          <span class="filename-ext">.pdf / .doc</span>
+        </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:6px;font-style:italic;">Laisse vide pour utiliser le nom du CV automatiquement.</p>
+      </div>
+
+      <!-- FONT SIZES -->
+      <div class="style-group">
+        <div class="style-group-title">Tailles typographiques</div>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:12px;font-style:italic;">Ajuste la taille de chaque élément en temps réel.</p>
+
+        <label>Nom (header)</label>
+        <div class="slider-row">
+          <input type="range" min="12" max="28" step="0.5" id="sz-name" oninput="applyFontSize('cv-name','sz-name');document.getElementById('sz-name-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-name-val">18pt</span>
+        </div>
+
+        <label>Titres de sections</label>
+        <div class="slider-row">
+          <input type="range" min="8" max="18" step="0.5" id="sz-section" oninput="applyFontSize('cv-section-title','sz-section');document.getElementById('sz-section-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-section-val">12pt</span>
+        </div>
+
+        <label>Noms entreprises / écoles</label>
+        <div class="slider-row">
+          <input type="range" min="8" max="16" step="0.5" id="sz-org" oninput="applyFontSize('cv-entry-org','sz-org');document.getElementById('sz-org-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-org-val">11pt</span>
+        </div>
+
+        <label>Titres de postes</label>
+        <div class="slider-row">
+          <input type="range" min="8" max="16" step="0.5" id="sz-title" oninput="applyFontSize('cv-entry-title','sz-title');document.getElementById('sz-title-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-title-val">10.5pt</span>
+        </div>
+
+        <label>Bullet points</label>
+        <div class="slider-row">
+          <input type="range" min="7" max="14" step="0.5" id="sz-bullets" oninput="applyFontSize('cv-bullets','sz-bullets');document.getElementById('sz-bullets-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-bullets-val">9.5pt</span>
+        </div>
+
+        <button class="btn-add" style="margin-top:20px;" onclick="resetFontSizes()">↺ Réinitialiser les tailles</button>
+
+        <label style="margin-top:18px;">Espacement entre sections</label>
+        <div class="slider-row">
+          <input type="range" min="4" max="32" step="1" id="sz-spacing" value="14" oninput="applySectionSpacing(this.value);document.getElementById('sz-spacing-val').textContent=this.value+'px'">
+          <span class="slider-val" id="sz-spacing-val">14px</span>
+        </div>
+
+        <label>Interligne des bullets</label>
+        <div class="slider-row">
+          <input type="range" min="1.0" max="2.0" step="0.05" id="sz-lineheight" value="1.2" oninput="applyBulletLineHeight(this.value);document.getElementById('sz-lineheight-val').textContent=parseFloat(this.value).toFixed(2)">
+          <span class="slider-val" id="sz-lineheight-val">1.20</span>
+        </div>
+
+        <label>Taille des dates</label>
+        <div class="slider-row">
+          <input type="range" min="6" max="12" step="0.5" id="sz-date" value="9" oninput="applyDateSize(this.value);document.getElementById('sz-date-val').textContent=this.value+'pt'">
+          <span class="slider-val" id="sz-date-val">9pt</span>
+        </div>
+
+        <label>Indentation des bullets</label>
+        <div class="slider-row">
+          <input type="range" min="12" max="60" step="2" id="sz-indent" value="32" oninput="applyBulletIndent(this.value);document.getElementById('sz-indent-val').textContent=this.value+'px'">
+          <span class="slider-val" id="sz-indent-val">32px</span>
+        </div>
+
+        <label>Graisse du nom</label>
+        <div class="font-picker" style="margin-top:6px;">
+          <button class="font-btn active" id="weight-btn-bold" onclick="setNameWeight('bold')">Gras</button>
+          <button class="font-btn" id="weight-btn-semibold" onclick="setNameWeight('600')">Semi-gras</button>
+          <button class="font-btn" id="weight-btn-regular" onclick="setNameWeight('normal')">Regular</button>
+        </div>
+
+        <label style="margin-top:14px;">Séparateur sous le nom</label>
+        <div class="font-picker" style="margin-top:6px;">
+          <button class="font-btn active" id="sep-btn-none" onclick="setNameSeparator('none')">Aucun</button>
+          <button class="font-btn" id="sep-btn-thin" onclick="setNameSeparator('thin')">Fin</button>
+          <button class="font-btn" id="sep-btn-thick" onclick="setNameSeparator('thick')">Épais</button>
+        </div>
+      </div>
+
+      <!-- MARGINS -->
+      <div class="style-group">
+        <div class="style-group-title">Marges du CV</div>
+        <label>Marge gauche</label>
+        <div class="slider-row">
+          <input type="range" min="10" max="100" step="2" id="mg-l" value="62" oninput="applyMargins();document.getElementById('mg-l-val').textContent=this.value+'px'">
+          <span class="slider-val" id="mg-l-val">62px</span>
+        </div>
+        <label>Marge droite</label>
+        <div class="slider-row">
+          <input type="range" min="10" max="100" step="2" id="mg-r" value="52" oninput="applyMargins();document.getElementById('mg-r-val').textContent=this.value+'px'">
+          <span class="slider-val" id="mg-r-val">52px</span>
+        </div>
+        <label>Marge haut / bas</label>
+        <div class="slider-row">
+          <input type="range" min="10" max="80" step="2" id="mg-tb" value="32" oninput="applyMargins();document.getElementById('mg-tb-val').textContent=this.value+'px'">
+          <span class="slider-val" id="mg-tb-val">32px</span>
+        </div>
+        <button class="btn-add" style="margin-top:10px;" onclick="resetMargins()">↺ Réinitialiser les marges</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div class="preview-panel">
+    <div class="preview-actions">
+      <!-- LEFT GROUP: view controls -->
+      <div class="pact-group">
+        <div class="preview-size-toggle">
+          <button class="psz-btn active" id="psz-a4" onclick="setPreviewSize('a4')">A4</button>
+          <button class="psz-btn" id="psz-mobile" onclick="setPreviewSize('mobile')">📱</button>
+        </div>
+        <button class="btn-gray" id="btn-gray" onclick="toggleGrayscale()" title="Aperçu noir & blanc">N&B</button>
+        <div class="zoom-row">
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);">🔍</span>
+          <input type="range" min="60" max="130" step="5" value="100" id="zoom-slider" oninput="applyZoom(this.value)">
+          <span class="zoom-label" id="zoom-label">100%</span>
+        </div>
+      </div>
+
+      <!-- CENTER GROUP: analysis tools -->
+      <div class="pact-group">
+        <button class="btn-download" id="btn-wc" onclick="toggleWordCount()" style="padding:5px 10px;font-size:11px;background:#2e5c2e;" title="Compteur de mots par bullet">Σ mots</button>
+        <button class="btn-download" id="btn-verbs" onclick="toggleVerbCheck()" style="padding:5px 10px;font-size:11px;background:#7a4a00;" title="Vérifier verbes d'action">⚡ Verbes</button>
+        <div class="verb-legend" id="verb-legend">
+          <div class="verb-legend-dot" style="background:#e67e22;"></div><span>Manquant</span>
+          <div class="verb-legend-dot" style="background:#e74c3c;margin-left:6px;"></div><span>Faible</span>
+        </div>
+      </div>
+
+      <!-- RIGHT GROUP: exports -->
+      <div class="pact-group pact-right">
+        <button class="btn-download" onclick="exportJSON()" style="background:#4a4a6a;font-size:11px;padding:5px 10px;" title="Backup JSON">↓ JSON</button>
+        <label class="btn-download" style="background:#4a4a6a;font-size:11px;padding:5px 10px;cursor:pointer;margin:0;" title="Importer un JSON">↑ JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;"></label>
+        <button class="btn-pdf" style="padding:5px 14px;" onclick="downloadPdf()">⬇ PDF</button>
+        <button class="btn-download" style="padding:5px 14px;" onclick="downloadDocx()" id="btn-dl">⬇ DOCX</button>
+      </div>
+    </div>
+    <div class="preview-panel-inner" id="preview-panel-inner">
+    <div class="density-bar-wrap" id="density-bar-wrap">
+      <div class="density-bar-track">
+        <div class="density-bar-fill" id="density-bar-fill" style="width:0%"></div>
+      </div>
+      <span class="density-label" id="density-label">0%</span>
+    </div>
+    <div class="cv-page" id="cv-preview">
+      <div class="cv-overflow-line" id="cv-overflow-line">
+        <span class="cv-overflow-label">Limite 1 page</span>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDuENX2_5vz7uKJoE1ZpI4ZX_38B__Kn2c",
+  authDomain: "sp-prep.firebaseapp.com",
+  projectId: "sp-prep",
+  storageBucket: "sp-prep.firebasestorage.app",
+  messagingSenderId: "1008863850275",
+  appId: "1:1008863850275:web:294af88aec5dadfc31a696"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window._firebase = { auth, db, doc, getDoc, setDoc, collection, getDocs, deleteDoc };
+
+signInAnonymously(auth).catch(e => console.warn('Firebase auth:', e));
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window._firebaseUid = user.uid;
+    window.firebaseReady = true;
+    if (window._onFirebaseReady) window._onFirebaseReady(user.uid);
+  }
+});
+</script>
+<script>
+// ---- STATE ----
+const state = {
+  education: [],
+  experience: [],
+  leadership: [],
+  projects: [],
+  hobbies: []
+};
+
+// Section title labels (editable)
+const sectionLabels = {
+  education: 'Education',
+  experience: 'Work Experience',
+  leadership: 'Leadership Experience',
+  skills: 'Languages & IT Skills',
+  projects: 'Projects',
+  hobbies: 'Interests & Hobbies'
+};
+
+let eduCount = 0, expCount = 0, leadCount = 0, projCount = 0, hobbyCount = 0;
+
+// ---- UNDO / REDO ----
+let undoStack = [], redoStack = [];
+const MAX_UNDO = 50;
+
+const FIELD_IDS = ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'];
+
+function captureFields() {
+  const f = {};
+  FIELD_IDS.forEach(id => { const el = document.getElementById(id); if (el) f[id] = el.value; });
+  return f;
+}
+function restoreFields(f = {}) {
+  FIELD_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = f[id] || ''; });
+}
+
+function captureStyleExtras() {
+  return {
+    sectionSpacing: document.getElementById('sz-spacing')?.value || 14,
+    nameWeight: nameWeight,
+    bulletLineHeight: document.getElementById('sz-lineheight')?.value || 1.2,
+    dateSize: document.getElementById('sz-date')?.value || 9,
+    bulletIndent: document.getElementById('sz-indent')?.value || 32
+  };
+}
+
+function pushUndo() {
+  undoStack.push(JSON.stringify({ state: deepClone(state), fields: captureFields(), styleExtras: captureStyleExtras(), sectionOrder: [...sectionOrder], sectionLabels: {...sectionLabels}, theme: currentTheme, entryFormat: entryFormat }));
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  redoStack = [];
+  updateUndoButtons();
+}
+
+function undo() {
+  if (!undoStack.length) return;
+  redoStack.push(JSON.stringify({ state: deepClone(state), fields: captureFields(), styleExtras: captureStyleExtras(), sectionOrder: [...sectionOrder], sectionLabels: {...sectionLabels}, theme: currentTheme, entryFormat: entryFormat }));
+  const snap = JSON.parse(undoStack.pop());
+  restoreFromSnap(snap);
+  updateUndoButtons();
+  showToast('Action annulée');
+}
+
+function redo() {
+  if (!redoStack.length) return;
+  undoStack.push(JSON.stringify({ state: deepClone(state), fields: captureFields(), styleExtras: captureStyleExtras(), sectionOrder: [...sectionOrder], sectionLabels: {...sectionLabels}, theme: currentTheme, entryFormat: entryFormat }));
+  const snap = JSON.parse(redoStack.pop());
+  restoreFromSnap(snap);
+  updateUndoButtons();
+  showToast('Action rétablie');
+}
+
+function restoreFromSnap(snap) {
+  Object.assign(state, snap.state);
+  sectionOrder.length = 0;
+  snap.sectionOrder.forEach(s => sectionOrder.push(s));
+  Object.assign(sectionLabels, snap.sectionLabels || {});
+  if (snap.theme) applyTheme(snap.theme);
+  if (snap.entryFormat) setEntryFormat(snap.entryFormat);
+  if (snap.fields) restoreFields(snap.fields);
+  if (snap.styleExtras) {
+    const se = snap.styleExtras;
+    const spEl = document.getElementById('sz-spacing');
+    if (spEl && se.sectionSpacing) { spEl.value = se.sectionSpacing; document.getElementById('sz-spacing-val').textContent = se.sectionSpacing + 'px'; applySectionSpacing(se.sectionSpacing); }
+    if (se.nameWeight) setNameWeight(se.nameWeight);
+    const lhEl = document.getElementById('sz-lineheight');
+    if (lhEl && se.bulletLineHeight) { lhEl.value = se.bulletLineHeight; document.getElementById('sz-lineheight-val').textContent = parseFloat(se.bulletLineHeight).toFixed(2); applyBulletLineHeight(se.bulletLineHeight); }
+    const dtEl = document.getElementById('sz-date');
+    if (dtEl && se.dateSize) { dtEl.value = se.dateSize; document.getElementById('sz-date-val').textContent = se.dateSize + 'pt'; applyDateSize(se.dateSize); }
+    const indEl = document.getElementById('sz-indent');
+    if (indEl && se.bulletIndent) { indEl.value = se.bulletIndent; document.getElementById('sz-indent-val').textContent = se.bulletIndent + 'px'; applyBulletIndent(se.bulletIndent); }
+  }
+  eduCount   = state.education.length;
+  expCount   = state.experience.length;
+  leadCount  = state.leadership.length;
+  projCount  = state.projects.length;
+  hobbyCount = (state.hobbies||[]).length;
+  renderForms();
+  render();
+}
+
+function updateUndoButtons() {
+  const u = document.getElementById('btn-undo');
+  const r = document.getElementById('btn-redo');
+  if (u) u.disabled = !undoStack.length;
+  if (r) r.disabled = !redoStack.length;
+}
+
+function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+// Debounced undo push for text input changes (fires 800ms after user stops typing)
+let _undoTextTimer = null;
+function pushUndoDebounced() {
+  if (_undoTextTimer) clearTimeout(_undoTextTimer);
+  _undoTextTimer = setTimeout(() => { pushUndo(); }, 800);
+}
+
+// ---- PRIMARY NAV ----
+function showPrimaryNav(section) {
+  // Update primary buttons
+  document.querySelectorAll('.nav-primary-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + section)?.classList.add('active');
+
+  // Show/hide secondary nav
+  const secondary = document.getElementById('nav-secondary');
+  secondary.classList.toggle('visible', section === 'contenu');
+
+  // Hide all form sections
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+
+  if (section === 'ats') {
+    document.getElementById('tab-ats').classList.add('active');
+  } else if (section === 'style') {
+    document.getElementById('tab-style').classList.add('active');
+  } else {
+    // Contenu — restore last active sub-tab or default to identity
+    const lastActive = document.querySelector('.nav-secondary-btn.active');
+    const tabId = lastActive ? lastActive.id.replace('subnav-', '') : 'identity';
+    document.getElementById('tab-' + tabId)?.classList.add('active');
+  }
+}
+
+// ---- SUB-TAB SWITCHING (Contenu only) ----
+function showTab(name) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-secondary-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name)?.classList.add('active');
+  document.getElementById('subnav-' + name)?.classList.add('active');
+}
+
+// ---- ADD ENTRIES ----
+function addEdu() {
+  pushUndo();
+  const id = 'edu-' + (++eduCount);
+  state.education.push({ id, school: '', location: '', degree: '', note: '', date: '' });
+  renderForms();
+}
+function addExp() {
+  pushUndo();
+  const id = 'exp-' + (++expCount);
+  state.experience.push({ id, company: '', location: '', title: '', date: '', bullets: '' });
+  renderForms();
+}
+function addLead() {
+  pushUndo();
+  const id = 'lead-' + (++leadCount);
+  state.leadership.push({ id, title: '', bullets: '' });
+  renderForms();
+}
+function addProj() {
+  pushUndo();
+  const id = 'proj-' + (++projCount);
+  state.projects.push({ id, title: '', tech: '', bullets: '' });
+  renderForms();
+}
+function addHobby() {
+  pushUndo();
+  const id = 'hobby-' + (++hobbyCount);
+  state.hobbies.push({ id, title: '', bullets: '' });
+  renderForms();
+}
+
+function duplicateEntry(arr, id, counterFn) {
+  pushUndo();
+  const i = arr.findIndex(x => x.id === id);
+  if (i === -1) return;
+  const clone = JSON.parse(JSON.stringify(arr[i]));
+  clone.id = clone.id + '_copy_' + Date.now();
+  arr.splice(i + 1, 0, clone);
+  renderForms();
+  render();
+}
+
+function removeEntry(arr, id) {
+  pushUndo();
+  const i = arr.findIndex(x => x.id === id);
+  if (i > -1) arr.splice(i, 1);
+  renderForms();
+  render();
+}
+
+// ---- CLEAR SECTION ----
+function clearSection(section) {
+  const names = { education: 'Formation', experience: 'Expériences', leadership: 'Leadership', projects: 'Projets', hobbies: 'Hobbies' };
+  if (!confirm(`Effacer toutes les entrées de la section "${names[section]}" ?`)) return;
+  pushUndo();
+  state[section] = [];
+  renderForms();
+  render();
+}
+
+// ---- DRAG & DROP HELPERS ----
+let dragSrcArr = null, dragSrcIdx = null;
+
+function onDragStart(arr, idx, el) {
+  dragSrcArr = arr;
+  dragSrcIdx = idx;
+  el.classList.add('dragging');
+  event.dataTransfer.effectAllowed = 'move';
+}
+function onDragEnd(el) {
+  el.classList.remove('dragging');
+  el.removeAttribute('draggable'); // reset — draggable is set only via handle mousedown
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+}
+function onDragOver(idx, el) {
+  event.preventDefault();
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+  el.classList.add('drag-over');
+  return false;
+}
+function onDrop(arr, idx) {
+  event.preventDefault();
+  if (dragSrcArr !== arr || dragSrcIdx === idx) return;
+  pushUndo();
+  const item = arr.splice(dragSrcIdx, 1)[0];
+  arr.splice(idx, 0, item);
+  dragSrcIdx = null;
+  renderForms();
+  render();
+}
+// Called by the grip handle's onmousedown — arms the parent card for dragging
+function armDrag(handleEl) {
+  const card = handleEl.closest('.card');
+  if (card) card.setAttribute('draggable', 'true');
+}
+
+// ---- RENDER FORMS ----
+function renderForms() {
+  const cardHeader = (label, arr, id) => `
+    <div class="card-header">
+      <span class="drag-handle" onmousedown="armDrag(this)" title="Glisser pour réordonner">⠿</span>
+      <span class="card-title">${label}</span>
+      <div class="card-actions">
+        <button class="btn-duplicate" onclick="duplicateEntry(${arr},'${id}')" title="Dupliquer">⧉</button>
+        <button class="btn-remove" onclick="removeEntry(${arr},'${id}')">×</button>
+      </div>
+    </div>`;
+
+  // Education
+  document.getElementById('edu-list').innerHTML = state.education.map((e, i) => `
+    <div class="card"
+      ondragstart="onDragStart(state.education,${i},this)"
+      ondragend="onDragEnd(this)"
+      ondragover="onDragOver(${i},this)"
+      ondrop="onDrop(state.education,${i})">
+      ${cardHeader(`Formation ${i+1}`, 'state.education', e.id)}
+      <label>Université / École</label>
+      <input type="text" value="${esc(e.school)}" placeholder="Université Paris II Panthéon ASSAS" oninput="state.education[${i}].school=this.value;render()">
+      <label>Ville, Pays</label>
+      <input type="text" value="${esc(e.location)}" placeholder="Paris, France" oninput="state.education[${i}].location=this.value;render()">
+      <label>Diplôme / Filière</label>
+      <input type="text" value="${esc(e.degree)}" placeholder="MSc Quantitative Finance & Financial Markets" oninput="state.education[${i}].degree=this.value;render()">
+      <label>Note / Bullet (facultatif)</label>
+      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('edu-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('edu-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
+      <textarea id="edu-bullets-${i}" class="bullets-input" placeholder="• Top 5% — mention très bien&#10;• Cours : Dérivés, Produits Structurés, Python..." oninput="state.education[${i}].note=this.value;render()">${esc(e.note)}</textarea>
+      <p class="bullets-hint">Une ligne = un bullet point</p>
+      <label>Période</label>
+      <input type="text" value="${esc(e.date)}" placeholder="2023 – 2026" oninput="state.education[${i}].date=this.value;render()">
+    </div>
+  `).join('');
+
+  // Experience
+  document.getElementById('exp-list').innerHTML = state.experience.map((e, i) => `
+    <div class="card"
+      ondragstart="onDragStart(state.experience,${i},this)"
+      ondragend="onDragEnd(this)"
+      ondragover="onDragOver(${i},this)"
+      ondrop="onDrop(state.experience,${i})">
+      ${cardHeader(`Expérience ${i+1}`, 'state.experience', e.id)}
+      <label>Entreprise</label>
+      <input type="text" value="${esc(e.company)}" placeholder="Crédit Agricole CIB" oninput="state.experience[${i}].company=this.value;render()">
+      <label>Ville, Pays</label>
+      <input type="text" value="${esc(e.location)}" placeholder="Paris, France" oninput="state.experience[${i}].location=this.value;render()">
+      <label>Poste / Titre</label>
+      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBoldInput('exp-title-${i}')">B</button><button class="btn-unbold" onclick="removeBoldInput('exp-title-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
+      <input id="exp-title-${i}" type="text" value="${esc(e.title)}" placeholder="Rates, Credit & Hybrid Structuring — Apprenticeship" oninput="state.experience[${i}].title=this.value;render()">
+      <label>Période</label>
+      <input type="text" value="${esc(e.date)}" placeholder="Sept. 2025 – Juin 2026" oninput="state.experience[${i}].date=this.value;render()">
+      <label>Bullet points</label>
+      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('exp-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('exp-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
+      <textarea id="exp-bullets-${i}" class="bullets-input" placeholder="Pricing de produits structurés Taux, Crédit et Hybrides&#10;Promotion de stratégies de couverture de taux" oninput="state.experience[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
+      <p class="bullets-hint">Une ligne = un bullet point</p>
+    </div>
+  `).join('');
+
+  // Leadership
+  document.getElementById('lead-list').innerHTML = state.leadership.map((e, i) => `
+    <div class="card"
+      ondragstart="onDragStart(state.leadership,${i},this)"
+      ondragend="onDragEnd(this)"
+      ondragover="onDragOver(${i},this)"
+      ondrop="onDrop(state.leadership,${i})">
+      ${cardHeader(`Item ${i+1}`, 'state.leadership', e.id)}
+      <label>Titre</label>
+      <input type="text" value="${esc(e.title)}" placeholder="Footballeur Haut Niveau" oninput="state.leadership[${i}].title=this.value;render()">
+      <label>Détails</label>
+      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('lead-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('lead-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
+      <textarea id="lead-bullets-${i}" class="bullets-input" placeholder="Nîmes Olympique — Académie Pro (National)&#10;Capitaine de l'équipe de foot d'Assas" oninput="state.leadership[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
+      <p class="bullets-hint">Une ligne = un bullet point</p>
+    </div>
+  `).join('');
+
+  // Projects
+  document.getElementById('proj-list').innerHTML = state.projects.map((e, i) => `
+    <div class="card"
+      ondragstart="onDragStart(state.projects,${i},this)"
+      ondragend="onDragEnd(this)"
+      ondragover="onDragOver(${i},this)"
+      ondrop="onDrop(state.projects,${i})">
+      ${cardHeader(`Projet ${i+1}`, 'state.projects', e.id)}
+      <label>Titre du projet</label>
+      <input type="text" value="${esc(e.title)}" placeholder="Option Trading Learning Interface (Python)" oninput="state.projects[${i}].title=this.value;render()">
+      <label>Description / bullets</label>
+      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBold('proj-bullets-${i}')">B</button><button class="btn-unbold" onclick="removeBold('proj-bullets-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
+      <textarea id="proj-bullets-${i}" class="bullets-input" placeholder="Application d'apprentissage pour le trading d'options (Streamlit, Black & Scholes, Monte Carlo)" oninput="state.projects[${i}].bullets=this.value;render()">${esc(e.bullets)}</textarea>
+      <p class="bullets-hint">Une ligne = un bullet point</p>
+    </div>
+  `).join('');
+
+  // Hobbies
+  const hobbyList = document.getElementById('hobbies-list');
+  if (hobbyList) hobbyList.innerHTML = (state.hobbies||[]).map((e, i) => `
+    <div class="card"
+      ondragstart="onDragStart(state.hobbies,${i},this)"
+      ondragend="onDragEnd(this)"
+      ondragover="onDragOver(${i},this)"
+      ondrop="onDrop(state.hobbies,${i})">
+      ${cardHeader(`Hobby ${i+1}`, 'state.hobbies', e.id)}
+      <label>Titre / Catégorie</label>
+      <input type="text" value="${esc(e.title)}" placeholder="Sports, Voyages, Musique..." oninput="state.hobbies[${i}].title=this.value;render()">
+      <label>Détails (facultatif)</label>
+      <textarea id="hobby-bullets-${i}" class="bullets-input" placeholder="Niveau national en football&#10;Voyagé dans 15 pays" oninput="state.hobbies[${i}].bullets=this.value;render()" style="min-height:50px;">${esc(e.bullets||'')}</textarea>
+      <p class="bullets-hint">Une ligne = un bullet point</p>
+    </div>
+  `).join('');
+}
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ---- TOAST ----
+let _toastTimer = null;
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toast-msg');
+  t.querySelector('.toast-icon').textContent = isError ? '✕' : '✓';
+  m.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// ---- THEMES ----
+const THEMES = {
+  classic: {
+    font: 'Times New Roman', accentColor: '#000000',
+    sectionBorderWidth: '1px', sectionBorderStyle: 'solid',
+    nameFontSize: 18, sectionFontSize: 12,
+    resetStyle: true   // removes any dynamic theme overrides
+  },
+  goldman: {
+    font: 'Times New Roman', accentColor: '#0d2d5e',
+    sectionBorderWidth: '2.5px', sectionBorderStyle: 'solid',
+    nameFontSize: 18, sectionFontSize: 11.5
+  },
+  bnp: {
+    font: 'Calibri', accentColor: '#009A44',
+    sectionBorderWidth: '1.5px', sectionBorderStyle: 'solid',
+    nameFontSize: 19, sectionFontSize: 12
+  },
+  minimal: {
+    font: 'Garamond', accentColor: '#111111',
+    sectionBorderWidth: '0.5px', sectionBorderStyle: 'solid',
+    nameFontSize: 20, sectionFontSize: 11
+  }
+};
+let currentTheme = 'classic';
+let entryFormat = 'classic'; // 'classic' | 'job-first' | 'inline' | 'compact'
+
+function applyTheme(key) {
+  const t = THEMES[key]; if (!t) return;
+  currentTheme = key;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('theme-btn-' + key);
+  if (btn) btn.classList.add('active');
+
+  setFont(t.font);
+  setAccentColor(t.accentColor, null, true);
+  const colorPicker = document.getElementById('color-custom');
+  if (colorPicker) colorPicker.value = t.accentColor;
+
+  // Dynamic border style — for Classic, clear any overrides so CSS default applies
+  let tag = document.getElementById('dynamic-theme-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-theme-style'; document.head.appendChild(tag); }
+  if (t.resetStyle) {
+    tag.textContent = ''; // revert to original CSS
+  } else {
+    tag.textContent = `.cv-section-title { border-bottom-width: ${t.sectionBorderWidth} !important; border-bottom-style: ${t.sectionBorderStyle} !important; }`;
+  }
+
+  // Font sizes
+  const szNameEl = document.getElementById('sz-name');
+  const szSecEl  = document.getElementById('sz-section');
+  if (szNameEl) { szNameEl.value = t.nameFontSize; const lbl = document.getElementById('sz-name-val'); if(lbl) lbl.textContent = t.nameFontSize + 'pt'; applyFontSize('cv-name','sz-name'); }
+  if (szSecEl)  { szSecEl.value  = t.sectionFontSize; const lbl = document.getElementById('sz-section-val'); if(lbl) lbl.textContent = t.sectionFontSize + 'pt'; applyFontSize('cv-section-title','sz-section'); }
+
+  // Re-apply user's name weight and separator so theme doesn't override them
+  setNameWeight(nameWeight);
+  setNameSeparator(nameSeparator);
+
+  showToast('Thème "' + key.charAt(0).toUpperCase() + key.slice(1) + '" appliqué');
+}
+
+// ---- WORD COUNT PER BULLET ----
+let wordCountOn = false;
+function toggleWordCount() {
+  wordCountOn = !wordCountOn;
+  const btn = document.getElementById('btn-wc');
+  btn.style.background = wordCountOn ? '#1a5c1a' : '#2e5c2e';
+  btn.style.outline = wordCountOn ? '2px solid #2ecc71' : 'none';
+  render();
+  if (wordCountOn) showToast('Compteur de mots activé');
+}
+
+function wordCountBadge(text) {
+  const n = text.trim().split(/\s+/).filter(Boolean).length;
+  if (n === 0) return '';
+  let cls = 'wc-ok', label = n + 'w';
+  if (n < 10) cls = 'wc-low';
+  else if (n > 25) cls = 'wc-warn';
+  return `<span class="bullet-word-count ${cls}">${label}</span>`;
+}
+
+// ---- ACTION VERB CHECK ----
+const STRONG_VERBS = new Set([
+  // Leadership & Management
+  'led','managed','supervised','oversaw','coordinated','directed','spearheaded','championed',
+  'mentored','trained','coached','facilitated','orchestrated','headed','steered',
+  // Building & Creating
+  'developed','built','created','designed','implemented','launched','established','founded',
+  'architected','engineered','constructed','drafted','formulated','devised','pioneered',
+  'deployed','automated','programmed','coded','scripted','modelled','modeled','simulated',
+  // Finance & Markets specific
+  'priced','structured','hedged','traded','executed','booked','quoted','marked','calibrated',
+  'backtested','stress-tested','unwound','rolled','settled','cleared','originated','sourced',
+  'marketed','sold','pitched','advised','recommended','proposed','negotiated','closed',
+  // Analysis & Research
+  'analyzed','analysed','evaluated','assessed','researched','investigated','identified',
+  'quantified','benchmarked','decomposed','attributed','screened','filtered','ranked',
+  'extrapolated','interpolated','computed','calculated','estimated','forecasted','projected',
+  'modeled','validated','reconciled','audited','reviewed','monitored',
+  // Improvement & Optimization
+  'optimized','optimised','improved','streamlined','reduced','increased','expanded','grew',
+  'enhanced','accelerated','maximized','minimized','transformed','restructured','renegotiated',
+  // Delivery & Results
+  'delivered','achieved','generated','produced','secured','obtained','acquired','won',
+  'completed','finalized','published','reported','presented','communicated','liaised',
+  'initiated','driven','drove','contributed','supported','collaborated','partnered',
+  // Process & Operations
+  'maintained','prepared','documented','standardized','centralized','consolidated',
+  'implemented','deployed','integrated','migrated','upgraded','configured',
+]);
+
+const WEAK_VERBS = new Set([
+  'participated','assisted','helped','worked','aided','supported','contributed to',
+  'involved','engaged','tried','attempted','did','made','got','used','utilized',
+  'was responsible','responsible for','tasked with','worked on','helped with',
+]);
+
+let verbCheckOn = false;
+function toggleVerbCheck() {
+  verbCheckOn = !verbCheckOn;
+  const btn = document.getElementById('btn-verbs');
+  btn.style.background = verbCheckOn ? '#5a3200' : '#7a4a00';
+  btn.style.outline = verbCheckOn ? '2px solid #e67e22' : 'none';
+  document.getElementById('verb-legend')?.classList.toggle('visible', verbCheckOn);
+  render();
+  if (verbCheckOn) showToast('Verbes : 🟠 manquant  🔴 faible');
+}
+
+function classifyVerb(line) {
+  const first = line.trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z]/g,'');
+  if (STRONG_VERBS.has(first)) return 'strong';
+  if (WEAK_VERBS.has(first))   return 'weak';
+  return 'missing'; // no recognizable action verb
+}
+
+function startsWithStrongVerb(line) {
+  return classifyVerb(line) === 'strong';
+}
+
+// Modified bulletHtml that injects word count + verb check
+function bulletHtmlAnalyzed(bullets) {
+  if (!bullets.length) return '';
+  return '<ul class="cv-bullets">' + bullets.map(b => {
+    const wc = wordCountOn ? wordCountBadge(b) : '';
+    let liClass = '', icon = '';
+    if (verbCheckOn) {
+      const cls = classifyVerb(b);
+      if (cls === 'weak') {
+        liClass = ' class="bullet-weak-verb"';
+        icon = `<em class="verb-icon verb-icon-weak" title="Verbe faible — utilise un verbe d'action fort">⚠</em>`;
+      } else if (cls === 'missing') {
+        liClass = ' class="bullet-no-verb"';
+        icon = `<em class="verb-icon" title="Commence par un verbe d'action fort">⚡</em>`;
+      }
+    }
+    return `<li${liClass}>${icon}${boldify(b)}${wc}</li>`;
+  }).join('') + '</ul>';
+}
+
+// ---- ATS CHECK ----
+// Finance-relevant keyword list
+const ATS_KEYWORDS = [
+  // Products
+  'structured products','derivatives','fixed income','equities','credit','rates','fx','forex',
+  'options','swaps','futures','bonds','autocall','barrier','callable','reverse convertible',
+  'clo','cdo','abs','mbs','etf','warrant','certificate',
+  // Skills
+  'python','vba','excel','bloomberg','sql','r','matlab','tableau','powerbi',
+  'black-scholes','monte carlo','pricing','valuation','hedging','risk management',
+  'backtesting','quantitative','stochastic','portfolio management',
+  // Functions
+  'sales','trading','structuring','research','quant','middle office','front office',
+  'asset management','wealth management','private equity','m&a','capital markets','ibcm',
+  'dcm','ecm','leveraged finance','syndication',
+  // Soft
+  'client','presentation','pitchbook','roadshow','due diligence','negotiation','leadership',
+  // Languages
+  'english','french','german','mandarin','spanish'
+];
+
+function runAtsCheck() {
+  const jd = (document.getElementById('ats-jobdesc')?.value || '').toLowerCase();
+  if (!jd.trim()) { showToast('Colle une offre d\'emploi d\'abord', true); return; }
+
+  // Build CV text blob
+  const cvText = [
+    document.getElementById('id-name')?.value,
+    document.getElementById('sk-lang')?.value,
+    document.getElementById('sk-it')?.value,
+    document.getElementById('sk-cert')?.value,
+    ...state.experience.map(e => e.title + ' ' + e.company + ' ' + e.bullets),
+    ...state.education.map(e => e.degree + ' ' + e.note),
+    ...state.projects.map(e => e.title + ' ' + e.bullets),
+    ...state.leadership.map(e => e.title + ' ' + e.bullets),
+    ...(state.hobbies||[]).map(e => e.title + ' ' + (e.bullets||''))
+  ].join(' ').toLowerCase();
+
+  // Find keywords that appear in the JD
+  const jdKeywords = ATS_KEYWORDS.filter(k => jd.includes(k));
+  const found   = jdKeywords.filter(k => cvText.includes(k));
+  const missing = jdKeywords.filter(k => !cvText.includes(k));
+  const score = jdKeywords.length ? Math.round((found.length / jdKeywords.length) * 100) : 0;
+
+  // Show results
+  const results = document.getElementById('ats-results');
+  const ring    = document.getElementById('ats-ring');
+  results.style.display = 'block';
+  ring.textContent = score + '%';
+  ring.className = 'ats-score-ring ' + (score >= 70 ? 'good' : score >= 40 ? 'warn' : 'bad');
+  document.getElementById('ats-title').textContent = score >= 70 ? 'Bonne adéquation ✓' : score >= 40 ? 'Adéquation partielle' : 'Faible adéquation';
+  document.getElementById('ats-subtitle').textContent = `${found.length} / ${jdKeywords.length} mots-clés de l'offre détectés dans ton CV.`;
+  document.getElementById('ats-found').innerHTML   = found.map(k   => `<span class="ats-tag found">✓ ${k}</span>`).join('');
+  document.getElementById('ats-missing').innerHTML = missing.map(k => `<span class="ats-tag missing">✗ ${k}</span>`).join('');
+  if (!jdKeywords.length) {
+    document.getElementById('ats-subtitle').textContent = 'Aucun mot-clé finance reconnu dans l\'offre. Essaie avec une offre plus détaillée.';
+  }
+}
+
+// ---- MOBILE PREVIEW ----
+let previewSize = 'a4';
+function setPreviewSize(size) {
+  previewSize = size;
+  const page = document.querySelector('.cv-page');
+  document.getElementById('psz-a4').classList.toggle('active', size === 'a4');
+  document.getElementById('psz-mobile').classList.toggle('active', size === 'mobile');
+  if (size === 'mobile') {
+    page.classList.add('mobile-preview');
+    // Override padding for mobile
+    page.style.padding = '20px 18px';
+  } else {
+    page.classList.remove('mobile-preview');
+    applyMargins(); // restore user margins
+  }
+  requestAnimationFrame(updateDensity);
+}
+
+// ---- FOCUS MODE ----
+let focusMode = false;
+function toggleFocus() {
+  focusMode = !focusMode;
+  document.querySelector('.form-panel').classList.toggle('hidden', focusMode);
+  const btn = document.getElementById('btn-focus');
+  btn.classList.toggle('active', focusMode);
+  btn.textContent = focusMode ? '✕ Quitter focus' : '⛶ Focus';
+}
+
+// ---- EDITABLE SECTION LABELS ----
+function updateSectionLabel(el) {
+  const key = el.dataset.section;
+  const newLabel = el.textContent.trim();
+  if (newLabel && sectionLabels[key] !== newLabel) {
+    pushUndo();
+    sectionLabels[key] = newLabel;
+    // Also update DOCX/PDF — labels are read from sectionLabels at export time
+  }
+}
+
+// ---- PAGE DENSITY ----
+// A4 at 96dpi ≈ 1123px, but cv-page min-height is 1060px (our reference)
+const A4_HEIGHT_PX = 1060;
+function updateDensity() {
+  const preview = document.getElementById('cv-preview');
+  if (!preview) return;
+  const contentH = preview.scrollHeight;
+  const pct = Math.min(Math.round((contentH / A4_HEIGHT_PX) * 100), 150);
+  const fill = document.getElementById('density-bar-fill');
+  const label = document.getElementById('density-label');
+  const overLine = document.getElementById('cv-overflow-line');
+  if (!fill || !label) return;
+
+  fill.style.width = Math.min(pct, 100) + '%';
+  fill.className = 'density-bar-fill' + (pct >= 100 ? ' over' : pct >= 85 ? ' warn' : '');
+  label.textContent = pct + '% rempli';
+  label.className = 'density-label' + (pct >= 100 ? ' over' : '');
+
+  // Overflow dashed line
+  if (overLine) {
+    if (pct >= 100) {
+      overLine.classList.add('visible');
+      overLine.style.top = A4_HEIGHT_PX + 'px';
+    } else {
+      overLine.classList.remove('visible');
+    }
+  }
+}
+
+// ---- MARGINS ----
+function applyMargins() {
+  const l  = document.getElementById('mg-l')?.value  || 62;
+  const r  = document.getElementById('mg-r')?.value  || 52;
+  const tb = document.getElementById('mg-tb')?.value || 32;
+  const page = document.querySelector('.cv-page');
+  if (!page) return;
+  if (previewSize === 'mobile') return; // mobile preview has its own fixed padding
+  page.style.padding = `${tb}px ${r}px ${tb}px ${l}px`;
+  requestAnimationFrame(updateDensity);
+}
+function resetMargins() {
+  [['mg-l','62'],['mg-r','52'],['mg-tb','32']].forEach(([id, def]) => {
+    const el = document.getElementById(id);
+    const lbl = document.getElementById(id + '-val');
+    if (el) el.value = def;
+    if (lbl) lbl.textContent = def + 'px';
+  });
+  applyMargins();
+}
+
+// ---- JSON EXPORT / IMPORT ----
+function exportJSON() {
+  // Save current CV state before exporting
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+  const payload = {
+    version: 2,
+    exportedAt: new Date().toISOString(),
+    cvList: JSON.parse(JSON.stringify(cvList)),
+    currentCvId
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = getExportFilename() + '_backup.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup JSON téléchargé ✓');
+}
+
+function importJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  // Reset the file input so the same file can be re-imported
+  e.target.value = '';
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data.cvList || !Array.isArray(data.cvList)) throw new Error('Format invalide');
+      pushUndo(); // allow undo of the import
+      cvList = data.cvList;
+      currentCvId = data.currentCvId || cvList[0]?.id;
+      const cur = cvList.find(c => c.id === currentCvId) || cvList[0];
+      if (cur) restoreCV(cur.data);
+      renderCvTabs();
+      showToast('CV importé avec succès ✓');
+    } catch(err) {
+      showToast('Fichier JSON invalide : ' + err.message, true);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---- KEYBOARD SHORTCUTS ----
+document.addEventListener('keydown', e => {
+  const ctrl = e.ctrlKey || e.metaKey;
+  if (ctrl && e.key === 's') { e.preventDefault(); saveToFirebase(); }
+  if (ctrl && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+  if (ctrl && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); }
+});
+let cvFont = 'Times New Roman';
+function setFont(font) {
+  cvFont = font;
+  document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  const keyMap = { 'Times New Roman': 'times', 'Garamond': 'garamond', 'Calibri': 'calibri' };
+  const btn = document.getElementById('font-btn-' + keyMap[font]);
+  if (btn) btn.classList.add('active');
+  applyFontToCV();
+}
+function applyFontToCV() {
+  const fontStack = {
+    'Times New Roman': "'Times New Roman', Times, serif",
+    'Garamond': "'EB Garamond', Garamond, serif",
+    'Calibri': "'Calibri', 'Gill Sans', sans-serif"
+  };
+  const stack = fontStack[cvFont] || fontStack['Times New Roman'];
+  document.getElementById('cv-preview').style.fontFamily = stack;
+  const cvPage = document.querySelector('.cv-page');
+  if (cvPage) cvPage.style.fontFamily = stack;
+}
+
+// ---- ACCENT COLOR ----
+let cvAccentColor = '#000000';
+function setAccentColor(color, swatchEl, fromPicker) {
+  cvAccentColor = color;
+  if (!fromPicker) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+    if (swatchEl) swatchEl.classList.add('active');
+  } else {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  }
+  document.querySelectorAll('.cv-section-title').forEach(el => {
+    el.style.color = color;
+    el.style.borderBottomColor = color;
+  });
+  let tag = document.getElementById('dynamic-accent-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-accent-style'; document.head.appendChild(tag); }
+  tag.textContent = `.cv-section-title { color: ${color} !important; border-bottom-color: ${color} !important; }`;
+}
+
+// ---- EXPORT FILENAME ----
+function getExportFilename() {
+  const custom = document.getElementById('export-filename')?.value?.trim();
+  if (custom) return custom.replace(/\s+/g, '_');
+  const name = val('id-name') || 'CV';
+  return name.replace(/\s+/g, '_');
+}
+
+// ---- RENDER CV PREVIEW ----
+function val(id) { return document.getElementById(id)?.value || ''; }
+
+function boldify(text) {
+  return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+function parseBullets(text) {
+  if (!text || !text.trim()) return [];
+  return text.split('\n').map(l => l.trim().replace(/^[•\-]\s*|^\*(?!\*)\s*/,'')).filter(Boolean);
+}
+
+function bulletHtml(bullets) {
+  if (!bullets.length) return '';
+  if (wordCountOn || verbCheckOn) return bulletHtmlAnalyzed(bullets);
+  return '<ul class="cv-bullets">' + bullets.map(b => `<li>${boldify(b)}</li>`).join('') + '</ul>';
+}
+
+function applyBold(textareaId) {
+  const ta = document.getElementById(textareaId);
+  if (!ta) return;
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  if (start === end) return;
+  const selected = ta.value.substring(start, end);
+  const before = ta.value.substring(0, start);
+  const after = ta.value.substring(end);
+  ta.value = before + '**' + selected + '**' + after;
+  ta.selectionStart = start;
+  ta.selectionEnd = end + 4;
+  ta.dispatchEvent(new Event('input'));
+}
+
+function removeBold(textareaId) {
+  const ta = document.getElementById(textareaId);
+  if (!ta) return;
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  if (start === end) return;
+  const selected = ta.value.substring(start, end);
+  const cleaned = selected.replace(/\*\*(.+?)\*\*/g, '$1');
+  const before = ta.value.substring(0, start);
+  const after = ta.value.substring(end);
+  ta.value = before + cleaned + after;
+  ta.selectionStart = start;
+  ta.selectionEnd = start + cleaned.length;
+  ta.dispatchEvent(new Event('input'));
+}
+
+function applyBoldInput(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const start = el.selectionStart, end = el.selectionEnd;
+  if (start === end) return;
+  const selected = el.value.substring(start, end);
+  const before = el.value.substring(0, start);
+  const after = el.value.substring(end);
+  el.value = before + '**' + selected + '**' + after;
+  el.selectionStart = start;
+  el.selectionEnd = end + 4;
+  el.dispatchEvent(new Event('input'));
+}
+
+function removeBoldInput(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const start = el.selectionStart, end = el.selectionEnd;
+  if (start === end) return;
+  const selected = el.value.substring(start, end);
+  const cleaned = selected.replace(/\*\*(.+?)\*\*/g, '$1');
+  const before = el.value.substring(0, start);
+  const after = el.value.substring(end);
+  el.value = before + cleaned + after;
+  el.selectionStart = start;
+  el.selectionEnd = start + cleaned.length;
+  el.dispatchEvent(new Event('input'));
+}
+
+// ---- SECTION ORDER ----
+let sectionOrder = ['education', 'experience', 'leadership', 'skills', 'projects', 'hobbies'];
+
+// ---- PREVIEW DRAG STATE ----
+let pvDragType = null;   // 'section' | 'entry'
+let pvDragSection = null; // section key
+let pvDragIdx = null;    // entry index within section
+
+function render() {
+  const name = val('id-name') || 'PRÉNOM NOM';
+  const email = val('id-email');
+  const emailHtml = email ? `<a href="mailto:${esc(email)}" style="color:#1a56a0;text-decoration:underline;">${esc(email)}</a>` : '';
+  const linkedin = val('id-linkedin');
+  const github   = val('id-github');
+  const linkedinHtml = linkedin ? `<a href="https://${linkedin.replace(/^https?:\/\//,'')}" style="color:#1a56a0;text-decoration:underline;">${esc(linkedin.replace(/^https?:\/\//,''))}</a>` : '';
+  const githubHtml   = github   ? `<a href="https://${github.replace(/^https?:\/\//,'')}"   style="color:#1a56a0;text-decoration:underline;">${esc(github.replace(/^https?:\/\//,''))}</a>`   : '';
+  const contactParts = [val('id-address'), val('id-phone'), emailHtml, linkedinHtml, githubHtml].filter(Boolean).join(' | ');
+
+  const lang = val('sk-lang'), it = val('sk-it'), cert = val('sk-cert');
+
+  // Entry layout builder — respects entryFormat global
+  function entryRows(org, loc, title, date, bullets) {
+    const orgH   = `<span class="cv-entry-org">${org}</span>`;
+    const locH   = `<span class="cv-entry-loc">${loc}</span>`;
+    const titH   = `<span class="cv-entry-title">${title}</span>`;
+    const datH   = `<span class="cv-entry-date">${date}</span>`;
+    const row    = (l, r) => `<div class="cv-entry-row">${l}${r ? r : ''}</div>`;
+    const bul    = bullets.length ? bulletHtml(bullets) : '';
+
+    switch (entryFormat) {
+      case 'job-first':
+        // Poste + Date / Entreprise + Ville
+        return row(`${titH}`, datH) + (org ? row(orgH, locH) : '') + bul;
+
+      case 'inline':
+        // Entreprise — Poste               Date / Ville
+        return row(
+          `${orgH}${title ? `<span style="font-weight:normal;font-style:italic;"> — ${title}</span>` : ''}`,
+          datH
+        ) + (loc ? `<div class="cv-entry-row" style="line-height:1;">${locH}</div>` : '') + bul;
+
+      case 'compact':
+        // Tout sur une ligne: Entreprise · Poste · Date
+        return `<div class="cv-entry-row">
+          ${orgH}
+          ${title ? `<span class="cv-entry-title" style="margin-left:6px;">· ${title}</span>` : ''}
+          ${date  ? `<span class="cv-entry-date" style="margin-left:auto;">${date}</span>` : ''}
+        </div>` + (loc ? `<div class="cv-entry-row" style="line-height:1.1;">${locH}</div>` : '') + bul;
+
+      default: // classic
+        return row(orgH, locH) + row(titH, datH) + bul;
+    }
+  }
+
+  // Section renderers
+  const sectionRenderers = {
+    education: () => {
+      if (!state.education.length) return '';
+      let h = renderSectionHeader('education', sectionLabels.education);
+      state.education.forEach((e, i) => {
+        h += renderEntry('education', i, entryRows(
+          esc(e.school), esc(e.location), boldify(e.degree), esc(e.date), parseBullets(e.note)
+        ));
+      });
+      return h + `</div>`;
+    },
+    experience: () => {
+      if (!state.experience.length) return '';
+      let h = renderSectionHeader('experience', sectionLabels.experience)
+      state.experience.forEach((e, i) => {
+        h += renderEntry('experience', i, entryRows(
+          esc(e.company), esc(e.location), boldify(e.title), esc(e.date), parseBullets(e.bullets)
+        ));
+      });
+      return h + `</div>`;
+    },
+    leadership: () => {
+      if (!state.leadership.length) return '';
+      let h = renderSectionHeader('leadership', sectionLabels.leadership);
+      state.leadership.forEach((e, i) => {
+        h += renderEntry('leadership', i, `
+          <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
+          ${bulletHtml(parseBullets(e.bullets))}
+        `);
+      });
+      return h + `</div>`;
+    },
+    skills: () => {
+      if (!lang && !it && !cert) return '';
+      let h = renderSectionHeader('skills', sectionLabels.skills);
+      h += `<ul class="cv-skills-list">`;
+      if (lang) h += `<li><strong>Languages:</strong> ${esc(lang)}</li>`;
+      if (it)   h += `<li><strong>IT:</strong> ${esc(it)}</li>`;
+      if (cert) h += `<li><strong>Certification:</strong> ${esc(cert)}</li>`;
+      return h + `</ul></div>`;
+    },
+    projects: () => {
+      if (!state.projects.length) return '';
+      let h = renderSectionHeader('projects', sectionLabels.projects);
+      state.projects.forEach((e, i) => {
+        h += renderEntry('projects', i, `
+          <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
+          ${bulletHtml(parseBullets(e.bullets))}
+        `);
+      });
+      return h + `</div>`;
+    },
+    hobbies: () => {
+      if (!(state.hobbies||[]).length) return '';
+      let h = renderSectionHeader('hobbies', sectionLabels.hobbies);
+      state.hobbies.forEach((e, i) => {
+        const bullets = parseBullets(e.bullets||'');
+        h += renderEntry('hobbies', i, `
+          <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
+          ${bulletHtml(bullets)}
+        `);
+      });
+      return h + `</div>`;
+    }
+  };
+
+  let html = `
+    <div class="cv-name">${esc(name)}</div>
+    <div class="cv-contact">${contactParts}</div>
+  `;
+
+  sectionOrder.forEach(key => {
+    if (sectionRenderers[key]) html += sectionRenderers[key]();
+  });
+
+  document.getElementById('cv-preview').innerHTML = html;
+  attachPreviewDragListeners();
+  applyFontToCV();
+  if (cvAccentColor && cvAccentColor !== '#000000') {
+    document.querySelectorAll('.cv-section-title').forEach(el => {
+      el.style.color = cvAccentColor;
+      el.style.borderBottomColor = cvAccentColor;
+    });
+  }
+  // Update density bar after a paint cycle so layout is ready
+  requestAnimationFrame(updateDensity);
+  // Check for duplicate entries
+  setTimeout(checkDuplicates, 50);
+}
+
+// Build section wrapper with drag handle on the title bar
+function renderSectionHeader(key, label) {
+  return `<div class="cv-section cv-section-draggable" data-section="${key}">
+    <div class="cv-section-title cv-section-title-drag" data-section="${key}" title="Glisser ⠿ pour réordonner — Clic sur le titre pour renommer">
+      <span class="cv-section-drag-grip">⠿</span><span class="cv-section-title-text" contenteditable="true" spellcheck="false" data-section="${key}" onblur="updateSectionLabel(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">${esc(label)}</span>
+    </div>`;
+}
+
+// Build a single entry with drag handle
+function renderEntry(section, idx, inner) {
+  return `<div class="cv-entry cv-entry-draggable" data-section="${section}" data-idx="${idx}">
+    <div class="cv-entry-drag-handle" title="Glisser pour réordonner">⠿</div>
+    ${inner}
+  </div>`;
+}
+
+// ---- ATTACH DRAG LISTENERS AFTER RENDER ----
+function attachPreviewDragListeners() {
+  // Section drag — armed only from the grip handle inside the title
+  document.querySelectorAll('.cv-section-title-drag').forEach(el => {
+    const grip = el.querySelector('.cv-section-drag-grip');
+    if (grip) {
+      grip.addEventListener('mousedown', () => {
+        el.setAttribute('draggable', 'true');
+      });
+    }
+    el.addEventListener('dragstart', e => {
+      if (!el.getAttribute('draggable')) { e.preventDefault(); return; }
+      pvDragType = 'section';
+      pvDragSection = el.dataset.section;
+      e.dataTransfer.effectAllowed = 'move';
+      el.closest('.cv-section-draggable').classList.add('pv-dragging');
+    });
+    el.addEventListener('dragend', () => {
+      el.removeAttribute('draggable');
+      document.querySelectorAll('.cv-section-draggable').forEach(s => {
+        s.classList.remove('pv-dragging', 'pv-drag-over');
+      });
+      pvDragType = null; pvDragSection = null;
+    });
+  });
+
+  document.querySelectorAll('.cv-section-draggable').forEach(section => {
+    section.addEventListener('dragover', e => {
+      if (pvDragType !== 'section') return;
+      e.preventDefault();
+      document.querySelectorAll('.cv-section-draggable').forEach(s => s.classList.remove('pv-drag-over'));
+      section.classList.add('pv-drag-over');
+    });
+    section.addEventListener('drop', e => {
+      if (pvDragType !== 'section') return;
+      e.preventDefault();
+      const targetKey = section.dataset.section;
+      if (pvDragSection && pvDragSection !== targetKey) {
+        const fromIdx = sectionOrder.indexOf(pvDragSection);
+        const toIdx   = sectionOrder.indexOf(targetKey);
+        if (fromIdx > -1 && toIdx > -1) {
+          pushUndo();
+          sectionOrder.splice(fromIdx, 1);
+          sectionOrder.splice(toIdx, 0, pvDragSection);
+          render();
+        }
+      }
+    });
+  });
+
+  // Entry drag — armed only from the grip handle
+  document.querySelectorAll('.cv-entry-draggable').forEach(el => {
+    // Arm draggable only when mousedown on the grip handle
+    const handle = el.querySelector('.cv-entry-drag-handle');
+    if (handle) {
+      handle.addEventListener('mousedown', () => {
+        el.setAttribute('draggable', 'true');
+      });
+    }
+
+    el.addEventListener('dragstart', e => {
+      if (!el.getAttribute('draggable')) { e.preventDefault(); return; }
+      pvDragType = 'entry';
+      pvDragSection = el.dataset.section;
+      pvDragIdx = parseInt(el.dataset.idx);
+      e.dataTransfer.effectAllowed = 'move';
+      el.classList.add('pv-dragging');
+      e.stopPropagation();
+    });
+    el.addEventListener('dragend', () => {
+      el.removeAttribute('draggable');
+      document.querySelectorAll('.cv-entry-draggable').forEach(e => {
+        e.classList.remove('pv-dragging', 'pv-drag-over');
+      });
+      pvDragType = null; pvDragSection = null; pvDragIdx = null;
+    });
+    el.addEventListener('dragover', e => {
+      if (pvDragType !== 'entry') return;
+      if (el.dataset.section !== pvDragSection) return;
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll('.cv-entry-draggable').forEach(e => e.classList.remove('pv-drag-over'));
+      el.classList.add('pv-drag-over');
+    });
+    el.addEventListener('drop', e => {
+      if (pvDragType !== 'entry') return;
+      e.preventDefault();
+      e.stopPropagation();
+      const toIdx = parseInt(el.dataset.idx);
+      const sec   = el.dataset.section;
+      if (sec !== pvDragSection || pvDragIdx === toIdx) return;
+      const arr = state[sec];
+      if (!arr) return;
+      pushUndo();
+      const item = arr.splice(pvDragIdx, 1)[0];
+      arr.splice(toIdx, 0, item);
+      renderForms();
+      render();
+    });
+  });
+}
+
+// ---- PDF EXPORT (html2canvas snapshot of the preview) ----
+async function downloadPdf() {
+  const btn = document.querySelector('.btn-pdf');
+  btn.disabled = true;
+  btn.textContent = 'Génération…';
+
+  // Temporarily disable analysis overlays so they don't appear in export
+  const wcWas = wordCountOn, verbWas = verbCheckOn;
+  if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); await new Promise(r => setTimeout(r, 80)); }
+
+  try {
+    const cvEl = document.querySelector('.cv-page');
+    // Also temporarily switch off mobile preview for export
+    const wasMobile = previewSize === 'mobile';
+    if (wasMobile) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 60)); }
+
+    const SCALE = 6;
+    const canvas = await html2canvas(cvEl, {
+      scale: SCALE,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: cvEl.offsetWidth,
+      height: cvEl.offsetHeight
+    });
+
+    if (wasMobile) { cvEl.classList.add('mobile-preview'); cvEl.style.padding = '20px 18px'; }
+
+    const { jsPDF } = window.jspdf;
+    const pxW = cvEl.offsetWidth;
+    const pxH = cvEl.offsetHeight;
+    const mmW = pxW * 0.2646;
+    const mmH = pxH * 0.2646;
+
+    const pdf = new jsPDF({
+      orientation: mmW > mmH ? 'landscape' : 'portrait',
+      unit: 'mm',
+      format: [mmW, mmH]
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    pdf.addImage(imgData, 'PNG', 0, 0, mmW, mmH);
+
+    const filename = getExportFilename() + '.pdf';
+    pdf.save(filename);
+
+  } catch(err) {
+    alert('Erreur PDF : ' + err.message);
+    console.error(err);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⬇ PDF';
+  // Restore analysis modes
+  if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
+}
+
+// ---- DOCX EXPORT (HTML-to-Word blob, no external lib needed) ----
+function downloadDocx() {
+  const btn = document.getElementById('btn-dl');
+  btn.disabled = true;
+  btn.textContent = 'Génération…';
+
+  try {
+    const name = val('id-name') || 'PRÉNOM NOM';
+    const contact = [val('id-address'), val('id-phone'), val('id-email'), val('id-linkedin'), val('id-github')].filter(Boolean).join(' | ');
+
+    function boldifyDoc(text) {
+      return (text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    }
+
+    // Read current font sizes from sliders (or defaults)
+    function sz(id, def) {
+      const el = document.getElementById(id);
+      return el ? parseFloat(el.value) : def;
+    }
+    const szName    = sz('sz-name', 18);
+    const szSection = sz('sz-section', 12);
+    const szOrg     = sz('sz-org', 11);
+    const szTitle   = sz('sz-title', 10.5);
+    const szBullets = sz('sz-bullets', 9.5);
+    const szDate    = sz('sz-date', 9);
+    const szIndent  = sz('sz-indent', 32);
+
+    // Resolve font for Word export
+    const fontMap = { 'Times New Roman': 'Times New Roman', 'Garamond': 'Garamond', 'Calibri': 'Calibri' };
+    const docxFont = fontMap[cvFont] || 'Times New Roman';
+
+    const row = (leftHtml, rightHtml, leftStyle, rightStyle) =>
+      `<table width="100%" style="border:none;border-collapse:collapse;margin:0;padding:0;mso-table-lspace:0;mso-table-rspace:0;">
+        <tr>
+          <td style="padding:0;vertical-align:top;${leftStyle}">${leftHtml}</td>
+          <td style="padding:0;vertical-align:top;text-align:right;white-space:nowrap;${rightStyle}">${rightHtml}</td>
+        </tr>
+      </table>`;
+
+    const sectionHtml = t => {
+      const col = cvAccentColor || '#000000';
+      return `<p style="font-family:'${docxFont}';font-size:${szSection}pt;font-weight:bold;text-transform:uppercase;
+        border-bottom:1px solid ${col};padding-bottom:1px;color:${col};
+        margin-top:0;margin-bottom:8px;
+        mso-line-height-rule:exactly;line-height:1.2;">${t.toUpperCase()}</p>`;
+    };
+
+    const entryOrgRow = (org, loc) => row(
+      `<b style="font-family:'${docxFont}';font-size:${szOrg}pt;">${boldifyDoc(org)}</b>`,
+      `<b><i style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(loc)}</i></b>`,
+      '', ''
+    );
+
+    const entryTitleRow = (title, date) => row(
+      `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;">${boldifyDoc(title)}</i>`,
+      `<span style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(date)}</span>`,
+      '', ''
+    );
+
+    // Format-aware entry builder — mirrors the 4 HTML layouts
+    const entryDocx = (org, loc, title, date, buls) => {
+      const orgB  = `<b style="font-family:'${docxFont}';font-size:${szOrg}pt;">${boldifyDoc(org)}</b>`;
+      const locB  = `<b><i style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(loc)}</i></b>`;
+      const titI  = `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;">${boldifyDoc(title)}</i>`;
+      const datS  = `<span style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(date)}</span>`;
+      const bHtml = bulletsHtml(buls);
+
+      switch (entryFormat) {
+        case 'job-first':
+          return entryWrap(row(titI, datS) + (org ? row(orgB, locB) : '') + bHtml);
+
+        case 'inline':
+          return entryWrap(
+            row(
+              `${orgB}${title ? `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;"> — ${boldifyDoc(title)}</i>` : ''}`,
+              datS
+            ) +
+            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
+            bHtml
+          );
+
+        case 'compact':
+          return entryWrap(
+            `<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">` +
+            `${boldifyDoc(org)}${title ? ` <span style="font-weight:normal;font-style:italic;">· ${boldifyDoc(title)}</span>` : ''}` +
+            `<span style="font-size:${szDate}pt;"> — ${boldifyDoc(date)}</span></p>` +
+            (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:0;">${boldifyDoc(loc)}</p>` : '') +
+            bHtml
+          );
+
+        default: // classic
+          return entryWrap(entryOrgRow(org, loc) + entryTitleRow(title, date) + bHtml);
+      }
+    };
+
+    const bulletsHtml = bullets => {
+      if (!bullets.length) return '';
+      const lh = document.getElementById('sz-lineheight')?.value || 1.2;
+      return `<ul style="margin:3px 0 0 0;padding-left:${szIndent}px;mso-margin-top-alt:0;">` +
+        bullets.map(b =>
+          `<li style="font-family:'${docxFont}';font-size:${szBullets}pt;line-height:${lh};margin-bottom:0;mso-line-height-rule:exactly;">${boldifyDoc(b)}</li>`
+        ).join('') + `</ul>`;
+    };
+
+    const entryWrap = (inner) =>
+      `<div style="margin-bottom:10px;">${inner}</div>`;
+
+    const nameWt = nameWeight === 'normal' ? 'normal' : nameWeight === '600' ? '600' : 'bold';
+    const sepBorder = nameSeparator === 'thin' ? `border-bottom:1pt solid ${cvAccentColor||'#000'};padding-bottom:3pt;` : nameSeparator === 'thick' ? `border-bottom:2.5pt solid ${cvAccentColor||'#000'};padding-bottom:3pt;` : '';
+    let body = `
+      <p style="text-align:center;font-family:'${docxFont}';font-size:${szName}pt;font-weight:${nameWt};
+        letter-spacing:2px;text-transform:uppercase;margin:0 0 2px 0;line-height:1.1;mso-line-height-rule:exactly;${sepBorder}">${boldifyDoc(name)}</p>
+      <p style="text-align:center;font-family:'${docxFont}';font-size:9pt;margin:0 0 8px 0;line-height:1.2;">${boldifyDoc(contact)}</p>
+    `;
+
+    const lang = val('sk-lang'), it = val('sk-it'), cert = val('sk-cert');
+
+    const docxSectionBuilders = {
+      education: () => {
+        if (!state.education.length) return '';
+        let s = sectionHtml(sectionLabels.education);
+        state.education.forEach(e => {
+          s += entryDocx(e.school, e.location, e.degree, e.date, parseBullets(e.note));
+        });
+        return s;
+      },
+      experience: () => {
+        if (!state.experience.length) return '';
+        let s = sectionHtml(sectionLabels.experience);
+        state.experience.forEach(e => {
+          s += entryDocx(e.company, e.location, e.title, e.date, parseBullets(e.bullets));
+        });
+        return s;
+      },
+      leadership: () => {
+        if (!state.leadership.length) return '';
+        let s = sectionHtml(sectionLabels.leadership);
+        state.leadership.forEach(e => {
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(parseBullets(e.bullets)));
+        });
+        return s;
+      },
+      skills: () => {
+        if (!lang && !it && !cert) return '';
+        let s = sectionHtml(sectionLabels.skills);
+        const skillItems = [];
+        if (lang) skillItems.push(`<b>Languages:</b> ${boldifyDoc(lang)}`);
+        if (it)   skillItems.push(`<b>IT:</b> ${boldifyDoc(it)}`);
+        if (cert) skillItems.push(`<b>Certification:</b> ${boldifyDoc(cert)}`);
+        s += `<ul style="margin:3px 0 0 0;padding-left:28px;">` +
+          skillItems.map(si => `<li style="font-family:'${docxFont}';font-size:${szBullets}pt;line-height:1.25;margin-bottom:0;">${si}</li>`).join('') +
+          `</ul><p style="margin:0;padding:0;font-size:8pt;line-height:1;">&nbsp;</p>`;
+        return s;
+      },
+      projects: () => {
+        if (!state.projects.length) return '';
+        let s = sectionHtml(sectionLabels.projects);
+        state.projects.forEach(e => {
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(parseBullets(e.bullets)));
+        });
+        return s;
+      },
+      hobbies: () => {
+        if (!(state.hobbies||[]).length) return '';
+        let s = sectionHtml(sectionLabels.hobbies);
+        state.hobbies.forEach(e => {
+          const buls = parseBullets(e.bullets||'');
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(buls));
+        });
+        return s;
+      }
+    };
+
+    sectionOrder.forEach(key => {
+      if (docxSectionBuilders[key]) body += docxSectionBuilders[key]();
+    });
+
+    const html = `
+      <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+      <head><meta charset="utf-8">
+      <style>
+        @page WordSection1 { margin: 1.5cm 1.8cm; }
+        div.WordSection1 { page: WordSection1; }
+        body { margin: 0; padding: 0; }
+        p { margin: 0; padding: 0; }
+        table { border-collapse: collapse; width: 100%; }
+        td { border: none; padding: 0; }
+        ul, li { margin: 0; padding: 0; }
+      </style>
+      </head><body><div class="WordSection1">${body}</div></body></html>`;
+
+    const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = getExportFilename() + '.doc';
+    a.click();
+    URL.revokeObjectURL(url);
+
+  } catch(err) {
+    alert('Erreur : ' + err.message);
+    console.error(err);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⬇ Télécharger DOCX';
+}
+
+// ---- FONT SIZE CONTROLS ----
+const fontDefaults = {
+  'cv-name':          { slider: 'sz-name',    val: 'sz-name-val',    default: 18,   unit: 'pt' },
+  'cv-section-title': { slider: 'sz-section', val: 'sz-section-val', default: 12,   unit: 'pt' },
+  'cv-entry-org':     { slider: 'sz-org',     val: 'sz-org-val',     default: 11,   unit: 'pt' },
+  'cv-entry-title':   { slider: 'sz-title',   val: 'sz-title-val',   default: 10.5, unit: 'pt' },
+  'cv-bullets':       { slider: 'sz-bullets', val: 'sz-bullets-val', default: 9.5,  unit: 'pt' },
+};
+
+function applyFontSize(cssClass, sliderId) {
+  const val = document.getElementById(sliderId).value;
+  document.querySelectorAll('.' + cssClass).forEach(el => el.style.fontSize = val + 'pt');
+  // Also inject into a dynamic style tag for future-rendered elements
+  let tag = document.getElementById('dynamic-font-styles');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-font-styles'; document.head.appendChild(tag); }
+  const rules = {};
+  Object.entries(fontDefaults).forEach(([cls, cfg]) => {
+    const sl = document.getElementById(cfg.slider);
+    if (sl) rules[cls] = sl.value;
+  });
+  tag.textContent = Object.entries(rules).map(([cls, v]) => `.${cls} { font-size: ${v}pt !important; }`).join('\n');
+}
+
+function resetFontSizes() {
+  Object.entries(fontDefaults).forEach(([cls, cfg]) => {
+    const sl = document.getElementById(cfg.slider);
+    const lbl = document.getElementById(cfg.val);
+    if (sl) { sl.value = cfg.default; }
+    if (lbl) { lbl.textContent = cfg.default + cfg.unit; }
+  });
+  const tag = document.getElementById('dynamic-font-styles');
+  if (tag) tag.textContent = '';
+}
+
+// ---- SECTION SPACING ----
+function applySectionSpacing(val) {
+  document.querySelectorAll('.cv-section').forEach(el => el.style.marginBottom = val + 'px');
+  let tag = document.getElementById('dynamic-spacing-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-spacing-style'; document.head.appendChild(tag); }
+  tag.textContent = `.cv-section { margin-bottom: ${val}px !important; }`;
+  requestAnimationFrame(updateDensity);
+}
+
+// ---- NAME WEIGHT ----
+let nameWeight = 'bold';
+function setNameWeight(weight) {
+  nameWeight = weight;
+  document.querySelectorAll('.cv-name').forEach(el => el.style.fontWeight = weight);
+  ['bold','semibold','regular'].forEach(k => document.getElementById('weight-btn-' + k)?.classList.remove('active'));
+  const keyMap = { bold: 'bold', '600': 'semibold', normal: 'regular' };
+  document.getElementById('weight-btn-' + (keyMap[weight] || 'bold'))?.classList.add('active');
+  let tag = document.getElementById('dynamic-weight-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-weight-style'; document.head.appendChild(tag); }
+  tag.textContent = `.cv-name { font-weight: ${weight} !important; }`;
+}
+
+// ---- BULLET LINE HEIGHT ----
+function applyBulletLineHeight(val) {
+  document.querySelectorAll('.cv-bullets li').forEach(el => el.style.lineHeight = val);
+  let tag = document.getElementById('dynamic-lh-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-lh-style'; document.head.appendChild(tag); }
+  tag.textContent = `.cv-bullets li { line-height: ${val} !important; }`;
+}
+
+// ---- DATE SIZE ----
+function applyDateSize(val) {
+  document.querySelectorAll('.cv-entry-date, .cv-entry-loc').forEach(el => el.style.fontSize = val + 'pt');
+  let tag = document.getElementById('dynamic-date-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-date-style'; document.head.appendChild(tag); }
+  tag.textContent = `.cv-entry-date, .cv-entry-loc { font-size: ${val}pt !important; }`;
+}
+
+// ---- BULLET INDENT ----
+function applyBulletIndent(val) {
+  document.querySelectorAll('.cv-bullets').forEach(el => el.style.paddingLeft = val + 'px');
+  document.querySelectorAll('.cv-bullets li::before').forEach(() => {}); // trigger repaint
+  let tag = document.getElementById('dynamic-indent-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-indent-style'; document.head.appendChild(tag); }
+  const gripOffset = Math.round(val * 0.5);
+  tag.textContent = `.cv-bullets { padding-left: ${val}px !important; } .cv-bullets li::before { left: -${gripOffset}px !important; }`;
+}
+
+// ---- ENTRY FORMAT ----
+function setEntryFormat(fmt) {
+  entryFormat = fmt;
+  document.querySelectorAll('.efmt-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('efmt-' + fmt)?.classList.add('active');
+  render();
+}
+
+// ---- NAME SEPARATOR ----
+let nameSeparator = 'none';
+function setNameSeparator(style) {
+  nameSeparator = style;
+  ['none','thin','thick'].forEach(k => document.getElementById('sep-btn-' + k)?.classList.remove('active'));
+  document.getElementById('sep-btn-' + style)?.classList.add('active');
+  let tag = document.getElementById('dynamic-sep-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-sep-style'; document.head.appendChild(tag); }
+  const borders = { none: 'none', thin: '1px solid currentColor', thick: '2.5px solid currentColor' };
+  tag.textContent = style === 'none'
+    ? `.cv-name { border-bottom: none !important; padding-bottom: 0 !important; margin-bottom: 2px !important; }`
+    : `.cv-name { border-bottom: ${borders[style]} !important; padding-bottom: 4px !important; margin-bottom: 6px !important; }`;
+}
+
+// ---- DUPLICATE DETECTION ----
+// ---- GRAYSCALE TOGGLE ----
+let grayscaleOn = false;
+function toggleGrayscale() {
+  grayscaleOn = !grayscaleOn;
+  document.querySelector('.cv-page').classList.toggle('grayscale', grayscaleOn);
+  const btn = document.getElementById('btn-gray');
+  btn.classList.toggle('active', grayscaleOn);
+  btn.textContent = grayscaleOn ? '🎨 Couleur' : '⬛ N&B';
+}
+
+// ---- ZOOM ----
+function applyZoom(val) {
+  const pct = val / 100;
+  const inner = document.getElementById('preview-panel-inner');
+  if (!inner) return;
+  // Use transform scale from top-left, then compensate height so scroll area grows correctly
+  inner.style.transform = `scale(${pct})`;
+  inner.style.transformOrigin = 'top center';
+  // Adjust the wrapper height so the parent scrollable area reflects the scaled size
+  // Without this, scroll area stays at original size causing content to be clipped
+  const naturalH = inner.scrollHeight / pct;
+  inner.style.marginBottom = `${(naturalH * pct - naturalH)}px`;
+  document.getElementById('zoom-label').textContent = val + '%';
+}
+
+// ---- EMAIL VALIDATION ----
+function validateEmail() {
+  const el = document.getElementById('id-email');
+  const warn = document.getElementById('email-warning');
+  if (!el || !warn) return;
+  const v = el.value.trim();
+  const valid = !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  el.classList.toggle('invalid', !valid);
+  warn.classList.toggle('visible', !valid);
+}
+
+// ---- ATS NAME CHECK ----
+// Characters that can trip up ATS parsers
+const ATS_RISKY_CHARS = /[àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿœšžÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸŒŠŽ]/;
+function checkNameATS() {
+  const el = document.getElementById('id-name');
+  const warn = document.getElementById('ats-name-warning');
+  if (!el || !warn) return;
+  warn.classList.toggle('visible', ATS_RISKY_CHARS.test(el.value));
+}
+
+// ---- IMPROVED DUPLICATE + DATE OVERLAP DETECTION ----
+function parseDate(str) {
+  if (!str) return null;
+  const s = str.toLowerCase().trim();
+  // Handle "expected", "present", "aujourd'hui", "now", "ongoing"
+  if (/expected|present|aujourd|now|ongoing|current|en cours/.test(s)) return new Date(2099, 11);
+  const months = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11,
+    janv:0, févr:1, fév:1, mars:2, avr:3, mai:4, juin:5, juil:6, août:7, sept:8, octo:9, nove:10, déce:11 };
+  // Try "Month YYYY" or "Mon. YYYY"
+  const m1 = s.match(/([a-zéûà]+)\.?\s*(\d{4})/);
+  if (m1) { const mo = months[m1[1].slice(0,4)]; if (mo !== undefined) return new Date(+m1[2], mo); }
+  // Try pure year
+  const m2 = s.match(/\b(\d{4})\b/);
+  if (m2) return new Date(+m2[1], 0);
+  return null;
+}
+
+function datesOverlap(date1Str, date2Str) {
+  // Each string is like "Sept 2024 – June 2026" or "2022 – 2024"
+  const parts1 = date1Str.split(/[–\-—\/]/);
+  const parts2 = date2Str.split(/[–\-—\/]/);
+  const s1 = parseDate(parts1[0]), e1 = parseDate(parts1[1] || parts1[0]);
+  const s2 = parseDate(parts2[0]), e2 = parseDate(parts2[1] || parts2[0]);
+  if (!s1 || !s2 || !e1 || !e2) return false;
+  // Overlap if one starts before the other ends
+  return s1 <= e2 && s2 <= e1;
+}
+
+function checkDuplicates() {
+  const warnings = [];
+
+  // Check experience for overlapping dates (even different companies)
+  const exps = state.experience.filter(e => e.date && e.date.trim());
+  for (let i = 0; i < exps.length; i++) {
+    for (let j = i + 1; j < exps.length; j++) {
+      if (datesOverlap(exps[i].date, exps[j].date)) {
+        warnings.push(`⚠ Chevauchement de dates : "${exps[i].company || 'Exp. ' + (i+1)}" et "${exps[j].company || 'Exp. ' + (j+1)}"`);
+      }
+    }
+  }
+
+  // Check duplicate companies (same name, non-overlapping = OK, just flag)
+  const companyCount = {};
+  state.experience.forEach(e => {
+    const k = e.company.trim().toLowerCase();
+    if (k) companyCount[k] = (companyCount[k] || 0) + 1;
+  });
+  Object.entries(companyCount).forEach(([k, count]) => {
+    if (count > 1) {
+      const name = state.experience.find(e => e.company.trim().toLowerCase() === k)?.company;
+      warnings.push(`ℹ "${name}" apparaît ${count} fois — normal si stages différents, sinon vérifier.`);
+    }
+  });
+
+  // Check duplicate schools
+  const schoolCount = {};
+  state.education.forEach(e => {
+    const k = e.school.trim().toLowerCase();
+    if (k) schoolCount[k] = (schoolCount[k] || 0) + 1;
+  });
+  Object.entries(schoolCount).forEach(([k, count]) => {
+    if (count > 1) {
+      const name = state.education.find(e => e.school.trim().toLowerCase() === k)?.school;
+      warnings.push(`⚠ "${name}" apparaît ${count} fois dans Formation.`);
+    }
+  });
+
+  // Show/hide banner
+  let banner = document.getElementById('dup-warning-banner');
+  if (warnings.length) {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'dup-warning-banner';
+      banner.style.cssText = 'background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:8px 12px;font-size:10px;font-family:"DM Sans",sans-serif;color:#856404;margin-bottom:8px;max-width:750px;width:100%;box-sizing:border-box;';
+      const panel = document.querySelector('.preview-panel');
+      const inner = document.getElementById('preview-panel-inner');
+      if (panel && inner) panel.insertBefore(banner, inner);
+    }
+    banner.innerHTML = warnings.join('<br>');
+    banner.style.display = 'block';
+  } else if (banner) {
+    banner.style.display = 'none';
+  }
+}
+
+function initSliders() {
+  Object.entries(fontDefaults).forEach(([cls, cfg]) => {
+    const sl = document.getElementById(cfg.slider);
+    const lbl = document.getElementById(cfg.val);
+    if (sl) sl.value = cfg.default;
+    if (lbl) lbl.textContent = cfg.default + cfg.unit;
+  });
+}
+
+// ---- MULTI-CV STATE ----
+let cvList = []; // [{id, name, data}]
+let currentCvId = null;
+
+function snapshotCurrentCV() {
+  const fields = {};
+  ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) fields[id] = el.value;
+  });
+  const sliders = {};
+  ['sz-name','sz-section','sz-org','sz-title','sz-bullets'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sliders[id] = el.value;
+  });
+  const style = {
+    font: cvFont,
+    accentColor: cvAccentColor,
+    exportFilename: document.getElementById('export-filename')?.value || '',
+    sectionOrder: [...sectionOrder],
+    sectionLabels: {...sectionLabels},
+    theme: currentTheme,
+    entryFormat: entryFormat,
+    sectionSpacing: document.getElementById('sz-spacing')?.value || 14,
+    nameWeight: nameWeight,
+    bulletLineHeight: document.getElementById('sz-lineheight')?.value || 1.2,
+    nameSeparator: nameSeparator,
+    dateSize: document.getElementById('sz-date')?.value || 9,
+    bulletIndent: document.getElementById('sz-indent')?.value || 32,
+    marginR: document.getElementById('mg-r')?.value  || 52,
+    marginTB: document.getElementById('mg-tb')?.value || 32
+  };
+  return { state: JSON.parse(JSON.stringify(state)), fields, sliders, style };
+}
+
+function restoreCV(data) {
+  if (!data) return;
+  // Restore state
+  const s = data.state || {};
+  state.education  = s.education  || [];
+  state.experience = s.experience || [];
+  state.leadership = s.leadership || [];
+  state.projects   = s.projects   || [];
+  state.hobbies    = s.hobbies    || [];
+  eduCount  = state.education.length;
+  expCount  = state.experience.length;
+  leadCount = state.leadership.length;
+  projCount = state.projects.length;
+  hobbyCount = state.hobbies.length;
+  renderForms();
+  // Restore fields
+  const fields = data.fields || {};
+  ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = fields[id] || '';
+  });
+  // Restore sliders
+  const sliders = data.sliders || {};
+  ['sz-name','sz-section','sz-org','sz-title','sz-bullets'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && sliders[id]) { el.value = sliders[id]; el.dispatchEvent(new Event('input')); }
+  });
+  // Restore style settings
+  const style = data.style || {};
+  if (style.font) setFont(style.font);
+  if (style.accentColor) setAccentColor(style.accentColor, null, true);
+  if (style.sectionOrder && style.sectionOrder.length >= 5) sectionOrder = style.sectionOrder;
+  if (style.sectionLabels) Object.assign(sectionLabels, style.sectionLabels);
+  if (style.theme) applyTheme(style.theme);
+  if (style.entryFormat) setEntryFormat(style.entryFormat);
+  // Restore spacing
+  const spEl = document.getElementById('sz-spacing');
+  if (spEl && style.sectionSpacing) { spEl.value = style.sectionSpacing; document.getElementById('sz-spacing-val').textContent = style.sectionSpacing + 'px'; applySectionSpacing(style.sectionSpacing); }
+  // Restore name weight
+  if (style.nameWeight) setNameWeight(style.nameWeight);
+  // Restore bullet line height
+  const lhEl = document.getElementById('sz-lineheight');
+  if (lhEl && style.bulletLineHeight) { lhEl.value = style.bulletLineHeight; document.getElementById('sz-lineheight-val').textContent = parseFloat(style.bulletLineHeight).toFixed(2); applyBulletLineHeight(style.bulletLineHeight); }
+  // Restore name separator
+  if (style.nameSeparator) setNameSeparator(style.nameSeparator);
+  // Restore date size
+  const dtEl = document.getElementById('sz-date');
+  if (dtEl && style.dateSize) { dtEl.value = style.dateSize; document.getElementById('sz-date-val').textContent = style.dateSize + 'pt'; applyDateSize(style.dateSize); }
+  // Restore bullet indent
+  const indEl = document.getElementById('sz-indent');
+  if (indEl && style.bulletIndent) { indEl.value = style.bulletIndent; document.getElementById('sz-indent-val').textContent = style.bulletIndent + 'px'; applyBulletIndent(style.bulletIndent); }
+  // Restore margins
+  [['mg-l', style.marginL || 62], ['mg-r', style.marginR || 52], ['mg-tb', style.marginTB || 32]].forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    const lbl = document.getElementById(id + '-val');
+    if (el) { el.value = val; if (lbl) lbl.textContent = val + 'px'; }
+  });
+  applyMargins();
+  const fnEl = document.getElementById('export-filename');
+  if (fnEl) fnEl.value = style.exportFilename || '';
+  render();
+}
+
+function renderCvTabs() {
+  const bar = document.getElementById('cv-tabs-bar');
+  bar.innerHTML = cvList.map(cv => `
+    <button class="cv-tab ${cv.id === currentCvId ? 'active' : ''}" onclick="switchCV('${cv.id}')">
+      <span class="cv-tab-rename" ondblclick="renameCv('${cv.id}')" title="Double-clic pour renommer">${cv.name}</span>
+      ${cvList.length > 1 ? `<span class="cv-tab-close" onclick="event.stopPropagation();deleteCV('${cv.id}')" title="Supprimer">×</span>` : ''}
+    </button>
+  `).join('') + `<button class="cv-tab-add" onclick="addNewCV()" title="Nouveau CV">+</button>` +
+    `<button class="cv-tab-add" onclick="duplicateCV()" title="Dupliquer le CV actuel" style="font-size:13px;">⧉</button>`;
+}
+
+function switchCV(id) {
+  if (id === currentCvId) return;
+  // Save current before switching
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+  currentCvId = id;
+  const target = cvList.find(c => c.id === id);
+  if (target) restoreCV(target.data);
+  renderCvTabs();
+}
+
+function addNewCV() {
+  // Save current first
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+  const id = 'cv_' + Date.now();
+  const name = 'CV ' + (cvList.length + 1);
+  cvList.push({ id, name, data: { state: { education:[], experience:[], leadership:[], projects:[] }, fields:{}, sliders:{} } });
+  currentCvId = id;
+  // Reset everything
+  state.education=[]; state.experience=[]; state.leadership=[]; state.projects=[]; state.hobbies=[];
+  eduCount=0; expCount=0; leadCount=0; projCount=0; hobbyCount=0;
+  ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value='';
+  });
+  renderForms(); render(); renderCvTabs();
+}
+
+function deleteCV(id) {
+  if (!confirm('Supprimer ce CV ?')) return;
+  cvList = cvList.filter(c => c.id !== id);
+  if (currentCvId === id) {
+    currentCvId = cvList[0].id;
+    restoreCV(cvList[0].data);
+  }
+  renderCvTabs();
+}
+
+function duplicateCV() {
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+  const id = 'cv_' + Date.now();
+  const name = (cur.name || 'CV') + ' (copie)';
+  cvList.push({ id, name, data: JSON.parse(JSON.stringify(cur.data)) });
+  currentCvId = id;
+  restoreCV(cvList[cvList.length - 1].data);
+  renderCvTabs();
+}
+
+function renameCv(id) {
+  const cv = cvList.find(c => c.id === id);
+  if (!cv) return;
+  const newName = prompt('Nom du CV :', cv.name);
+  if (newName && newName.trim()) { cv.name = newName.trim(); renderCvTabs(); }
+}
+
+// ---- FIREBASE SAVE / LOAD ----
+async function saveToFirebase() {
+  const btn = document.getElementById('btn-save');
+  const dot = document.getElementById('fb-dot');
+  if (!window._firebaseUid) { showToast('Firebase non connecté', true); return; }
+
+  // Save current snapshot
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+
+  btn.disabled = true;
+  btn.textContent = '💾 Sauvegarde…';
+  dot.className = 'fb-dot saving';
+
+  try {
+    const { db, doc, setDoc } = window._firebase;
+    const uid = window._firebaseUid;
+    await setDoc(doc(db, 'cv_builder', uid), {
+      cvList: JSON.parse(JSON.stringify(cvList)),
+      currentCvId,
+      updatedAt: new Date().toISOString()
+    });
+    dot.className = 'fb-dot connected';
+    showToast('CV sauvegardé avec succès ✓');
+  } catch(e) {
+    dot.className = 'fb-dot';
+    showToast('Erreur : ' + e.message, true);
+  }
+  btn.disabled = false;
+  btn.textContent = '💾 Sauvegarder';
+}
+
+async function loadFromFirebase(uid) {
+  try {
+    const { db, doc, getDoc } = window._firebase;
+    const snap = await getDoc(doc(db, 'cv_builder', uid));
+    if (!snap.exists()) return false;
+    const data = snap.data();
+    cvList = data.cvList || [];
+    currentCvId = data.currentCvId || (cvList[0] && cvList[0].id);
+    if (!cvList.length) return false;
+    const cur = cvList.find(c => c.id === currentCvId) || cvList[0];
+    restoreCV(cur.data);
+    renderCvTabs();
+    return true;
+  } catch(e) { console.warn('Load error:', e); return false; }
+}
+
+// Patch render() to keep local snapshot in sync
+const _render = render;
+render = function() {
+  _render();
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+};
+
+// ---- INIT ----
+// Debounced undo on any text input/textarea change in the form panel
+document.querySelector('.form-panel').addEventListener('input', e => {
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') pushUndoDebounced();
+}, true);
+renderForms();
+render();
+initSliders();
+updateUndoButtons();
+resetMargins();
+
+// Initialize first CV slot
+cvList = [{ id: 'cv_default', name: 'Mon CV', data: null }];
+currentCvId = 'cv_default';
+renderCvTabs();
+
+// Wait for Firebase then load, or prefill
+window._onFirebaseReady = async function(uid) {
+  const dot = document.getElementById('fb-dot');
+  const saveBtn = document.getElementById('btn-save');
+  dot.className = 'fb-dot connected';
+  saveBtn.disabled = false;
+
+  const loaded = await loadFromFirebase(uid);
+  if (!loaded) {
+    // Pre-fill with David's data for demo
+    document.getElementById('id-name').value = 'David MAQUOI';
+    document.getElementById('id-address').value = '58 rue des vignes, 75016 Paris, France';
+    document.getElementById('id-phone').value = '+33(0)7 66 23 92 52';
+    document.getElementById('id-email').value = 'dmaquoi11@gmail.com';
+    document.getElementById('id-linkedin').value = 'linkedin.com/in/david-maquoi';
+    document.getElementById('sk-lang').value = 'French (Native); English (Fluent)';
+    document.getElementById('sk-it').value = 'Python (Advanced), VBA (Advanced), MS Office (Advanced), R, SQL, Bloomberg Terminal';
+    document.getElementById('sk-cert').value = 'Bloomberg Market Concepts (BMC) – Equities, FIC, Commodities, Portfolio Management';
+    addEdu();
+    state.education[0].school = 'University Paris II Panthéon ASSAS';
+    state.education[0].location = 'Paris, France';
+    state.education[0].degree = 'MSc Quantitative Finance & Financial Markets / Magistère in Banking and Finance';
+    state.education[0].note = 'Highly selective dual degree ranked 1st in Banking and Finance specialization (Eduniversal 2023)\nRelevant Coursework: Stochastic Calculus, Derivatives, Structured Products, Fixed Income, VBA, Python';
+    state.education[0].date = 'Expected 2026';
+    addEdu();
+    state.education[1].school = 'University Lyon 3';
+    state.education[1].location = 'Lyon, France';
+    state.education[1].degree = 'Bachelor\'s degree in Applied Mathematics and Economics; high honors (Top 3%); GPA (4.0/4.0)';
+    state.education[1].date = '2020 – 2022';
+    addExp();
+    state.experience[0].company = 'Crédit Agricole CIB';
+    state.experience[0].location = 'Paris, France';
+    state.experience[0].title = 'Rates, Credit & Hybrid Structuring — Apprenticeship';
+    state.experience[0].date = 'September 2025 – June 2026';
+    state.experience[0].bullets = 'Pricing all Rates, Credit and Hybrid Structured Products\nPromotion of Interest Rates hedging and investment strategies\nInteraction with Trading and Middle Office on pre-trade and post-trade\nCreation of toolkit to generate trade ideas and automate pricing';
+    addExp();
+    state.experience[1].company = 'Crédit Agricole CIB';
+    state.experience[1].location = 'Paris, France';
+    state.experience[1].title = 'Rates, Credit & Hybrid Structuring — Off-Cycle';
+    state.experience[1].date = 'November 2024 – May 2025';
+    state.experience[1].bullets = 'Pricing all Rates, Credit and Hybrid Structured Products\nPromotion of Interest Rates hedging and investment strategies\nInteraction with Trading and Middle Office on pre-trade and post-trade\nCreation of toolkit to generate trade ideas and automate pricing';
+    addExp();
+    state.experience[2].company = 'Société Générale CIB';
+    state.experience[2].location = 'Paris La Défense, France';
+    state.experience[2].title = 'Cross Asset Structured Products Sales — Off-Cycle';
+    state.experience[2].date = 'May 2024 – November 2024';
+    state.experience[2].bullets = 'Assisted sales representatives and engineers on the team, and participated in commercial presentations\nDesigned various sales materials and contributed to the development of sales support tools\nMonitored and reported on products, conducted competitive intelligence, and participated in the entire process of launching new products\nPriced diverse structured products, conducted historical performance simulations, and analyzed product valuations';
+    addLead();
+    state.leadership[0].title = 'High Level Footballer';
+    state.leadership[0].bullets = 'Nîmes Olympique Professional Soccer Club Academy (level: National)\nCaptain of Assas Soccer Team';
+    addLead();
+    state.leadership[1].title = 'Puissance 4 (Connect 4)';
+    state.leadership[1].bullets = 'Top 20 players in the world\nBased on a principle of parity, allowing me to predict in 3 moves the line where I will win';
+    addProj();
+    state.projects[0].title = 'Option Trading Learning Interface (Python)';
+    state.projects[0].bullets = 'Developed in python a learning application for option trading (Streamlit, Tkinter, Pandas, Numpy, Black and Scholes Model, Monte Carlo Simulations, Option Strategies)';
+    renderForms();
+    render();
+  }
+};
+</script>
+</body>
+</html>
