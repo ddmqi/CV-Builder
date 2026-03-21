@@ -276,19 +276,20 @@
     letter-spacing: 0.02em;
   }
   .btn-bold:hover { background: #0f2840; }
-  .btn-unbold {
-    background: var(--muted);
+  .btn-italic {
+    background: var(--accent2);
     color: white;
     border: none;
     border-radius: 3px;
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
     font-weight: 400;
+    font-style: italic;
     padding: 2px 9px;
     cursor: pointer;
-    text-decoration: line-through;
+    letter-spacing: 0.02em;
   }
-  .btn-unbold:hover { background: #555; }
+  .btn-italic:hover { background: #0f2840; }
   .bold-tip {
     font-size: 10px;
     color: var(--muted);
@@ -1059,6 +1060,16 @@
   .bullet-row:hover .btn-bullet-bold,
   .bullet-row:focus-within .btn-bullet-bold { opacity: 1; }
   .btn-bullet-bold:hover { background: #0f2840; }
+  .btn-bullet-italic {
+    background: var(--accent2); color: white; border: none;
+    border-radius: 3px; font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 400; font-style: italic; padding: 2px 7px;
+    cursor: pointer; flex-shrink: 0; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .bullet-row:hover .btn-bullet-italic,
+  .bullet-row:focus-within .btn-bullet-italic { opacity: 1; }
+  .btn-bullet-italic:hover { background: #0f2840; }
     display: flex; align-items: center; gap: 4px;
     background: none; border: 1px dashed var(--border);
     border-radius: 4px; color: var(--muted);
@@ -1998,8 +2009,8 @@ function renderForms() {
       <label>Ville, Pays</label>
       <input type="text" value="${esc(e.location)}" placeholder="Paris, France" oninput="state.experience[${i}].location=this.value;render()">
       <label>Poste / Titre</label>
-      <div class="bold-toolbar"><button class="btn-bold" onclick="applyBoldInput('exp-title-${i}')">B</button><button class="btn-unbold" onclick="removeBoldInput('exp-title-${i}')">B&#773;</button><span class="bold-tip">Sélectionne + B pour gras</span></div>
-      <input id="exp-title-${i}" type="text" value="${esc(e.title)}" placeholder="Rates, Credit & Hybrid Structuring — Apprenticeship" oninput="state.experience[${i}].title=this.value;render()">
+      <div class="bold-toolbar"><button class="btn-bold" onmousedown="saveSelectionBefore('exp-title-${i}')" onclick="applyBoldInput('exp-title-${i}')">B</button><button class="btn-italic" onmousedown="saveSelectionBefore('exp-title-${i}')" onclick="applyItalicInput('exp-title-${i}')"><i>I</i></button><span class="bold-tip">Sélectionne + B/I · Ctrl+B / Ctrl+I</span></div>
+      <input id="exp-title-${i}" type="text" value="${esc(e.title)}" placeholder="Rates, Credit &amp; Hybrid Structuring — Apprenticeship" oninput="state.experience[${i}].title=this.value;render()" onkeydown="handleTitleKey(event,'exp-title-${i}')">
       <label>Période</label>
       <input type="text" value="${esc(e.date)}" placeholder="Sept. 2025 – Juin 2026" oninput="state.experience[${i}].date=this.value;render()">
       <label>Bullet points</label>
@@ -2092,6 +2103,7 @@ function renderBulletFields(entryRef, field, arr, placeholder) {
         oninput="setBullet('${entryRef}','${field}',${bi},this.value)"
         onkeydown="handleBulletKey(event,'${entryRef}','${field}',${bi})">
       <button class="btn-bullet-bold" title="Gras (Ctrl+B)" onclick="boldBulletInput('binput-${entryRef}-${field}-${bi}','${entryRef}','${field}',${bi})">B</button>
+      <button class="btn-bullet-italic" title="Italique (Ctrl+I)" onclick="italicBulletInput('binput-${entryRef}-${field}-${bi}','${entryRef}','${field}',${bi})"><i>I</i></button>
       <button class="btn-bullet-remove" onclick="removeBullet('${entryRef}','${field}',${bi})">×</button>
     </div>`).join('');
   return `<div class="bullet-list" id="blist-${entryRef}-${field}">${rows}</div>
@@ -2172,11 +2184,37 @@ function boldBulletInput(inputId, entryRef, field, idx) {
   el.setSelectionRange(isBold ? start : start, isBold ? end - 4 : end + 4);
 }
 
+function italicBulletInput(inputId, entryRef, field, idx) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const start = el.selectionStart, end = el.selectionEnd;
+  if (start === end) return;
+  const selected = el.value.substring(start, end);
+  // Toggle: if already italic (single *...*), remove; otherwise add
+  const isItalic = selected.startsWith('*') && selected.endsWith('*') && !selected.startsWith('**');
+  let newVal;
+  if (isItalic) {
+    newVal = el.value.substring(0, start) + selected.slice(1, -1) + el.value.substring(end);
+  } else {
+    newVal = el.value.substring(0, start) + '*' + selected + '*' + el.value.substring(end);
+  }
+  el.value = newVal;
+  el.dispatchEvent(new Event('input'));
+  el.focus();
+  el.setSelectionRange(isItalic ? start : start, isItalic ? end - 2 : end + 2);
+}
+
 function handleBulletKey(evt, entryRef, field, idx) {
   // Ctrl+B / Cmd+B = bold
   if ((evt.ctrlKey || evt.metaKey) && evt.key === 'b') {
     evt.preventDefault();
     boldBulletInput(`binput-${entryRef}-${field}-${idx}`, entryRef, field, idx);
+    return;
+  }
+  // Ctrl+I / Cmd+I = italic
+  if ((evt.ctrlKey || evt.metaKey) && evt.key === 'i') {
+    evt.preventDefault();
+    italicBulletInput(`binput-${entryRef}-${field}-${idx}`, entryRef, field, idx);
     return;
   }
   if (evt.key === 'Enter') {
@@ -2617,7 +2655,9 @@ function getExportFilename() {
 function val(id) { return document.getElementById(id)?.value || ''; }
 
 function boldify(text) {
-  return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  return esc(text)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+?)\*/g, '<em>$1</em>');
 }
 
 function parseBullets(val) {
@@ -2661,18 +2701,36 @@ function removeBold(textareaId) {
   ta.dispatchEvent(new Event('input'));
 }
 
+// Save selection before toolbar button steals focus
+function saveSelectionBefore(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  el._savedStart = el.selectionStart;
+  el._savedEnd   = el.selectionEnd;
+}
+
 function applyBoldInput(inputId) {
   const el = document.getElementById(inputId);
   if (!el) return;
-  const start = el.selectionStart, end = el.selectionEnd;
+  const start = el._savedStart ?? el.selectionStart;
+  const end   = el._savedEnd   ?? el.selectionEnd;
   if (start === end) return;
   const selected = el.value.substring(start, end);
+  const isBold = selected.startsWith('**') && selected.endsWith('**');
   const before = el.value.substring(0, start);
-  const after = el.value.substring(end);
-  el.value = before + '**' + selected + '**' + after;
-  el.selectionStart = start;
-  el.selectionEnd = end + 4;
+  const after  = el.value.substring(end);
+  if (isBold) {
+    el.value = before + selected.slice(2, -2) + after;
+    el.selectionStart = start;
+    el.selectionEnd = end - 4;
+  } else {
+    el.value = before + '**' + selected + '**' + after;
+    el.selectionStart = start;
+    el.selectionEnd = end + 4;
+  }
+  el._savedStart = el._savedEnd = null;
   el.dispatchEvent(new Event('input'));
+  el.focus();
 }
 
 function removeBoldInput(inputId) {
@@ -2688,6 +2746,41 @@ function removeBoldInput(inputId) {
   el.selectionStart = start;
   el.selectionEnd = start + cleaned.length;
   el.dispatchEvent(new Event('input'));
+}
+
+function applyItalicInput(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  const start = el._savedStart ?? el.selectionStart;
+  const end   = el._savedEnd   ?? el.selectionEnd;
+  if (start === end) return;
+  const selected = el.value.substring(start, end);
+  const isItalic = selected.startsWith('*') && selected.endsWith('*') && !selected.startsWith('**');
+  const before = el.value.substring(0, start);
+  const after = el.value.substring(end);
+  if (isItalic) {
+    el.value = before + selected.slice(1, -1) + after;
+    el.selectionStart = start;
+    el.selectionEnd = end - 2;
+  } else {
+    el.value = before + '*' + selected + '*' + after;
+    el.selectionStart = start;
+    el.selectionEnd = end + 2;
+  }
+  el._savedStart = el._savedEnd = null;
+  el.dispatchEvent(new Event('input'));
+  el.focus();
+}
+
+function handleTitleKey(evt, inputId) {
+  if ((evt.ctrlKey || evt.metaKey) && evt.key === 'b') {
+    evt.preventDefault();
+    applyBoldInput(inputId);
+  }
+  if ((evt.ctrlKey || evt.metaKey) && evt.key === 'i') {
+    evt.preventDefault();
+    applyItalicInput(inputId);
+  }
 }
 
 // ---- SECTION ORDER ----
@@ -3031,7 +3124,8 @@ function downloadDocx() {
 
     function boldifyDoc(text) {
       return (text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-                       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+                       .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+                       .replace(/\*([^*]+?)\*/g, '<i>$1</i>');
     }
 
     // Read current font sizes from sliders (or defaults)
