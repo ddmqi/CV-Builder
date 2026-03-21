@@ -217,7 +217,81 @@
   }
   .btn-remove:hover { opacity: 1; }
 
-  .btn-add {
+  /* Bullet toggle pill */
+  .btn-bullet-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: #f0f0ee;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-bullet-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-bullet-toggle.bullets-on { background: #eaf0f7; border-color: var(--accent2); color: var(--accent2); }
+  .btn-bullet-toggle.bullets-off { background: #f9f4ee; border-color: #bbb; color: #999; }
+
+  /* Bold/Italic format toggle buttons in style panel */
+  .fmt-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+  }
+  .btn-fmt {
+    padding: 3px 9px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: #f5f3ef;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .btn-fmt.active { background: #eaf0f7; border-color: var(--accent2); color: var(--accent2); font-weight: 700; }
+  .btn-fmt:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+  .section-spacing-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px 4px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    background: #f7f6f3;
+  }
+  .section-spacing-bar label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin: 0;
+  }
+  .section-spacing-bar input[type="range"] {
+    flex: 1;
+    accent-color: var(--accent2);
+    cursor: pointer;
+    margin: 0;
+  }
+  .section-spacing-bar .sp-val {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent2);
+    min-width: 28px;
+    text-align: right;
+  }
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1041,6 +1115,99 @@
     transition: border 0.2s;
   }
   .bullet-input:focus { border-color: var(--accent2); background: white; }
+
+  /* Bullet expand button */
+  .btn-bullet-expand {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 13px; line-height: 1;
+    padding: 0 3px; opacity: 0; flex-shrink: 0;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .bullet-row:hover .btn-bullet-expand { opacity: 0.6; }
+  .btn-bullet-expand:hover { opacity: 1 !important; color: var(--accent2); }
+
+  /* Bullet expand panel — floats over the form panel */
+  .bullet-expand-panel {
+    position: fixed;
+    top: 0; left: 0;
+    width: 420px;
+    height: 100vh;
+    background: var(--panel);
+    border-right: 2px solid var(--accent2);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+  }
+  .bullet-expand-panel.open { transform: translateX(0); }
+
+  .bep-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 10px;
+    background: var(--dark);
+    border-bottom: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+  .bep-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase; letter-spacing: 0.07em;
+  }
+  .bep-close {
+    background: none; border: none; color: rgba(255,255,255,0.6);
+    font-size: 20px; cursor: pointer; line-height: 1; padding: 0 4px;
+    transition: color 0.15s;
+  }
+  .bep-close:hover { color: white; }
+
+  .bep-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .bep-hint {
+    font-size: 10px; color: var(--muted); font-style: italic;
+    flex-shrink: 0;
+  }
+  .bep-textarea {
+    flex: 1;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; line-height: 1.6;
+    color: var(--text);
+    background: #fafaf9;
+    resize: none;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .bep-textarea:focus { border-color: var(--accent2); background: white; }
+
+  .bep-actions {
+    display: flex; gap: 8px; flex-shrink: 0;
+  }
+  .bep-btn {
+    flex: 1; padding: 8px 12px;
+    border: none; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .bep-btn-bold { background: var(--accent2); color: white; }
+  .bep-btn-bold:hover { background: #0f2840; }
+  .bep-btn-unbold { background: var(--muted); color: white; }
+  .bep-btn-unbold:hover { background: #555; }
   .bullet-row.drag-over-bullet { outline: 2px dashed var(--accent); border-radius: 3px; }
   .bullet-row.dragging-bullet { opacity: 0.3; }
   .btn-bullet-remove {
@@ -1266,6 +1433,22 @@
   </div>
 </header>
 
+<!-- BULLET EXPAND PANEL -->
+<div class="bullet-expand-panel" id="bullet-expand-panel">
+  <div class="bep-header">
+    <span class="bep-title" id="bep-title">Bullet point</span>
+    <button class="bep-close" onclick="closeBulletExpand()" title="Fermer (Escape)">×</button>
+  </div>
+  <div class="bep-body">
+    <span class="bep-hint">Édite le bullet ci-dessous — les modifications sont reflétées en temps réel dans le CV.</span>
+    <textarea class="bep-textarea" id="bep-textarea" placeholder="Écris ton bullet point ici..."></textarea>
+    <div class="bep-actions">
+      <button class="bep-btn bep-btn-bold" onclick="bepApplyBold()"><b>B</b> Gras (sélection)</button>
+      <button class="bep-btn bep-btn-unbold" onclick="bepRemoveBold()"><s>B</s> Enlever gras</button>
+    </div>
+  </div>
+</div>
+
 <!-- CV TABS -->
 <div class="cv-tabs-bar" id="cv-tabs-bar">
   <!-- rendered by JS -->
@@ -1296,7 +1479,7 @@
       <button class="nav-secondary-btn" id="subnav-leadership" onclick="showTab('leadership')">Leadership</button>
       <button class="nav-secondary-btn" id="subnav-skills" onclick="showTab('skills')">Compétences</button>
       <button class="nav-secondary-btn" id="subnav-projects" onclick="showTab('projects')">Projets</button>
-      <button class="nav-secondary-btn" id="subnav-hobbies" onclick="showTab('hobbies')">Hobbies</button>
+      <button class="nav-secondary-btn" id="subnav-hobbies" onclick="showTab('hobbies')">Activités</button>
     </div>
 
     <!-- IDENTITY -->
@@ -1319,6 +1502,12 @@
 
     <!-- EDUCATION -->
     <div id="tab-education" class="form-section">
+      <div class="section-spacing-bar">
+        <label>↕ Espacement bullets</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="sp-education"
+          oninput="sectionBulletSpacing.education=parseFloat(this.value);document.getElementById('sp-education-val').textContent=this.value+'px';render()">
+        <span class="sp-val" id="sp-education-val">0px</span>
+      </div>
       <button class="btn-clear-section" onclick="clearSection('education')">🗑 Tout effacer — Formation</button>
       <div id="edu-list"></div>
       <button class="btn-add" onclick="addEdu()">+ Ajouter une formation</button>
@@ -1326,6 +1515,12 @@
 
     <!-- EXPERIENCE -->
     <div id="tab-experience" class="form-section">
+      <div class="section-spacing-bar">
+        <label>↕ Espacement bullets</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="sp-experience"
+          oninput="sectionBulletSpacing.experience=parseFloat(this.value);document.getElementById('sp-experience-val').textContent=this.value+'px';render()">
+        <span class="sp-val" id="sp-experience-val">0px</span>
+      </div>
       <button class="btn-clear-section" onclick="clearSection('experience')">🗑 Tout effacer — Expériences</button>
       <div id="exp-list"></div>
       <button class="btn-add" onclick="addExp()">+ Ajouter une expérience</button>
@@ -1333,6 +1528,12 @@
 
     <!-- LEADERSHIP -->
     <div id="tab-leadership" class="form-section">
+      <div class="section-spacing-bar">
+        <label>↕ Espacement bullets</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="sp-leadership"
+          oninput="sectionBulletSpacing.leadership=parseFloat(this.value);document.getElementById('sp-leadership-val').textContent=this.value+'px';render()">
+        <span class="sp-val" id="sp-leadership-val">0px</span>
+      </div>
       <button class="btn-clear-section" onclick="clearSection('leadership')">🗑 Tout effacer — Leadership</button>
       <div id="lead-list"></div>
       <button class="btn-add" onclick="addLead()">+ Ajouter</button>
@@ -1350,6 +1551,12 @@
 
     <!-- PROJECTS -->
     <div id="tab-projects" class="form-section">
+      <div class="section-spacing-bar">
+        <label>↕ Espacement bullets</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="sp-projects"
+          oninput="sectionBulletSpacing.projects=parseFloat(this.value);document.getElementById('sp-projects-val').textContent=this.value+'px';render()">
+        <span class="sp-val" id="sp-projects-val">0px</span>
+      </div>
       <button class="btn-clear-section" onclick="clearSection('projects')">🗑 Tout effacer — Projets</button>
       <div id="proj-list"></div>
       <button class="btn-add" onclick="addProj()">+ Ajouter un projet</button>
@@ -1357,6 +1564,12 @@
 
     <!-- HOBBIES -->
     <div id="tab-hobbies" class="form-section">
+      <div class="section-spacing-bar">
+        <label>↕ Espacement bullets</label>
+        <input type="range" min="0" max="20" step="0.5" value="0" id="sp-hobbies"
+          oninput="sectionBulletSpacing.hobbies=parseFloat(this.value);document.getElementById('sp-hobbies-val').textContent=this.value+'px';render()">
+        <span class="sp-val" id="sp-hobbies-val">0px</span>
+      </div>
       <button class="btn-clear-section" onclick="clearSection('hobbies')">🗑 Tout effacer — Hobbies</button>
       <div id="hobbies-list"></div>
       <button class="btn-add" onclick="addHobby()">+ Ajouter un hobby</button>
@@ -1532,11 +1745,18 @@
           <input type="range" min="8" max="16" step="0.5" id="sz-org" oninput="applyFontSize('cv-entry-org','sz-org');document.getElementById('sz-org-val').textContent=this.value+'pt'">
           <span class="slider-val" id="sz-org-val">11pt</span>
         </div>
+        <div class="fmt-toggle-row">
+          <button class="btn-fmt active" id="btn-org-bold" onclick="toggleOrgBold()" title="Gras"><b>B</b></button>
+        </div>
 
         <label>Titres de postes</label>
         <div class="slider-row">
           <input type="range" min="8" max="16" step="0.5" id="sz-title" oninput="applyFontSize('cv-entry-title','sz-title');document.getElementById('sz-title-val').textContent=this.value+'pt'">
           <span class="slider-val" id="sz-title-val">10.5pt</span>
+        </div>
+        <div class="fmt-toggle-row">
+          <button class="btn-fmt" id="btn-title-bold" onclick="toggleTitleBold()" title="Gras"><b>B</b></button>
+          <button class="btn-fmt active" id="btn-title-italic" onclick="toggleTitleItalic()" title="Italique"><i>I</i></button>
         </div>
 
         <label>Bullet points</label>
@@ -1715,7 +1935,16 @@ const sectionLabels = {
   leadership: 'Leadership Experience',
   skills: 'Languages & IT Skills',
   projects: 'Projects',
-  hobbies: 'Interests & Hobbies'
+  hobbies: 'Activities & Achievements'
+};
+
+// Per-section bullet line spacing (margin-bottom on <li>, in px)
+const sectionBulletSpacing = {
+  education: 0,
+  experience: 0,
+  leadership: 0,
+  projects: 0,
+  hobbies: 0
 };
 
 let eduCount = 0, expCount = 0, leadCount = 0, projCount = 0, hobbyCount = 0;
@@ -1741,7 +1970,11 @@ function captureStyleExtras() {
     nameWeight: nameWeight,
     bulletLineHeight: document.getElementById('sz-lineheight')?.value || 1.2,
     dateSize: document.getElementById('sz-date')?.value || 9,
-    bulletIndent: document.getElementById('sz-indent')?.value || 32
+    bulletIndent: document.getElementById('sz-indent')?.value || 32,
+    accentColor: cvAccentColor,
+    font: cvFont,
+    orgBold, titleBold, titleItalic,
+    nameSeparator
   };
 }
 
@@ -1773,15 +2006,15 @@ function redo() {
 function restoreFromSnap(snap) {
   Object.assign(state, snap.state);
   // Migrate old string bullets to arrays
-  (state.education||[]).forEach(e  => { e.note    = toBulletArray(e.note);    });
-  (state.experience||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); });
-  (state.leadership||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); });
-  (state.projects||[]).forEach(e   => { e.bullets = toBulletArray(e.bullets); });
-  (state.hobbies||[]).forEach(e    => { e.bullets = toBulletArray(e.bullets); });
+  (state.education||[]).forEach(e  => { e.note    = toBulletArray(e.note);    if (e.noBullets === undefined) e.noBullets = false; });
+  (state.experience||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  (state.leadership||[]).forEach(e => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  (state.projects||[]).forEach(e   => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  (state.hobbies||[]).forEach(e    => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
   sectionOrder.length = 0;
   snap.sectionOrder.forEach(s => sectionOrder.push(s));
   Object.assign(sectionLabels, snap.sectionLabels || {});
-  if (snap.theme) applyTheme(snap.theme);
+  if (snap.theme) applyTheme(snap.theme);  // theme first
   if (snap.entryFormat) setEntryFormat(snap.entryFormat);
   if (snap.fields) restoreFields(snap.fields);
   if (snap.styleExtras) {
@@ -1795,6 +2028,18 @@ function restoreFromSnap(snap) {
     if (dtEl && se.dateSize) { dtEl.value = se.dateSize; document.getElementById('sz-date-val').textContent = se.dateSize + 'pt'; applyDateSize(se.dateSize); }
     const indEl = document.getElementById('sz-indent');
     if (indEl && se.bulletIndent) { indEl.value = se.bulletIndent; document.getElementById('sz-indent-val').textContent = se.bulletIndent + 'px'; applyBulletIndent(se.bulletIndent); }
+    // Restore accent color AFTER theme (theme would otherwise overwrite it)
+    if (se.accentColor) {
+      setAccentColor(se.accentColor, null, true);
+      const cp = document.getElementById('color-custom');
+      if (cp) cp.value = se.accentColor;
+    }
+    if (se.font) setFont(se.font);
+    if (se.nameSeparator) setNameSeparator(se.nameSeparator);
+    if (se.orgBold !== undefined) orgBold = se.orgBold;
+    if (se.titleBold !== undefined) titleBold = se.titleBold;
+    if (se.titleItalic !== undefined) titleItalic = se.titleItalic;
+    applyOrgTitleStyles();
   }
   eduCount   = state.education.length;
   expCount   = state.experience.length;
@@ -1858,31 +2103,31 @@ function showTab(name) {
 function addEdu() {
   pushUndo();
   const id = 'edu-' + (++eduCount);
-  state.education.push({ id, school: '', location: '', degree: '', note: [], date: '' });
+  state.education.push({ id, school: '', location: '', degree: '', note: [], date: '', noBullets: false, noBullets: false });
   renderForms();
 }
 function addExp() {
   pushUndo();
   const id = 'exp-' + (++expCount);
-  state.experience.push({ id, company: '', location: '', title: '', date: '', bullets: [] });
+  state.experience.push({ id, company: '', location: '', title: '', date: '', bullets: [], noBullets: false, noBullets: false });
   renderForms();
 }
 function addLead() {
   pushUndo();
   const id = 'lead-' + (++leadCount);
-  state.leadership.push({ id, title: '', bullets: [] });
+  state.leadership.push({ id, title: '', bullets: [], noBullets: false, noBullets: false });
   renderForms();
 }
 function addProj() {
   pushUndo();
   const id = 'proj-' + (++projCount);
-  state.projects.push({ id, title: '', tech: '', bullets: [] });
+  state.projects.push({ id, title: '', tech: '', bullets: [], noBullets: false, noBullets: false });
   renderForms();
 }
 function addHobby() {
   pushUndo();
   const id = 'hobby-' + (++hobbyCount);
-  state.hobbies.push({ id, title: '', bullets: [] });
+  state.hobbies.push({ id, title: '', bullets: [], noBullets: false, noBullets: false });
   renderForms();
 }
 
@@ -1907,7 +2152,7 @@ function removeEntry(arr, id) {
 
 // ---- CLEAR SECTION ----
 function clearSection(section) {
-  const names = { education: 'Formation', experience: 'Expériences', leadership: 'Leadership', projects: 'Projets', hobbies: 'Hobbies' };
+  const names = { education: 'Formation', experience: 'Expériences', leadership: 'Leadership', projects: 'Projets', hobbies: 'Activités' };
   if (!confirm(`Effacer toutes les entrées de la section "${names[section]}" ?`)) return;
   pushUndo();
   state[section] = [];
@@ -1953,15 +2198,26 @@ function armDrag(handleEl) {
 
 // ---- RENDER FORMS ----
 function renderForms() {
-  const cardHeader = (label, arr, id) => `
+  const cardHeader = (label, arr, id, showBulletToggle = false) => {
+    const entry = eval(arr)?.find(x => x.id === id);
+    const bulletsOn = entry ? !entry.noBullets : true;
+    const toggleBtn = showBulletToggle ? `
+      <button class="btn-bullet-toggle ${bulletsOn ? 'bullets-on' : 'bullets-off'}"
+        onclick="(function(){var e=${arr}.find(x=>x.id==='${id}');if(e){e.noBullets=!e.noBullets;}renderForms();render();})()"
+        title="${bulletsOn ? 'Puces actives — clic pour désactiver' : 'Puces désactivées — clic pour activer'}">
+        ${bulletsOn ? '• on' : '• off'}
+      </button>` : '';
+    return `
     <div class="card-header">
       <span class="drag-handle" onmousedown="armDrag(this)" title="Glisser pour réordonner">⠿</span>
       <span class="card-title">${label}</span>
-      <div class="card-actions">
+      <div class="card-actions" style="display:flex;align-items:center;gap:5px;">
+        ${toggleBtn}
         <button class="btn-duplicate" onclick="duplicateEntry(${arr},'${id}')" title="Dupliquer">⧉</button>
         <button class="btn-remove" onclick="removeEntry(${arr},'${id}')">×</button>
       </div>
     </div>`;
+  };
 
   // Education
   document.getElementById('edu-list').innerHTML = state.education.map((e, i) => `
@@ -1970,7 +2226,7 @@ function renderForms() {
       ondragend="onDragEnd(this)"
       ondragover="onDragOver(${i},this)"
       ondrop="onDrop(state.education,${i})">
-      ${cardHeader(`Formation ${i+1}`, 'state.education', e.id)}
+      ${cardHeader(`Formation ${i+1}`, 'state.education', e.id, true)}
       <label>Université / École</label>
       <input type="text" value="${esc(e.school)}" placeholder="Université Paris II Panthéon ASSAS" oninput="state.education[${i}].school=this.value;render()">
       <label>Ville, Pays</label>
@@ -1992,7 +2248,7 @@ function renderForms() {
       ondragend="onDragEnd(this)"
       ondragover="onDragOver(${i},this)"
       ondrop="onDrop(state.experience,${i})">
-      ${cardHeader(`Expérience ${i+1}`, 'state.experience', e.id)}
+      ${cardHeader(`Expérience ${i+1}`, 'state.experience', e.id, true)}
       <label>Entreprise</label>
       <input type="text" value="${esc(e.company)}" placeholder="Crédit Agricole CIB" oninput="state.experience[${i}].company=this.value;render()">
       <label>Ville, Pays</label>
@@ -2015,7 +2271,7 @@ function renderForms() {
       ondragend="onDragEnd(this)"
       ondragover="onDragOver(${i},this)"
       ondrop="onDrop(state.leadership,${i})">
-      ${cardHeader(`Item ${i+1}`, 'state.leadership', e.id)}
+      ${cardHeader(`Item ${i+1}`, 'state.leadership', e.id, true)}
       <label>Titre</label>
       <input type="text" value="${esc(e.title)}" placeholder="Footballeur Haut Niveau" oninput="state.leadership[${i}].title=this.value;render()">
       <label>Détails</label>
@@ -2031,10 +2287,9 @@ function renderForms() {
       ondragend="onDragEnd(this)"
       ondragover="onDragOver(${i},this)"
       ondrop="onDrop(state.projects,${i})">
-      ${cardHeader(`Projet ${i+1}`, 'state.projects', e.id)}
+      ${cardHeader(`Projet ${i+1}`, 'state.projects', e.id, true)}
       <label>Titre du projet</label>
       <input type="text" value="${esc(e.title)}" placeholder="Option Trading Learning Interface (Python)" oninput="state.projects[${i}].title=this.value;render()">
-      <label>Description / bullets</label>
       <label>Description / bullets</label>
       ${renderBulletFields(`projects-${i}`, 'bullets', e.bullets, 'Ex: Développé en Python avec Black & Scholes...')}
       <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
@@ -2049,10 +2304,9 @@ function renderForms() {
       ondragend="onDragEnd(this)"
       ondragover="onDragOver(${i},this)"
       ondrop="onDrop(state.hobbies,${i})">
-      ${cardHeader(`Hobby ${i+1}`, 'state.hobbies', e.id)}
+      ${cardHeader(`Activité ${i+1}`, 'state.hobbies', e.id, true)}
       <label>Titre / Catégorie</label>
       <input type="text" value="${esc(e.title)}" placeholder="Sports, Voyages, Musique..." oninput="state.hobbies[${i}].title=this.value;render()">
-      <label>Détails (facultatif)</label>
       <label>Détails (facultatif)</label>
       ${renderBulletFields(`hobbies-${i}`, 'bullets', e.bullets||[], 'Ex: Niveau national, top 20 mondial...')}
       <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
@@ -2091,6 +2345,7 @@ function renderBulletFields(entryRef, field, arr, placeholder) {
         id="binput-${entryRef}-${field}-${bi}"
         oninput="setBullet('${entryRef}','${field}',${bi},this.value)"
         onkeydown="handleBulletKey(event,'${entryRef}','${field}',${bi})">
+      <button class="btn-bullet-expand" title="Agrandir pour éditer" onclick="openBulletExpand('${entryRef}','${field}',${bi})">⤢</button>
       <button class="btn-bullet-bold" title="Gras (Ctrl+B)" onclick="boldBulletInput('binput-${entryRef}-${field}-${bi}','${entryRef}','${field}',${bi})">B</button>
       <button class="btn-bullet-remove" onclick="removeBullet('${entryRef}','${field}',${bi})">×</button>
     </div>`).join('');
@@ -2264,6 +2519,7 @@ function applyTheme(key) {
   setNameSeparator(nameSeparator);
 
   showToast('Thème "' + key.charAt(0).toUpperCase() + key.slice(1) + '" appliqué');
+  triggerSnapshot();
 }
 
 // ---- WORD COUNT PER BULLET ----
@@ -2345,8 +2601,9 @@ function startsWithStrongVerb(line) {
 }
 
 // Modified bulletHtml that injects word count + verb check
-function bulletHtmlAnalyzed(bullets) {
+function bulletHtmlAnalyzed(bullets, sp) {
   if (!bullets.length) return '';
+  const spacing = sp || 0;
   return '<ul class="cv-bullets">' + bullets.map(b => {
     const wc = wordCountOn ? wordCountBadge(b) : '';
     let liClass = '', icon = '';
@@ -2360,7 +2617,7 @@ function bulletHtmlAnalyzed(bullets) {
         icon = `<em class="verb-icon" title="Commence par un verbe d'action fort">⚡</em>`;
       }
     }
-    return `<li${liClass}>${icon}${boldify(b)}${wc}</li>`;
+    return `<li${liClass} style="padding-bottom:${spacing}px;">${icon}${boldify(b)}${wc}</li>`;
   }).join('') + '</ul>';
 }
 
@@ -2501,6 +2758,7 @@ function applyMargins() {
   if (previewSize === 'mobile') return; // mobile preview has its own fixed padding
   page.style.padding = `${tb}px ${r}px ${tb}px ${l}px`;
   requestAnimationFrame(updateDensity);
+  triggerSnapshot();
 }
 function resetMargins() {
   [['mg-l','62'],['mg-r','52'],['mg-tb','32']].forEach(([id, def]) => {
@@ -2573,6 +2831,7 @@ function setFont(font) {
   const btn = document.getElementById('font-btn-' + keyMap[font]);
   if (btn) btn.classList.add('active');
   applyFontToCV();
+  triggerSnapshot();
 }
 function applyFontToCV() {
   const fontStack = {
@@ -2603,6 +2862,14 @@ function setAccentColor(color, swatchEl, fromPicker) {
   let tag = document.getElementById('dynamic-accent-style');
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-accent-style'; document.head.appendChild(tag); }
   tag.textContent = `.cv-section-title { color: ${color} !important; border-bottom-color: ${color} !important; }`;
+  triggerSnapshot();
+}
+
+// Persist style-only changes to the current CV slot without a full re-render
+function triggerSnapshot() {
+  if (!cvList || !currentCvId) return;
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
 }
 
 // ---- EXPORT FILENAME ----
@@ -2720,28 +2987,33 @@ function render() {
   const lang = val('sk-lang'), it = val('sk-it'), cert = val('sk-cert');
 
   // Entry layout builder — respects entryFormat global
-  function entryRows(org, loc, title, date, bullets) {
+  function bulletsOrPlain(bullets, noBullets, sp) {
+    if (!bullets.length) return '';
+    if (noBullets) return `<p class="cv-plain" style="margin-top:2px;">${bullets.map(b => boldify(b)).join(' — ')}</p>`;
+    const spacing = sp || 0;
+    if (wordCountOn || verbCheckOn) return bulletHtmlAnalyzed(bullets, spacing);
+    return '<ul class="cv-bullets">' + bullets.map(b => `<li style="padding-bottom:${spacing}px;">${boldify(b)}</li>`).join('') + '</ul>';
+  }
+
+  function entryRows(org, loc, title, date, bullets, noBullets, sp) {
     const orgH   = `<span class="cv-entry-org">${org}</span>`;
     const locH   = `<span class="cv-entry-loc">${loc}</span>`;
     const titH   = `<span class="cv-entry-title">${title}</span>`;
     const datH   = `<span class="cv-entry-date">${date}</span>`;
     const row    = (l, r) => `<div class="cv-entry-row">${l}${r ? r : ''}</div>`;
-    const bul    = bullets.length ? bulletHtml(bullets) : '';
+    const bul    = bulletsOrPlain(bullets, noBullets, sp);
 
     switch (entryFormat) {
       case 'job-first':
-        // Poste + Date / Entreprise + Ville
         return row(`${titH}`, datH) + (org ? row(orgH, locH) : '') + bul;
 
       case 'inline':
-        // Entreprise — Poste               Date / Ville
         return row(
           `${orgH}${title ? `<span style="font-weight:normal;font-style:italic;"> — ${title}</span>` : ''}`,
           datH
         ) + (loc ? `<div class="cv-entry-row" style="line-height:1;">${locH}</div>` : '') + bul;
 
       case 'compact':
-        // Tout sur une ligne: Entreprise · Poste · Date
         return `<div class="cv-entry-row">
           ${orgH}
           ${title ? `<span class="cv-entry-title" style="margin-left:6px;">· ${title}</span>` : ''}
@@ -2757,31 +3029,34 @@ function render() {
   const sectionRenderers = {
     education: () => {
       if (!state.education.length) return '';
+      const sp = sectionBulletSpacing.education || 0;
       let h = renderSectionHeader('education', sectionLabels.education);
       state.education.forEach((e, i) => {
         h += renderEntry('education', i, entryRows(
-          esc(e.school), esc(e.location), boldify(e.degree), esc(e.date), parseBullets(e.note)
+          esc(e.school), esc(e.location), boldify(e.degree), esc(e.date), parseBullets(e.note), e.noBullets, sp
         ));
       });
       return h + `</div>`;
     },
     experience: () => {
       if (!state.experience.length) return '';
+      const sp = sectionBulletSpacing.experience || 0;
       let h = renderSectionHeader('experience', sectionLabels.experience)
       state.experience.forEach((e, i) => {
         h += renderEntry('experience', i, entryRows(
-          esc(e.company), esc(e.location), boldify(e.title), esc(e.date), parseBullets(e.bullets)
+          esc(e.company), esc(e.location), boldify(e.title), esc(e.date), parseBullets(e.bullets), e.noBullets, sp
         ));
       });
       return h + `</div>`;
     },
     leadership: () => {
       if (!state.leadership.length) return '';
+      const sp = sectionBulletSpacing.leadership || 0;
       let h = renderSectionHeader('leadership', sectionLabels.leadership);
       state.leadership.forEach((e, i) => {
         h += renderEntry('leadership', i, `
           <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
-          ${bulletHtml(parseBullets(e.bullets))}
+          ${bulletsOrPlain(parseBullets(e.bullets), e.noBullets, sp)}
         `);
       });
       return h + `</div>`;
@@ -2797,23 +3072,25 @@ function render() {
     },
     projects: () => {
       if (!state.projects.length) return '';
+      const sp = sectionBulletSpacing.projects || 0;
       let h = renderSectionHeader('projects', sectionLabels.projects);
       state.projects.forEach((e, i) => {
         h += renderEntry('projects', i, `
           <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
-          ${bulletHtml(parseBullets(e.bullets))}
+          ${bulletsOrPlain(parseBullets(e.bullets), e.noBullets, sp)}
         `);
       });
       return h + `</div>`;
     },
     hobbies: () => {
       if (!(state.hobbies||[]).length) return '';
+      const sp = sectionBulletSpacing.hobbies || 0;
       let h = renderSectionHeader('hobbies', sectionLabels.hobbies);
       state.hobbies.forEach((e, i) => {
         const bullets = parseBullets(e.bullets||'');
         h += renderEntry('hobbies', i, `
           <div class="cv-entry-row"><span class="cv-entry-org">${esc(e.title)}</span></div>
-          ${bulletHtml(bullets)}
+          ${bulletsOrPlain(bullets, e.noBullets, sp)}
         `);
       });
       return h + `</div>`;
@@ -2962,48 +3239,65 @@ function attachPreviewDragListeners() {
   });
 }
 
-// ---- PDF EXPORT (html2canvas snapshot of the preview) ----
+// ---- PDF EXPORT — pixel-perfect match of preview ----
 async function downloadPdf() {
   const btn = document.querySelector('.btn-pdf');
   btn.disabled = true;
   btn.textContent = 'Génération…';
 
-  // Temporarily disable analysis overlays so they don't appear in export
+  // Disable analysis overlays
   const wcWas = wordCountOn, verbWas = verbCheckOn;
-  if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); await new Promise(r => setTimeout(r, 80)); }
+  if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); await new Promise(r => setTimeout(r, 100)); }
+
+  const cvEl = document.querySelector('.cv-page');
+
+  // Snap out of mobile preview if needed
+  const wasMobile = previewSize === 'mobile';
+  if (wasMobile) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 80)); }
+
+  // Remove any UI zoom/transform on the wrapper so html2canvas sees the real element
+  const inner = document.querySelector('.preview-panel-inner');
+  const prevTransform = inner ? inner.style.transform : null;
+  if (inner) inner.style.transform = 'none';
+  await new Promise(r => setTimeout(r, 60));
 
   try {
-    const cvEl = document.querySelector('.cv-page');
-    // Also temporarily switch off mobile preview for export
-    const wasMobile = previewSize === 'mobile';
-    if (wasMobile) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 60)); }
+    // Capture at the element's natural layout size (no override)
+    const naturalW = cvEl.offsetWidth;   // true CSS px width (e.g. 750)
+    const naturalH = cvEl.scrollHeight;  // full content height incl. overflow
 
-    const SCALE = 6;
+    const SCALE = 4; // 4× → ~384dpi at screen 96dpi, crisp on Letter
     const canvas = await html2canvas(cvEl, {
       scale: SCALE,
       useCORS: true,
+      allowTaint: false,
       backgroundColor: '#ffffff',
       logging: false,
-      width: cvEl.offsetWidth,
-      height: cvEl.offsetHeight
+      width: naturalW,
+      height: naturalH,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: naturalW,
+      windowHeight: naturalH
     });
 
-    if (wasMobile) { cvEl.classList.add('mobile-preview'); cvEl.style.padding = '20px 18px'; }
+    // Convert the exact px dimensions to mm using screen DPI (96px = 25.4mm)
+    // This preserves the preview's proportions 1-to-1 — no stretching
+    const PX_TO_MM = 25.4 / 96;
+    const pdfW = naturalW * PX_TO_MM;   // 750px → ~198.4mm
+    const pdfH = naturalH * PX_TO_MM;   // exact content height in mm
 
     const { jsPDF } = window.jspdf;
-    const pxW = cvEl.offsetWidth;
-    const pxH = cvEl.offsetHeight;
-    const mmW = pxW * 0.2646;
-    const mmH = pxH * 0.2646;
-
     const pdf = new jsPDF({
-      orientation: mmW > mmH ? 'landscape' : 'portrait',
+      orientation: pdfW > pdfH ? 'landscape' : 'portrait',
       unit: 'mm',
-      format: [mmW, mmH]
+      format: [pdfW, pdfH],  // custom page = exact preview dimensions
+      compress: true
     });
 
     const imgData = canvas.toDataURL('image/png');
-    pdf.addImage(imgData, 'PNG', 0, 0, mmW, mmH);
+    // Image fills page exactly — same aspect ratio, zero distortion
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH, undefined, 'FAST');
 
     const filename = getExportFilename() + '.pdf';
     pdf.save(filename);
@@ -3013,10 +3307,13 @@ async function downloadPdf() {
     console.error(err);
   }
 
+  // Restore UI state
+  if (inner && prevTransform !== null) inner.style.transform = prevTransform;
+  if (wasMobile) { cvEl.classList.add('mobile-preview'); cvEl.style.padding = '20px 18px'; }
+  if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
+
   btn.disabled = false;
   btn.textContent = '⬇ PDF';
-  // Restore analysis modes
-  if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
 }
 
 // ---- DOCX EXPORT (HTML-to-Word blob, no external lib needed) ----
@@ -3027,12 +3324,23 @@ function downloadDocx() {
 
   try {
     const name = val('id-name') || 'PRÉNOM NOM';
-    const contact = [val('id-address'), val('id-phone'), val('id-email'), val('id-linkedin'), val('id-github')].filter(Boolean).join(' | ');
 
     function boldifyDoc(text) {
       return (text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
                        .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
     }
+
+    // Build contact parts — email/linkedin/github as real hyperlinks (renders blue+underline in Word)
+    const rawEmail    = val('id-email');
+    const rawLinkedin = val('id-linkedin');
+    const rawGithub   = val('id-github');
+    const contactParts = [
+      val('id-address') ? `<span>${boldifyDoc(val('id-address'))}</span>` : null,
+      val('id-phone')   ? `<span>${boldifyDoc(val('id-phone'))}</span>`   : null,
+      rawEmail    ? `<a href="mailto:${rawEmail}" style="color:#1a56a0;text-decoration:underline;">${boldifyDoc(rawEmail)}</a>` : null,
+      rawLinkedin ? `<a href="https://${rawLinkedin.replace(/^https?:\/\//,'')}" style="color:#1a56a0;text-decoration:underline;">${boldifyDoc(rawLinkedin.replace(/^https?:\/\//,''))}</a>` : null,
+      rawGithub   ? `<a href="https://${rawGithub.replace(/^https?:\/\//,'')}" style="color:#1a56a0;text-decoration:underline;">${boldifyDoc(rawGithub.replace(/^https?:\/\//,''))}</a>` : null,
+    ].filter(Boolean).join(' <span style="color:#333;">|</span> ');
 
     // Read current font sizes from sliders (or defaults)
     function sz(id, def) {
@@ -3068,34 +3376,57 @@ function downloadDocx() {
     };
 
     const entryOrgRow = (org, loc) => row(
-      `<b style="font-family:'${docxFont}';font-size:${szOrg}pt;">${boldifyDoc(org)}</b>`,
-      `<b><i style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(loc)}</i></b>`,
+      `<span style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:${orgBold?'bold':'normal'};">${boldifyDoc(org)}</span>`,
+      `<span style="font-family:'${docxFont}';font-size:${szDate}pt;font-weight:${orgBold?'bold':'normal'};font-style:italic;">${boldifyDoc(loc)}</span>`,
       '', ''
     );
 
     const entryTitleRow = (title, date) => row(
-      `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;">${boldifyDoc(title)}</i>`,
+      `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:${titleBold?'bold':'normal'};font-style:${titleItalic?'italic':'normal'};">${boldifyDoc(title)}</span>`,
       `<span style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(date)}</span>`,
       '', ''
     );
 
-    // Format-aware entry builder — mirrors the 4 HTML layouts
-    const entryDocx = (org, loc, title, date, buls) => {
-      const orgB  = `<b style="font-family:'${docxFont}';font-size:${szOrg}pt;">${boldifyDoc(org)}</b>`;
-      const locB  = `<b><i style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(loc)}</i></b>`;
-      const titI  = `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;">${boldifyDoc(title)}</i>`;
+    const lh = document.getElementById('sz-lineheight')?.value || 1.2;
+
+    const bulletsHtml = bullets => {
+      if (!bullets.length) return '';
+      return `<ul style="margin:3px 0 0 0;padding-left:${szIndent}px;mso-margin-top-alt:0;">` +
+        bullets.map(b =>
+          `<li style="font-family:'${docxFont}';font-size:${szBullets}pt;line-height:${lh};margin-bottom:0;mso-line-height-rule:exactly;">${boldifyDoc(b)}</li>`
+        ).join('') + `</ul>`;
+    };
+
+    // When noBullets=true, render inline text; otherwise a list with per-section spacing
+    const bulletsOrPlainDocx = (bullets, noBullets, sp) => {
+      if (!bullets.length) return '';
+      if (noBullets) return `<p style="font-family:'${docxFont}';font-size:${szBullets}pt;margin:2px 0 0 0;line-height:1.25;">${bullets.map(b => boldifyDoc(b)).join(' &mdash; ')}</p>`;
+      const spacing = sp || 0;
+      return `<ul style="margin:3px 0 0 0;padding-left:${szIndent}px;mso-margin-top-alt:0;">` +
+        bullets.map(b =>
+          `<li style="font-family:'${docxFont}';font-size:${szBullets}pt;line-height:${lh};margin-bottom:${spacing}px;mso-line-height-rule:exactly;">${boldifyDoc(b)}</li>`
+        ).join('') + `</ul>`;
+    };
+
+    // Format-aware entry builder — accepts noBullets + per-section spacing
+    const entryDocx = (org, loc, title, date, buls, noBullets, sp) => {
+      const orgFW = orgBold ? 'bold' : 'normal';
+      const titFW = titleBold ? 'bold' : 'normal';
+      const titFS = titleItalic ? 'italic' : 'normal';
+      const orgB  = `<span style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:${orgFW};">${boldifyDoc(org)}</span>`;
+      const locB  = `<span style="font-family:'${docxFont}';font-size:${szDate}pt;font-weight:${orgFW};font-style:italic;">${boldifyDoc(loc)}</span>`;
+      const titI  = `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:${titFW};font-style:${titFS};">${boldifyDoc(title)}</span>`;
       const datS  = `<span style="font-family:'${docxFont}';font-size:${szDate}pt;">${boldifyDoc(date)}</span>`;
-      const bHtml = bulletsHtml(buls);
+      const bHtml = bulletsOrPlainDocx(buls, noBullets, sp);
 
       switch (entryFormat) {
         case 'job-first':
           return entryWrap(row(titI, datS) + (org ? row(orgB, locB) : '') + bHtml);
 
         case 'inline':
-          // Org — Title on left, Date right, Loc below — all Word-safe via table
           return entryWrap(
             row(
-              `${orgB}${title ? `<i style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:normal;"> &mdash; ${boldifyDoc(title)}</i>` : ''}`,
+              `${orgB}${title ? `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:${titFW};font-style:${titFS};"> &mdash; ${boldifyDoc(title)}</span>` : ''}`,
               datS, '', ''
             ) +
             (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:1px 0 0 0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
@@ -3103,10 +3434,9 @@ function downloadDocx() {
           );
 
         case 'compact':
-          // Single table row: Org · Title (left) | Date (right), Loc below
           return entryWrap(
             row(
-              `${orgB}${title ? `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:normal;font-style:italic;"> &middot; ${boldifyDoc(title)}</span>` : ''}`,
+              `${orgB}${title ? `<span style="font-family:'${docxFont}';font-size:${szTitle}pt;font-weight:${titFW};font-style:${titFS};"> &middot; ${boldifyDoc(title)}</span>` : ''}`,
               datS, '', ''
             ) +
             (loc ? `<p style="font-family:'${docxFont}';font-size:${szDate}pt;margin:1px 0 0 0;line-height:1.1;">${boldifyDoc(loc)}</p>` : '') +
@@ -3118,15 +3448,6 @@ function downloadDocx() {
       }
     };
 
-    const bulletsHtml = bullets => {
-      if (!bullets.length) return '';
-      const lh = document.getElementById('sz-lineheight')?.value || 1.2;
-      return `<ul style="margin:3px 0 0 0;padding-left:${szIndent}px;mso-margin-top-alt:0;">` +
-        bullets.map(b =>
-          `<li style="font-family:'${docxFont}';font-size:${szBullets}pt;line-height:${lh};margin-bottom:0;mso-line-height-rule:exactly;">${boldifyDoc(b)}</li>`
-        ).join('') + `</ul>`;
-    };
-
     const entryWrap = (inner) =>
       `<div style="margin-bottom:10px;">${inner}</div>`;
 
@@ -3135,7 +3456,7 @@ function downloadDocx() {
     let body = `
       <p style="text-align:center;font-family:'${docxFont}';font-size:${szName}pt;font-weight:${nameWt};
         letter-spacing:2px;text-transform:uppercase;margin:0 0 2px 0;line-height:1.1;mso-line-height-rule:exactly;${sepBorder}">${boldifyDoc(name)}</p>
-      <p style="text-align:center;font-family:'${docxFont}';font-size:9pt;margin:0 0 8px 0;line-height:1.2;">${boldifyDoc(contact)}</p>
+      <p style="text-align:center;font-family:'${docxFont}';font-size:9pt;margin:0 0 8px 0;line-height:1.2;">${contactParts}</p>
     `;
 
     const lang = val('sk-lang'), it = val('sk-it'), cert = val('sk-cert');
@@ -3143,25 +3464,28 @@ function downloadDocx() {
     const docxSectionBuilders = {
       education: () => {
         if (!state.education.length) return '';
+        const sp = sectionBulletSpacing.education || 0;
         let s = sectionHtml(sectionLabels.education);
         state.education.forEach(e => {
-          s += entryDocx(e.school, e.location, e.degree, e.date, parseBullets(e.note));
+          s += entryDocx(e.school, e.location, e.degree, e.date, parseBullets(e.note), e.noBullets, sp);
         });
         return s;
       },
       experience: () => {
         if (!state.experience.length) return '';
+        const sp = sectionBulletSpacing.experience || 0;
         let s = sectionHtml(sectionLabels.experience);
         state.experience.forEach(e => {
-          s += entryDocx(e.company, e.location, e.title, e.date, parseBullets(e.bullets));
+          s += entryDocx(e.company, e.location, e.title, e.date, parseBullets(e.bullets), e.noBullets, sp);
         });
         return s;
       },
       leadership: () => {
         if (!state.leadership.length) return '';
+        const sp = sectionBulletSpacing.leadership || 0;
         let s = sectionHtml(sectionLabels.leadership);
         state.leadership.forEach(e => {
-          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(parseBullets(e.bullets)));
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:${orgBold?'bold':'normal'};margin:0;">${boldifyDoc(e.title)}</p>` + bulletsOrPlainDocx(parseBullets(e.bullets), e.noBullets, sp));
         });
         return s;
       },
@@ -3179,18 +3503,20 @@ function downloadDocx() {
       },
       projects: () => {
         if (!state.projects.length) return '';
+        const sp = sectionBulletSpacing.projects || 0;
         let s = sectionHtml(sectionLabels.projects);
         state.projects.forEach(e => {
-          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(parseBullets(e.bullets)));
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:${orgBold?'bold':'normal'};margin:0;">${boldifyDoc(e.title)}</p>` + bulletsOrPlainDocx(parseBullets(e.bullets), e.noBullets, sp));
         });
         return s;
       },
       hobbies: () => {
         if (!(state.hobbies||[]).length) return '';
+        const sp = sectionBulletSpacing.hobbies || 0;
         let s = sectionHtml(sectionLabels.hobbies);
         state.hobbies.forEach(e => {
           const buls = parseBullets(e.bullets||'');
-          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:bold;margin:0;">${boldifyDoc(e.title)}</p>` + bulletsHtml(buls));
+          s += entryWrap(`<p style="font-family:'${docxFont}';font-size:${szOrg}pt;font-weight:${orgBold?'bold':'normal'};margin:0;">${boldifyDoc(e.title)}</p>` + bulletsOrPlainDocx(buls, e.noBullets, sp));
         });
         return s;
       }
@@ -3272,12 +3598,33 @@ function applySectionSpacing(val) {
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-spacing-style'; document.head.appendChild(tag); }
   tag.textContent = `.cv-section { margin-bottom: ${val}px !important; }`;
   requestAnimationFrame(updateDensity);
+  triggerSnapshot();
 }
 
 // ---- NAME WEIGHT ----
 let nameWeight = 'bold';
+let orgBold = true;       // Noms entreprises/écoles en gras
+let titleBold = false;    // Titres de postes en gras
+let titleItalic = true;   // Titres de postes en italique
+// ---- ORG / TITLE FORMAT TOGGLES ----
+function applyOrgTitleStyles() {
+  let tag = document.getElementById('dynamic-org-title-style');
+  if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-org-title-style'; document.head.appendChild(tag); }
+  tag.textContent = `
+    .cv-entry-org { font-weight: ${orgBold ? 'bold' : 'normal'} !important; }
+    .cv-entry-title { font-weight: ${titleBold ? 'bold' : 'normal'} !important; font-style: ${titleItalic ? 'italic' : 'normal'} !important; }
+  `;
+  document.getElementById('btn-org-bold')?.classList.toggle('active', orgBold);
+  document.getElementById('btn-title-bold')?.classList.toggle('active', titleBold);
+  document.getElementById('btn-title-italic')?.classList.toggle('active', titleItalic);
+  triggerSnapshot();
+}
+
+function toggleOrgBold() { orgBold = !orgBold; applyOrgTitleStyles(); }
+function toggleTitleBold() { titleBold = !titleBold; applyOrgTitleStyles(); }
+function toggleTitleItalic() { titleItalic = !titleItalic; applyOrgTitleStyles(); }
+
 function setNameWeight(weight) {
-  nameWeight = weight;
   document.querySelectorAll('.cv-name').forEach(el => el.style.fontWeight = weight);
   ['bold','semibold','regular'].forEach(k => document.getElementById('weight-btn-' + k)?.classList.remove('active'));
   const keyMap = { bold: 'bold', '600': 'semibold', normal: 'regular' };
@@ -3285,14 +3632,14 @@ function setNameWeight(weight) {
   let tag = document.getElementById('dynamic-weight-style');
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-weight-style'; document.head.appendChild(tag); }
   tag.textContent = `.cv-name { font-weight: ${weight} !important; }`;
+  triggerSnapshot();
 }
-
-// ---- BULLET LINE HEIGHT ----
 function applyBulletLineHeight(val) {
   document.querySelectorAll('.cv-bullets li').forEach(el => el.style.lineHeight = val);
   let tag = document.getElementById('dynamic-lh-style');
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-lh-style'; document.head.appendChild(tag); }
   tag.textContent = `.cv-bullets li { line-height: ${val} !important; }`;
+  triggerSnapshot();
 }
 
 // ---- DATE SIZE ----
@@ -3301,6 +3648,7 @@ function applyDateSize(val) {
   let tag = document.getElementById('dynamic-date-style');
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-date-style'; document.head.appendChild(tag); }
   tag.textContent = `.cv-entry-date, .cv-entry-loc { font-size: ${val}pt !important; }`;
+  triggerSnapshot();
 }
 
 // ---- BULLET INDENT ----
@@ -3311,6 +3659,7 @@ function applyBulletIndent(val) {
   if (!tag) { tag = document.createElement('style'); tag.id = 'dynamic-indent-style'; document.head.appendChild(tag); }
   const gripOffset = Math.round(val * 0.5);
   tag.textContent = `.cv-bullets { padding-left: ${val}px !important; } .cv-bullets li::before { left: -${gripOffset}px !important; }`;
+  triggerSnapshot();
 }
 
 // ---- ENTRY FORMAT ----
@@ -3342,6 +3691,7 @@ function setNameSeparator(style) {
   tag.textContent = style === 'none'
     ? `.cv-name { border-bottom: none !important; padding-bottom: 0 !important; margin-bottom: 2px !important; }`
     : `.cv-name { border-bottom: ${borders[style]} !important; padding-bottom: 4px !important; margin-bottom: 6px !important; }`;
+  triggerSnapshot();
 }
 
 // ---- DUPLICATE DETECTION ----
@@ -3535,7 +3885,9 @@ function snapshotCurrentCV() {
     dateSize: document.getElementById('sz-date')?.value || 9,
     bulletIndent: document.getElementById('sz-indent')?.value || 32,
     marginR: document.getElementById('mg-r')?.value  || 52,
-    marginTB: document.getElementById('mg-tb')?.value || 32
+    marginTB: document.getElementById('mg-tb')?.value || 32,
+    sectionBulletSpacing: {...sectionBulletSpacing},
+    orgBold, titleBold, titleItalic
   };
   return { state: JSON.parse(JSON.stringify(state)), fields, sliders, style };
 }
@@ -3549,12 +3901,12 @@ function restoreCV(data) {
   state.leadership = s.leadership || [];
   state.projects   = s.projects   || [];
   state.hobbies    = s.hobbies    || [];
-  // Migrate old string bullets to arrays
-  state.education.forEach(e  => { e.note    = toBulletArray(e.note);    });
-  state.experience.forEach(e => { e.bullets = toBulletArray(e.bullets); });
-  state.leadership.forEach(e => { e.bullets = toBulletArray(e.bullets); });
-  state.projects.forEach(e   => { e.bullets = toBulletArray(e.bullets); });
-  state.hobbies.forEach(e    => { e.bullets = toBulletArray(e.bullets); });
+  // Migrate old string bullets to arrays + noBullets default
+  state.education.forEach(e  => { e.note    = toBulletArray(e.note);    if (e.noBullets === undefined) e.noBullets = false; });
+  state.experience.forEach(e => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  state.leadership.forEach(e => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  state.projects.forEach(e   => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
+  state.hobbies.forEach(e    => { e.bullets = toBulletArray(e.bullets); if (e.noBullets === undefined) e.noBullets = false; });
   eduCount  = state.education.length;
   expCount  = state.experience.length;
   leadCount = state.leadership.length;
@@ -3576,10 +3928,13 @@ function restoreCV(data) {
   // Restore style settings
   const style = data.style || {};
   if (style.font) setFont(style.font);
-  if (style.accentColor) setAccentColor(style.accentColor, null, true);
+  if (style.theme) applyTheme(style.theme);  // theme first — sets base accent color
+  if (style.accentColor) setAccentColor(style.accentColor, null, true);  // then override with saved custom color
+  // Also update the color picker UI to match
+  const colorPicker = document.getElementById('color-custom');
+  if (colorPicker && style.accentColor) colorPicker.value = style.accentColor;
   if (style.sectionOrder && style.sectionOrder.length >= 5) sectionOrder = style.sectionOrder;
   if (style.sectionLabels) Object.assign(sectionLabels, style.sectionLabels);
-  if (style.theme) applyTheme(style.theme);
   if (style.entryFormat) setEntryFormat(style.entryFormat);
   // Restore spacing
   const spEl = document.getElementById('sz-spacing');
@@ -3606,6 +3961,22 @@ function restoreCV(data) {
   applyMargins();
   const fnEl = document.getElementById('export-filename');
   if (fnEl) fnEl.value = style.exportFilename || '';
+  // Restore section bullet spacing
+  if (style.sectionBulletSpacing) {
+    Object.assign(sectionBulletSpacing, style.sectionBulletSpacing);
+    ['education','experience','leadership','projects','hobbies'].forEach(key => {
+      const val = sectionBulletSpacing[key] || 0;
+      const sl = document.getElementById('sp-' + key);
+      const lbl = document.getElementById('sp-' + key + '-val');
+      if (sl) sl.value = val;
+      if (lbl) lbl.textContent = val + 'px';
+    });
+  }
+  // Restore org/title formatting
+  if (style.orgBold !== undefined) orgBold = style.orgBold;
+  if (style.titleBold !== undefined) titleBold = style.titleBold;
+  if (style.titleItalic !== undefined) titleItalic = style.titleItalic;
+  applyOrgTitleStyles();
   render();
 }
 
@@ -3743,6 +4114,7 @@ render();
 initSliders();
 updateUndoButtons();
 resetMargins();
+applyOrgTitleStyles();
 
 // Initialize first CV slot
 cvList = [{ id: 'cv_default', name: 'Mon CV', data: null }];
@@ -3809,6 +4181,85 @@ window._onFirebaseReady = async function(uid) {
     render();
   }
 };
+// ---- BULLET EXPAND PANEL ----
+let _bepEntryRef = null, _bepField = null, _bepIdx = null;
+
+function openBulletExpand(entryRef, field, idx) {
+  _bepEntryRef = entryRef; _bepField = field; _bepIdx = idx;
+  const e = resolveEntry(entryRef);
+  if (!e) return;
+  const bullets = Array.isArray(e[field]) ? e[field] : toBulletArray(e[field]);
+  const val = bullets[idx] || '';
+
+  // Set title
+  const sectionNames = { education: 'Formation', experience: 'Expérience', leadership: 'Leadership', projects: 'Projet', hobbies: 'Activité' };
+  const [section] = entryRef.split('-');
+  document.getElementById('bep-title').textContent = `Bullet — ${sectionNames[section] || section} • #${idx + 1}`;
+
+  // Sync textarea
+  const ta = document.getElementById('bep-textarea');
+  ta.value = val;
+
+  // Open panel
+  document.getElementById('bullet-expand-panel').classList.add('open');
+  setTimeout(() => ta.focus(), 240);
+
+  // Live sync: textarea → state + inline input
+  ta.oninput = () => {
+    const newVal = ta.value;
+    const entry = resolveEntry(_bepEntryRef);
+    if (!entry) return;
+    if (!Array.isArray(entry[_bepField])) entry[_bepField] = toBulletArray(entry[_bepField]);
+    entry[_bepField][_bepIdx] = newVal;
+    // Sync the small inline input if visible
+    const inlineInput = document.getElementById(`binput-${_bepEntryRef}-${_bepField}-${_bepIdx}`);
+    if (inlineInput) inlineInput.value = newVal;
+    render();
+  };
+}
+
+function closeBulletExpand() {
+  document.getElementById('bullet-expand-panel').classList.remove('open');
+  _bepEntryRef = null; _bepField = null; _bepIdx = null;
+}
+
+function bepApplyBold() {
+  const ta = document.getElementById('bep-textarea');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  if (start === end) return;
+  const before = ta.value.substring(0, start);
+  const selected = ta.value.substring(start, end);
+  const after = ta.value.substring(end);
+  ta.value = before + '**' + selected + '**' + after;
+  ta.selectionStart = start; ta.selectionEnd = end + 4;
+  ta.dispatchEvent(new Event('input'));
+}
+
+function bepRemoveBold() {
+  const ta = document.getElementById('bep-textarea');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  if (start === end) return;
+  const before = ta.value.substring(0, start);
+  const selected = ta.value.substring(start, end).replace(/\*\*(.+?)\*\*/g, '$1');
+  const after = ta.value.substring(end);
+  ta.value = before + selected + after;
+  ta.selectionStart = start; ta.selectionEnd = start + selected.length;
+  ta.dispatchEvent(new Event('input'));
+}
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeBulletExpand();
+});
+
+// Close expand panel on click outside of it
+document.addEventListener('mousedown', e => {
+  const panel = document.getElementById('bullet-expand-panel');
+  if (!panel || !panel.classList.contains('open')) return;
+  // If click is inside the panel, do nothing
+  if (panel.contains(e.target)) return;
+  // If click is on a bullet expand button, do nothing (openBulletExpand will handle it)
+  if (e.target.closest('.btn-bullet-expand')) return;
+  closeBulletExpand();
+});
 </script>
-</body>
-</html>
