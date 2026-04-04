@@ -18,14 +18,45 @@
     --text: #2c2c2c;
     --muted: #7a7a7a;
     --cv-bg: #ffffff;
+
+    /* Dark mode tokens (light defaults) */
+    --dm-bg: #f5f3ef;
+    --dm-panel: #ffffff;
+    --dm-border: #d4cfc8;
+    --dm-text: #2c2c2c;
+    --dm-muted: #7a7a7a;
+    --dm-input-bg: #fafaf9;
+    --dm-card-bg: #f9f8f6;
+    --dm-preview-bg: #e8e5e0;
+    --dm-preview-scroll: #c0bbb5;
+    --dm-spacing-bar: #f7f6f3;
+    --dm-header-border: rgba(255,255,255,0.08);
+  }
+
+  body.dark-mode {
+    --bg: #0f1117;
+    --panel: #1a1d27;
+    --border: #2e3347;
+    --text: #e2e4ec;
+    --muted: #6b7280;
+    --dm-bg: #0f1117;
+    --dm-panel: #1a1d27;
+    --dm-border: #2e3347;
+    --dm-text: #e2e4ec;
+    --dm-muted: #6b7280;
+    --dm-input-bg: #13161f;
+    --dm-card-bg: #161922;
+    --dm-preview-bg: #0b0d14;
+    --dm-preview-scroll: #2e3347;
+    --dm-spacing-bar: #161922;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--dm-bg);
+    color: var(--dm-text);
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -36,26 +67,190 @@
   header {
     background: var(--dark);
     color: white;
-    padding: 12px 24px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
-    border-bottom: 2px solid var(--accent);
+    height: 52px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+    z-index: 100;
   }
-  header h1 {
-    font-family: 'EB Garamond', serif;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-  header span {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    font-weight: 300;
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, #e8b060 50%, transparent 100%);
+    opacity: 0.85;
   }
 
-  /* LAYOUT */
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-logo {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--accent) 0%, #e8b060 100%);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(200,146,42,0.35);
+  }
+  .header-brand-text {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  .header-brand-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #fff;
+    line-height: 1;
+  }
+  .header-brand-sub {
+    font-size: 9.5px;
+    color: rgba(255,255,255,0.38);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .header-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.12);
+    margin: 0 4px;
+  }
+
+  /* Undo/Redo */
+  .btn-undo {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.55);
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.18s;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-undo:hover:not(:disabled) {
+    background: rgba(255,255,255,0.13);
+    color: white;
+    border-color: rgba(255,255,255,0.25);
+  }
+  .btn-undo:disabled { opacity: 0.25; cursor: not-allowed; }
+
+  /* Focus button */
+  .btn-focus {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.65);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-focus:hover { background: rgba(255,255,255,0.13); color: white; border-color: rgba(255,255,255,0.25); }
+  .btn-focus.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* Firebase status */
+  .fb-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .fb-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #e74c3c;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .fb-dot.connected { background: #2ecc71; box-shadow: 0 0 5px rgba(46,204,113,0.5); }
+  .fb-dot.saving { background: var(--accent); }
+
+  .btn-save {
+    background: rgba(200,146,42,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(200,146,42,0.35);
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-save:hover { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-save:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* Dark mode toggle */
+  .dark-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .dark-toggle:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.22); }
+  .dark-toggle-label {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.03em;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .dark-toggle-switch {
+    position: relative;
+    width: 30px; height: 16px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    transition: background 0.22s;
+    flex-shrink: 0;
+  }
+  .dark-toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    transition: transform 0.22s, background 0.22s;
+  }
+  body.dark-mode .dark-toggle-switch {
+    background: var(--accent);
+  }
+  body.dark-mode .dark-toggle-switch::after {
+    transform: translateX(14px);
+    background: white;
+  }
+  body.dark-mode .dark-toggle-label { color: rgba(255,255,255,0.8); }
+  .dark-toggle-icon { font-size: 12px; }
   .app {
     display: flex;
     flex: 1;
@@ -66,8 +261,8 @@
   .form-panel {
     width: 400px;
     min-width: 340px;
-    background: var(--panel);
-    border-right: 1px solid var(--border);
+    background: var(--dm-panel);
+    border-right: 1px solid var(--dm-border);
     overflow-y: auto;
     flex-shrink: 0;
   }
@@ -372,7 +567,7 @@
   /* RIGHT PANEL — CV PREVIEW */
   .preview-panel {
     flex: 1;
-    background: #e8e5e0;
+    background: var(--dm-preview-bg);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -380,58 +575,150 @@
     padding: 32px 24px;
   }
   .preview-panel::-webkit-scrollbar { width: 4px; }
-  .preview-panel::-webkit-scrollbar-thumb { background: #c0bbb5; }
+  .preview-panel::-webkit-scrollbar-thumb { background: var(--dm-preview-scroll); }
 
+  /* ── TOOLBAR PREMIUM — 2 ROWS ── */
   .preview-actions {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 14px;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
     width: 100%;
     max-width: 750px;
-    flex-wrap: nowrap;
   }
+
+  /* Chaque ligne de la toolbar */
+  .tb-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--dark);
+    border-radius: 9px;
+    padding: 4px 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    min-height: 36px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .tb-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+    margin: 0 3px;
+  }
+
   .pact-group {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     flex-shrink: 0;
   }
   .pact-right { margin-left: auto; }
 
-  .btn-download {
-    background: var(--accent2);
-    color: white;
+  /* Bouton toolbar de base */
+  .tb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
     border: none;
-    border-radius: 4px;
-    padding: 9px 18px;
+    border-radius: 5px;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.04em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    transition: background 0.2s;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1;
   }
-  .btn-download:hover { background: #0f2840; }
-  .btn-download:disabled { background: #999; cursor: not-allowed; }
+  .tb-btn:hover { background: rgba(255,255,255,0.09); color: white; }
+  .tb-btn.active { background: rgba(255,255,255,0.12); color: white; }
+
+  /* Segment toggle (A4 / mobile) */
+  .preview-size-toggle {
+    display: flex; gap: 2px; align-items: center;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px; padding: 2px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .psz-btn {
+    padding: 3px 9px; border: none; border-radius: 4px;
+    background: transparent; color: rgba(255,255,255,0.38);
+    font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em;
+  }
+  .psz-btn.active { background: rgba(255,255,255,0.14); color: white; }
+  .psz-btn:hover:not(.active) { color: rgba(255,255,255,0.75); }
+
+  /* Zoom row */
+  .zoom-row {
+    display: flex; align-items: center; gap: 5px;
+    background: rgba(0,0,0,0.18); border-radius: 5px; padding: 3px 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .zoom-row input[type="range"] {
+    width: 70px; accent-color: var(--accent); cursor: pointer;
+  }
+  .zoom-label {
+    font-size: 10px; color: rgba(255,255,255,0.4);
+    font-family: 'DM Sans', sans-serif; min-width: 32px; text-align: right;
+    font-weight: 700; letter-spacing: 0.03em;
+  }
+
+  /* Boutons d'export — style pill teinté */
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px; background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.55); font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-download:hover { background: rgba(255,255,255,0.13); color: white; border-color: rgba(255,255,255,0.2); }
+  .btn-download:disabled { opacity: 0.25; cursor: not-allowed; }
 
   .btn-pdf {
-    background: #8b1a1a;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 9px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: background 0.2s;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 12px;
+    border: 1px solid rgba(200,70,70,0.4);
+    border-radius: 5px; background: rgba(160,30,30,0.2);
+    color: #e88; font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.15s;
+    white-space: nowrap;
   }
-  .btn-pdf:hover { background: #5a0f0f; }
+  .btn-pdf:hover { background: rgba(160,30,30,0.5); color: white; border-color: rgba(200,70,70,0.7); }
+
+  .btn-gray {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 9px; border: none; border-radius: 5px;
+    background: transparent; color: rgba(255,255,255,0.45);
+    font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-gray:hover { background: rgba(255,255,255,0.09); color: white; }
+  .btn-gray.active { background: rgba(255,255,255,0.12); color: white; }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 9px; border: none; border-radius: 5px;
+    background: transparent; color: rgba(255,255,255,0.5);
+    font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.09); color: white; }
+  .btn-secondary.active { background: rgba(255,255,255,0.12); color: white; }
 
 
 
@@ -480,46 +767,70 @@
   }
   .cv-tab-add:hover { color: var(--accent); border-color: var(--accent); }
 
-  /* FIREBASE STATUS */
-  .fb-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  /* Single-page preview wrapper */
+  .cv-pages-wrapper {
+    width: 750px;
+    position: relative;
   }
-  .fb-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #e74c3c;
-    transition: background 0.3s;
-  }
-  .fb-dot.connected { background: #2ecc71; }
-  .fb-dot.saving { background: var(--accent); }
-  .btn-save {
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: background 0.2s;
-  }
-  .btn-save:hover { background: #a8721a; }
-  .btn-save:disabled { background: #999; cursor: not-allowed; }
-  .cv-page {
+
+  .cv-page-sheet {
+    position: absolute;
+    left: 0;
+    width: 750px;
+    height: 1060px;
     background: white;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+    pointer-events: none;
+  }
+
+  /* cv-page = content layer sitting above generated A4 sheets */
+  .cv-page {
+    background: transparent;
     width: 750px;
     min-height: 1060px;
+    overflow: visible;
     padding: 32px 52px 32px 52px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.15);
     font-family: 'Times New Roman', Times, serif;
     font-size: 10pt;
     line-height: 1.25;
     color: #000;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-break-spacer {
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* Bottom-margin zone — hatched overlay per page */
+  .cv-page-margin-bottom {
+    position: absolute;
+    left: 0; right: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(180,180,180,0.18) 0px, rgba(180,180,180,0.18) 3px,
+      transparent 3px, transparent 8px
+    );
+    border-top: 1px dashed rgba(150,150,150,0.6);
+  }
+
+  /* Page separator label */
+  .cv-page-sep-label {
+    position: absolute;
+    right: 10px;
+    font-size: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    color: #3498db;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    background: white;
+    padding: 0 4px;
+    z-index: 3;
+    pointer-events: none;
   }
 
   /* CV STYLES */
@@ -880,22 +1191,28 @@
   .density-label.over { color: #e74c3c; font-weight: 600; }
 
   /* OVERFLOW LINE ON CV */
-  .cv-overflow-line {
+  /* Page-break separator lines — sit inside cv-page at N×PAGE_H */
+  .cv-page-sep {
     position: absolute;
     left: 0; right: 0;
-    height: 2px;
-    background: repeating-linear-gradient(90deg, #e74c3c 0, #e74c3c 8px, transparent 8px, transparent 14px);
+    height: 0;
     pointer-events: none;
     z-index: 10;
-    display: none;
   }
-  .cv-overflow-line.visible { display: block; }
-  .cv-overflow-label {
+  .cv-page-sep::before {
+    content: '';
     position: absolute;
-    right: 8px;
-    top: 3px;
+    left: 0; right: 0; top: 0;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #3498db 0, #3498db 8px, transparent 8px, transparent 14px);
+  }
+  .cv-page-sep::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 10px;
+    top: 4px;
     font-size: 8px;
-    color: #e74c3c;
+    color: #3498db;
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -904,43 +1221,49 @@
     padding: 0 4px;
   }
 
+  /* Bottom margin zone — shaded area showing the unprintable bottom margin */
+  .cv-page-margin-bottom {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(200, 200, 200, 0.15) 0px,
+      rgba(200, 200, 200, 0.15) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    border-top: 1px dashed rgba(150, 150, 150, 0.5);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  body.exporting-pdf .cv-page-margin-bottom,
+  body.exporting-pdf .cv-page-sep,
+  body.exporting-pdf .cv-page-sep-label,
+  body.exporting-pdf .cv-entry-drag-handle,
+  body.exporting-pdf .cv-section-drag-grip,
+  body.exporting-pdf #cv-overflow-banner,
+  body.exporting-doc .cv-page-margin-bottom,
+  body.exporting-doc .cv-page-sep,
+  body.exporting-doc .cv-page-sep-label,
+  body.exporting-doc .cv-entry-drag-handle,
+  body.exporting-doc .cv-section-drag-grip,
+  body.exporting-doc #cv-overflow-banner {
+    display: none !important;
+  }
+
+  body.exporting-pdf .cv-page-sheet,
+  body.exporting-doc .cv-page-sheet {
+    box-shadow: none !important;
+  }
+
   /* FOCUS MODE */
   .form-panel.hidden { display: none !important; }
-  .btn-focus {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.7);
-    border-radius: 4px;
-    padding: 5px 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.03em;
-  }
-  .btn-focus:hover { background: rgba(255,255,255,0.15); color: white; }
-  .btn-focus.active { background: var(--accent); border-color: var(--accent); color: white; }
 
   /* UNDO/REDO BAR */
   .undo-bar {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     align-items: center;
   }
-  .btn-undo {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.6);
-    border-radius: 4px;
-    padding: 4px 9px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    line-height: 1;
-  }
-  .btn-undo:hover:not(:disabled) { background: rgba(255,255,255,0.15); color: white; }
-  .btn-undo:disabled { opacity: 0.3; cursor: not-allowed; }
 
   /* EDITABLE SECTION TITLES */
   .cv-section-title-text {
@@ -1036,11 +1359,22 @@
   .verb-legend {
     display: none;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-size: 10px;
+    font-weight: 600;
     color: rgba(255,255,255,0.55);
     font-family: 'DM Sans', sans-serif;
-    padding: 0 4px;
+    letter-spacing: 0.03em;
+    background: var(--dark);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 4px 10px;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    white-space: nowrap;
+    z-index: 50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
   .verb-legend.visible { display: flex; }
   .verb-legend-dot {
@@ -1074,20 +1408,10 @@
   .btn-ats-check:hover { background: #0f2840; }
 
   /* ---- MOBILE PREVIEW TOGGLE ---- */
-  .preview-size-toggle {
-    display: flex; gap: 3px; align-items: center;
-    background: rgba(0,0,0,0.15); border-radius: 5px; padding: 2px;
-  }
-  .psz-btn {
-    padding: 4px 9px; border: none; border-radius: 3px;
-    background: transparent; color: rgba(255,255,255,0.5);
-    font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .psz-btn.active { background: white; color: var(--dark); font-weight: 700; }
   .cv-page.mobile-preview {
-    width: 375px !important;
+    /* width set dynamically by setPreviewSize() */
     font-size: 8pt !important;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.15);
   }
   .cv-page.mobile-preview .cv-name          { font-size: 13pt !important; }
   .cv-page.mobile-preview .cv-section-title { font-size: 9pt  !important; }
@@ -1255,32 +1579,14 @@
     position: absolute; left: 4px; right: 4px; height: 2px; border-radius: 1px;
   }
   .cv-page.grayscale { filter: grayscale(100%) !important; }
-  .btn-gray {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.55);
-    border-radius: 4px; padding: 4px 9px;
-    font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .btn-gray:hover { background: rgba(255,255,255,0.15); color: white; }
-  .btn-gray.active { background: #555; color: white; border-color: #888; }
-
-  /* ZOOM SLIDER */
-  .zoom-row {
-    display: flex; align-items: center; gap: 6px;
-    background: rgba(0,0,0,0.15); border-radius: 5px; padding: 3px 8px;
-  }
-  .zoom-row input[type="range"] {
-    width: 70px; accent-color: var(--accent); cursor: pointer;
-  }
-  .zoom-label {
-    font-size: 10px; color: rgba(255,255,255,0.55);
-    font-family: 'DM Sans', sans-serif; min-width: 32px; text-align: right;
-  }
+  /* ZOOM SLIDER - handled in toolbar block above */
   .preview-panel-inner {
     transition: width 0.2s;
-    transform-origin: top left;
+    transform-origin: top center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 40px;
   }
 
   /* VALIDATION WARNINGS */
@@ -1373,10 +1679,152 @@
     cursor: pointer; color: var(--muted);
   }
   .ai-close-btn:hover { background: #f0f0f0; }
+  
+  /* ---- NEW PRODUCT FEATURES ---- */
+  .preset-grid, .density-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .preset-btn, .density-btn {
+    padding: 10px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    background: #fafaf9;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+  }
+  .preset-btn:hover, .density-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .preset-btn.active, .density-btn.active {
+    border-color: var(--accent2);
+    background: #eaf0f7;
+    color: var(--accent2);
+  }
+  .scan-highlight {
+    background: rgba(255, 230, 120, 0.35);
+    box-shadow: 0 0 0 2px rgba(255, 230, 120, 0.18);
+    border-radius: 2px;
+  }
+  .scan-dim {
+    opacity: 0.72;
+  }
+  .mini-note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 7px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .version-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .version-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: #fafaf9;
+  }
+  .version-item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .version-item-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .version-item-meta {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .version-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .version-empty {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.55);
+    z-index: 12000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .onboarding-overlay.visible { display: flex; }
+  .onboarding-modal {
+    width: 620px;
+    max-width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    padding: 24px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .onboarding-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .onboarding-sub {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .onboarding-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: #fafaf9;
+  }
+  .onboarding-card:hover {
+    border-color: var(--accent2);
+    background: #eef3f8;
+    transform: translateY(-1px);
+  }
+  .onboarding-card h3 {
+    font-size: 14px;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .onboarding-card p {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
   @media print {
     body { overflow: visible !important; height: auto !important; }
     header, .cv-tabs-bar, .form-panel, .preview-actions,
-    .density-bar-wrap, .cv-overflow-line, .dup-warning-banner,
+    .density-bar-wrap, .cv-page-sep, .dup-warning-banner,
     #dup-warning-banner, .btn-undo, .btn-redo, .btn-focus,
     .preview-size-toggle, .zoom-row, .btn-gray,
     .pact-group, .verb-legend { display: none !important; }
@@ -1389,15 +1837,254 @@
     .preview-panel-inner {
       transform: none !important; margin: 0 !important;
     }
+    .cv-pages-wrapper {
+      transform: none !important; margin: 0 !important;
+      position: relative !important;
+    }
+    .cv-page-sheet {
+      page-break-after: always;
+      height: auto !important; overflow: visible !important;
+      box-shadow: none !important;
+      position: static !important;
+    }
     .cv-page {
       box-shadow: none !important; width: 100% !important;
       min-height: auto !important; filter: none !important;
+      position: static !important;
     }
     .cv-entry-drag-handle, .cv-section-drag-grip { display: none !important; }
   }
+
+  /* ===== DARK MODE OVERRIDES ===== */
+  body.dark-mode input[type="text"],
+  body.dark-mode textarea {
+    background: var(--dm-input-bg);
+    border-color: var(--dm-border);
+    color: var(--dm-text);
+  }
+  body.dark-mode input[type="text"]:focus,
+  body.dark-mode textarea:focus {
+    background: #1a1d27;
+    border-color: #4a6fa5;
+  }
+  body.dark-mode .card {
+    background: var(--dm-card-bg);
+    border-color: var(--dm-border);
+  }
+  body.dark-mode .card-title { color: #6b9fd4; }
+  body.dark-mode .preview-panel { background: var(--dm-preview-bg); }
+  body.dark-mode .preview-panel::-webkit-scrollbar-thumb { background: var(--dm-preview-scroll); }
+  body.dark-mode .section-spacing-bar { background: var(--dm-spacing-bar); border-bottom-color: var(--dm-border); }
+  body.dark-mode label { color: #6b7280; }
+  body.dark-mode .btn-add { border-color: var(--dm-border); color: var(--dm-muted); background: none; }
+  body.dark-mode .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+  body.dark-mode .efmt-btn { background: var(--dm-card-bg); border-color: var(--dm-border); color: var(--dm-muted); }
+  body.dark-mode .efmt-btn.active { border-color: #4a6fa5; background: #1e2d42; color: #6b9fd4; }
+  body.dark-mode .preset-btn, body.dark-mode .density-btn { background: var(--dm-card-bg); border-color: var(--dm-border); color: var(--dm-muted); }
+  body.dark-mode .preset-btn.active, body.dark-mode .density-btn.active { border-color: #4a6fa5; background: #1e2d42; color: #6b9fd4; }
+  body.dark-mode .bullet-input { background: var(--dm-input-bg); border-color: var(--dm-border); color: var(--dm-text); }
+  body.dark-mode .bullet-input:focus { border-color: #4a6fa5; background: #1a1d27; }
+  body.dark-mode .btn-bullet-toggle { background: var(--dm-card-bg); border-color: var(--dm-border); color: var(--dm-muted); }
+  body.dark-mode .version-item { background: var(--dm-card-bg); border-color: var(--dm-border); }
+  body.dark-mode .version-item-title { color: #6b9fd4; }
+  body.dark-mode .version-item-meta { color: var(--dm-muted); }
+  body.dark-mode .btn-fmt { background: var(--dm-card-bg); border-color: var(--dm-border); color: var(--dm-muted); }
+  body.dark-mode .btn-fmt.active { background: #1e2d42; border-color: #4a6fa5; color: #6b9fd4; }
+  body.dark-mode .bullet-expand-panel { background: #1a1d27; border-right-color: #4a6fa5; }
+  body.dark-mode .bep-textarea { background: var(--dm-input-bg); border-color: var(--dm-border); color: var(--dm-text); }
+  body.dark-mode .bep-textarea:focus { border-color: #4a6fa5; background: #1a1d27; }
+  body.dark-mode .bep-hint { color: var(--dm-muted); }
+  body.dark-mode .onboarding-modal { background: #1a1d27; }
+  body.dark-mode .onboarding-title { color: #e2e4ec; }
+  body.dark-mode .onboarding-sub { color: var(--dm-muted); }
+  body.dark-mode .onboarding-card { background: var(--dm-card-bg); border-color: var(--dm-border); }
+  body.dark-mode .onboarding-card:hover { border-color: #4a6fa5; background: #1e2d42; }
+  body.dark-mode .onboarding-card h3 { color: #6b9fd4; }
+  body.dark-mode .onboarding-card p { color: var(--dm-muted); }
+  body.dark-mode .zoom-row { background: rgba(0,0,0,0.3); }
+
+
+  /* AUTH */
+  .auth-userbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .auth-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.82);
+    font-size: 10.5px;
+    font-weight: 600;
+    max-width: 220px;
+  }
+  .auth-pill span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .btn-auth {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .btn-auth:hover {
+    background: rgba(255,255,255,0.13);
+    color: white;
+    border-color: rgba(255,255,255,0.24);
+  }
+  .auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,14,24,0.72);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10020;
+    padding: 20px;
+  }
+  .auth-overlay.visible { display: flex; }
+  .auth-card {
+    width: 100%;
+    max-width: 430px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+  }
+  .auth-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .auth-sub {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .auth-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fafaf9;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .auth-tab.active {
+    background: #eaf0f7;
+    color: var(--accent2);
+    border-color: var(--accent2);
+  }
+  .auth-error {
+    display: none;
+    margin-top: 12px;
+    background: #fff1f1;
+    color: #b3261e;
+    border: 1px solid #f0c2c2;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .auth-error.visible { display: block; }
+  .auth-info {
+    display: none;
+    margin-top: 12px;
+    background: #eef6ff;
+    color: #153e75;
+    border: 1px solid #c8dcf5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .auth-info.visible { display: block; }
+  .auth-link-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--accent2);
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .auth-link-btn:hover { text-decoration: underline; }
+  .auth-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .auth-submit {
+    flex: 1;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent2);
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 11px 14px;
+    cursor: pointer;
+  }
+  .auth-submit:hover { background: #0f2840; }
+  .auth-submit:disabled { opacity: 0.6; cursor: wait; }
+
 </style>
 </head>
 <body>
+
+
+<!-- ONBOARDING MODAL -->
+<div class="onboarding-overlay" id="onboarding-overlay">
+  <div class="onboarding-modal">
+    <div class="onboarding-title">Bienvenue dans ton CV Builder</div>
+    <div class="onboarding-sub">Choisis un point de départ pour le nouveau CV. Tu peux commencer avec un modèle finance, repartir d’un CV vide, ou fermer cette fenêtre et continuer sur le CV actuel.</div>
+    <div class="onboarding-grid">
+      <div class="onboarding-card" onclick="startFinanceTemplate()">
+        <h3>Modèle Finance</h3>
+        <p>Structure prête pour marchés, IB, S&amp;T, structuring ou quant.</p>
+      </div>
+      <div class="onboarding-card" onclick="startBlankCV()">
+        <h3>CV vide</h3>
+        <p>Réinitialise le contenu pour repartir proprement tout en gardant le moteur de style.</p>
+      </div>
+      <div class="onboarding-card" onclick="closeOnboarding()">
+        <h3>Continuer</h3>
+        <p>Ferme cette fenêtre et continue avec l’état actuel de ton fichier.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toast-msg">Sauvegardé</span></div>
@@ -1417,18 +2104,79 @@
   </div>
 </div>
 
+<div class="auth-overlay visible" id="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-title">Ton espace CV</div>
+    <div class="auth-sub">Crée un compte ou connecte-toi pour retrouver uniquement tes CV. L’accès au compte est validé par email : chaque utilisateur doit confirmer son inscription depuis sa boîte mail.</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="auth-tab-login" onclick="setAuthMode('login')">Connexion</button>
+      <button class="auth-tab" id="auth-tab-register" onclick="setAuthMode('register')">Créer un compte</button>
+    </div>
+    <label for="auth-email">Email</label>
+    <input type="text" id="auth-email" placeholder="nom@email.com" autocomplete="email">
+    <label for="auth-password">Mot de passe</label>
+    <input type="password" id="auth-password" placeholder="Minimum 6 caractères" autocomplete="current-password">
+    <div class="auth-error" id="auth-error"></div>
+    <div class="auth-info" id="auth-info"></div>
+    <button class="auth-link-btn" id="auth-resend" onclick="resendVerificationEmail()" style="display:none;">Renvoyer l’email de validation</button>
+    <div class="auth-actions">
+      <button class="auth-submit" id="auth-submit" onclick="submitAuth()">Se connecter</button>
+    </div>
+  </div>
+</div>
+
 <header>
-  <h1>CV Builder — Finance Template</h1>
-  <div style="display:flex;align-items:center;gap:12px;">
+  <div class="header-brand">
+    <div class="header-logo">📄</div>
+    <div class="header-brand-text">
+      <span class="header-brand-title">CV Builder</span>
+      <span class="header-brand-sub">Finance Template</span>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <!-- Undo / Redo -->
     <div class="undo-bar">
       <button class="btn-undo" id="btn-undo" onclick="undo()" disabled title="Annuler (Ctrl+Z)">↩</button>
       <button class="btn-undo" id="btn-redo" onclick="redo()" disabled title="Rétablir (Ctrl+Y)">↪</button>
     </div>
-    <button class="btn-focus" id="btn-focus" onclick="toggleFocus()" title="Mode focus">⛶ Focus</button>
+
+    <div class="header-divider"></div>
+
+    <!-- Focus mode -->
+    <button class="btn-focus" id="btn-focus" onclick="toggleFocus()" title="Mode focus">
+      <span>⛶</span> Focus
+    </button>
+
+    <div class="header-divider"></div>
+
+    <!-- Dark mode toggle -->
+    <div class="dark-toggle" onclick="toggleDarkMode()" title="Basculer le dark mode">
+      <span class="dark-toggle-icon" id="dark-toggle-icon">🌙</span>
+      <span class="dark-toggle-label" id="dark-toggle-label">Dark</span>
+      <div class="dark-toggle-switch" id="dark-toggle-switch"></div>
+    </div>
+
+    <div class="header-divider"></div>
+
+    <!-- Firebase save -->
     <div class="fb-status">
-      <div class="fb-dot" id="fb-dot"></div>
-      <span id="fb-label" style="font-size:11px;color:rgba(255,255,255,0.4);"></span>
-      <button class="btn-save" id="btn-save" onclick="saveToFirebase()" disabled>💾 Sauvegarder</button>
+      <div class="fb-dot" id="fb-dot" title="Statut Firebase"></div>
+      <span id="fb-label" style="font-size:10px;color:rgba(255,255,255,0.35);">Hors ligne</span>
+      <button class="btn-save" id="btn-save" onclick="saveToFirebase()" disabled>
+        <span>💾</span> Sauvegarder
+      </button>
+    </div>
+
+    <div class="header-divider"></div>
+
+    <div class="auth-userbar">
+      <div class="auth-pill" id="auth-pill" style="display:none;">
+        <span>👤</span>
+        <span id="auth-user-email"></span>
+      </div>
+      <button class="btn-auth" id="btn-login" onclick="openAuthModal()">Connexion</button>
+      <button class="btn-auth" id="btn-logout" onclick="logoutUser()" style="display:none;">Déconnexion</button>
     </div>
   </div>
 </header>
@@ -1723,9 +2471,41 @@
         <p style="font-size:10px;color:var(--muted);margin-top:6px;font-style:italic;">Laisse vide pour utiliser le nom du CV automatiquement.</p>
       </div>
 
+      <div class="style-group">
+        <div class="style-group-title">Presets métiers</div>
+        <div class="preset-grid">
+          <button class="preset-btn" id="preset-btn-ib" onclick="applyPreset('ib')">Investment Banking</button>
+          <button class="preset-btn" id="preset-btn-snt" onclick="applyPreset('snt')">Sales & Trading</button>
+          <button class="preset-btn" id="preset-btn-pe" onclick="applyPreset('pe')">Private Equity</button>
+          <button class="preset-btn" id="preset-btn-quant" onclick="applyPreset('quant')">Quant / Tech</button>
+        </div>
+        <p class="mini-note">Applique une base propre en un clic, puis affine avec les sliders si besoin.</p>
+      </div>
+
+      <div class="style-group">
+        <div class="style-group-title">Densité</div>
+        <div class="density-grid">
+          <button class="density-btn" id="density-btn-compact" onclick="setDensityMode('compact')">Compact</button>
+          <button class="density-btn active" id="density-btn-balanced" onclick="setDensityMode('balanced')">Balanced</button>
+          <button class="density-btn" id="density-btn-airy" onclick="setDensityMode('airy')">Airy</button>
+        </div>
+        <p class="mini-note">Raccourci rapide pour ajuster la respiration générale sans toucher chaque slider.</p>
+      </div>
+
+      <div class="style-group">
+        <div class="style-group-title">Historique de versions</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-add" style="margin-top:0;flex:1;" onclick="saveNamedVersion()">＋ Sauvegarder une version</button>
+        </div>
+        <div class="version-list" id="version-list">
+          <div class="version-empty">Aucune version enregistrée pour l’instant.</div>
+        </div>
+      </div>
+
       <!-- FONT SIZES -->
       <div class="style-group">
         <div class="style-group-title">Tailles typographiques</div>
+        <button class="btn-add" style="margin-top:0;margin-bottom:12px;" onclick="resetFontSizes()">↺ Réinitialiser les tailles</button>
         <p style="font-size:11px;color:var(--muted);margin-bottom:12px;font-style:italic;">Ajuste la taille de chaque élément en temps réel.</p>
 
         <label>Nom (header)</label>
@@ -1765,9 +2545,9 @@
           <span class="slider-val" id="sz-bullets-val">9.5pt</span>
         </div>
 
-        <button class="btn-add" style="margin-top:20px;" onclick="resetFontSizes()">↺ Réinitialiser les tailles</button>
-
-        <label style="margin-top:18px;">Espacement entre sections</label>
+        <div class="style-group-title" style="margin-top:18px;">Espacements</div>
+        <button class="btn-add" style="margin-top:0;margin-bottom:12px;" onclick="resetSpacingOnly()">↺ Réinitialiser les espacements</button>
+        <label style="margin-top:0;">Espacement entre sections</label>
         <div class="slider-row">
           <input type="range" min="4" max="32" step="1" id="sz-spacing" value="14" oninput="applySectionSpacing(this.value);document.getElementById('sz-spacing-val').textContent=this.value+'px'">
           <span class="slider-val" id="sz-spacing-val">14px</span>
@@ -1791,10 +2571,12 @@
           <span class="slider-val" id="sz-indent-val">32px</span>
         </div>
 
-        <label>Graisse du nom</label>
+        <div class="style-group-title" style="margin-top:18px;">Header</div>
+        <button class="btn-add" style="margin-top:0;margin-bottom:12px;" onclick="resetHeaderStyleOnly()">↺ Réinitialiser le header</button>
+        <label style="margin-top:0;">Graisse du nom</label>
         <div class="font-picker" style="margin-top:6px;">
-          <button class="font-btn active" id="weight-btn-bold" onclick="setNameWeight('bold')">Gras</button>
-          <button class="font-btn" id="weight-btn-semibold" onclick="setNameWeight('600')">Semi-gras</button>
+          <button class="font-btn" id="weight-btn-bold" onclick="setNameWeight('bold')">Gras</button>
+          <button class="font-btn active" id="weight-btn-semibold" onclick="setNameWeight('600')">Semi-gras</button>
           <button class="font-btn" id="weight-btn-regular" onclick="setNameWeight('normal')">Regular</button>
         </div>
 
@@ -1815,7 +2597,8 @@
       <!-- MARGINS -->
       <div class="style-group">
         <div class="style-group-title">Marges du CV</div>
-        <label>Marge gauche</label>
+        <button class="btn-add" style="margin-top:0;margin-bottom:12px;" onclick="resetMargins()">↺ Réinitialiser les marges</button>
+        <label style="margin-top:0;">Marge gauche</label>
         <div class="slider-row">
           <input type="range" min="10" max="100" step="2" id="mg-l" value="62" oninput="applyMargins();document.getElementById('mg-l-val').textContent=this.value+'px'">
           <span class="slider-val" id="mg-l-val">62px</span>
@@ -1830,7 +2613,7 @@
           <input type="range" min="10" max="80" step="2" id="mg-tb" value="32" oninput="applyMargins();document.getElementById('mg-tb-val').textContent=this.value+'px'">
           <span class="slider-val" id="mg-tb-val">32px</span>
         </div>
-        <button class="btn-add" style="margin-top:10px;" onclick="resetMargins()">↺ Réinitialiser les marges</button>
+        
       </div>
 
     </div>
@@ -1839,37 +2622,70 @@
   <!-- PREVIEW PANEL -->
   <div class="preview-panel">
     <div class="preview-actions">
-      <!-- LEFT GROUP: view controls -->
-      <div class="pact-group">
-        <div class="preview-size-toggle">
-          <button class="psz-btn active" id="psz-a4" onclick="setPreviewSize('a4')">A4</button>
-          <button class="psz-btn" id="psz-mobile" onclick="setPreviewSize('mobile')">📱</button>
+
+      <!-- LIGNE 1 : Contrôles de vue + Analyse -->
+      <div class="tb-row">
+        <!-- Format -->
+        <div class="pact-group">
+          <div class="preview-size-toggle">
+            <button class="psz-btn active" id="psz-a4" onclick="setPreviewSize('a4')">A4</button>
+            <button class="psz-btn" id="psz-mobile" onclick="setPreviewSize('mobile')">📱</button>
+          </div>
+          <button class="btn-gray" id="btn-gray" onclick="toggleGrayscale()" title="Aperçu N&B">N&amp;B</button>
         </div>
-        <button class="btn-gray" id="btn-gray" onclick="toggleGrayscale()" title="Aperçu noir & blanc">N&B</button>
-        <div class="zoom-row">
-          <span style="font-size:11px;color:rgba(255,255,255,0.4);">🔍</span>
-          <input type="range" min="60" max="130" step="5" value="100" id="zoom-slider" oninput="applyZoom(this.value)">
-          <span class="zoom-label" id="zoom-label">100%</span>
+
+        <div class="tb-sep"></div>
+
+        <!-- Outils de vue -->
+        <div class="pact-group">
+          <button class="btn-secondary" id="btn-scan" onclick="toggleRecruiterScan()" title="Vue recruteur 6 secondes">👁 Scan</button>
+          <button class="btn-secondary" onclick="autoFitOnePage()" title="Tenir sur une page">⚡ Auto-fit</button>
+        </div>
+
+        <div class="tb-sep"></div>
+
+        <!-- Zoom -->
+        <div class="pact-group">
+          <div class="zoom-row">
+            <span style="font-size:11px;opacity:0.35;">🔍</span>
+            <input type="range" min="60" max="130" step="5" value="100" id="zoom-slider" oninput="applyZoom(this.value)">
+            <span class="zoom-label" id="zoom-label">100%</span>
+          </div>
+        </div>
+
+        <div class="tb-sep"></div>
+
+        <!-- Analyse -->
+        <div class="pact-group" style="position:relative;">
+          <button class="btn-download" id="btn-wc" onclick="toggleWordCount()" title="Compteur de mots"
+            style="color:#4caf7d;border-color:rgba(46,120,70,0.35);background:rgba(46,100,60,0.15);">Σ Mots</button>
+          <button class="btn-download" id="btn-verbs" onclick="toggleVerbCheck()" title="Verbes d'action"
+            style="color:#e09b3d;border-color:rgba(160,100,0,0.35);background:rgba(130,80,0,0.15);">⚡ Verbes</button>
+          <div class="verb-legend" id="verb-legend">
+            <div class="verb-legend-dot" style="background:#e67e22;"></div><span>Manquant</span>
+            <div class="verb-legend-dot" style="background:#e74c3c;margin-left:2px;"></div><span>Faible</span>
+          </div>
         </div>
       </div>
 
-      <!-- CENTER GROUP: analysis tools -->
-      <div class="pact-group">
-        <button class="btn-download" id="btn-wc" onclick="toggleWordCount()" style="padding:5px 10px;font-size:11px;background:#2e5c2e;" title="Compteur de mots par bullet">Σ mots</button>
-        <button class="btn-download" id="btn-verbs" onclick="toggleVerbCheck()" style="padding:5px 10px;font-size:11px;background:#7a4a00;" title="Vérifier verbes d'action">⚡ Verbes</button>
-        <div class="verb-legend" id="verb-legend">
-          <div class="verb-legend-dot" style="background:#e67e22;"></div><span>Manquant</span>
-          <div class="verb-legend-dot" style="background:#e74c3c;margin-left:6px;"></div><span>Faible</span>
+      <!-- LIGNE 2 : Exports -->
+      <div class="tb-row">
+        <span style="font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.25);font-family:'DM Sans',sans-serif;padding:0 4px;flex-shrink:0;">Export</span>
+        <div class="tb-sep"></div>
+        <div class="pact-group">
+          <button class="btn-download" onclick="exportJSON()" title="Sauvegarder en JSON">↓ JSON</button>
+          <label class="btn-download" style="cursor:pointer;margin:0;" title="Charger un JSON">
+            ↑ JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;">
+          </label>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="pact-group pact-right">
+          <button class="btn-pdf" onclick="downloadPdf()">↓ PDF</button>
+          <button class="btn-download" onclick="downloadDocx()" id="btn-dl"
+            style="color:#7aabdf;border-color:rgba(26,80,140,0.4);background:rgba(26,58,92,0.2);">↓ DOCX</button>
         </div>
       </div>
 
-      <!-- RIGHT GROUP: exports -->
-      <div class="pact-group pact-right">
-        <button class="btn-download" onclick="exportJSON()" style="background:#4a4a6a;font-size:11px;padding:5px 10px;" title="Backup JSON">↓ JSON</button>
-        <label class="btn-download" style="background:#4a4a6a;font-size:11px;padding:5px 10px;cursor:pointer;margin:0;" title="Importer un JSON">↑ JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;"></label>
-        <button class="btn-pdf" style="padding:5px 14px;" onclick="downloadPdf()">⬇ PDF</button>
-        <button class="btn-download" style="padding:5px 14px;" onclick="downloadDocx()" id="btn-dl">⬇ DOCX</button>
-      </div>
     </div>
     <div class="preview-panel-inner" id="preview-panel-inner">
     <div class="density-bar-wrap" id="density-bar-wrap">
@@ -1878,10 +2694,10 @@
       </div>
       <span class="density-label" id="density-label">0%</span>
     </div>
-    <div class="cv-page" id="cv-preview">
-      <div class="cv-overflow-line" id="cv-overflow-line">
-        <span class="cv-overflow-label">Limite 1 page</span>
-      </div>
+    <div class="cv-pages-wrapper" id="cv-pages-wrapper">
+      <!-- Sheet backgrounds added dynamically by updatePages() -->
+      <!-- cv-page sits on top of all sheet backgrounds as a single flow div -->
+      <div class="cv-page" id="cv-preview"></div>
     </div>
     </div>
   </div>
@@ -1891,7 +2707,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1907,14 +2723,21 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-window._firebase = { auth, db, doc, getDoc, setDoc, collection, getDocs, deleteDoc };
+window._firebase = {
+  auth, db, doc, getDoc, setDoc, collection, getDocs, deleteDoc,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification
+};
 
-signInAnonymously(auth).catch(e => console.warn('Firebase auth:', e));
 onAuthStateChanged(auth, user => {
+  window.firebaseReady = true;
   if (user) {
     window._firebaseUid = user.uid;
-    window.firebaseReady = true;
-    if (window._onFirebaseReady) window._onFirebaseReady(user.uid);
+    window._firebaseUser = user;
+    if (window._onFirebaseReady) window._onFirebaseReady(user);
+  } else {
+    window._firebaseUid = null;
+    window._firebaseUser = null;
+    if (window._onFirebaseLogout) window._onFirebaseLogout();
   }
 });
 </script>
@@ -1949,6 +2772,160 @@ const sectionBulletSpacing = {
 
 let eduCount = 0, expCount = 0, leadCount = 0, projCount = 0, hobbyCount = 0;
 
+
+let authMode = 'login';
+let authInitialized = false;
+
+function setAuthMode(mode) {
+  authMode = mode === 'register' ? 'register' : 'login';
+  document.getElementById('auth-tab-login')?.classList.toggle('active', authMode === 'login');
+  document.getElementById('auth-tab-register')?.classList.toggle('active', authMode === 'register');
+  const submit = document.getElementById('auth-submit');
+  const pwd = document.getElementById('auth-password');
+  if (submit) submit.textContent = authMode === 'register' ? 'Créer mon compte' : 'Se connecter';
+  if (pwd) pwd.setAttribute('autocomplete', authMode === 'register' ? 'new-password' : 'current-password');
+  clearAuthError();
+}
+function openAuthModal() {
+  document.getElementById('auth-overlay')?.classList.add('visible');
+}
+function closeAuthModal() {
+  document.getElementById('auth-overlay')?.classList.remove('visible');
+}
+function showAuthError(message) {
+  const el = document.getElementById('auth-error');
+  if (!el) return;
+  el.textContent = message;
+  el.classList.add('visible');
+}
+function showAuthInfo(message, allowResend = false) {
+  const el = document.getElementById('auth-info');
+  const resend = document.getElementById('auth-resend');
+  if (el) {
+    el.textContent = message;
+    el.classList.add('visible');
+  }
+  if (resend) resend.style.display = allowResend ? 'inline-block' : 'none';
+}
+function clearAuthError() {
+  document.getElementById('auth-error')?.classList.remove('visible');
+  document.getElementById('auth-info')?.classList.remove('visible');
+  const resend = document.getElementById('auth-resend');
+  if (resend) resend.style.display = 'none';
+}
+function mapAuthError(error) {
+  const code = error?.code || '';
+  if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')) return 'Email ou mot de passe incorrect.';
+  if (code.includes('email-already-in-use')) return 'Cet email est déjà utilisé.';
+  if (code.includes('invalid-email')) return 'L’adresse email est invalide.';
+  if (code.includes('weak-password')) return 'Le mot de passe doit contenir au moins 6 caractères.';
+  if (code.includes('network-request-failed')) return 'Problème réseau. Réessaie.';
+  return error?.message || 'Une erreur est survenue.';
+}
+async function submitAuth() {
+  const email = (document.getElementById('auth-email')?.value || '').trim();
+  const password = (document.getElementById('auth-password')?.value || '').trim();
+  const btn = document.getElementById('auth-submit');
+  if (!email || !password) {
+    showAuthError('Renseigne un email et un mot de passe.');
+    return;
+  }
+  clearAuthError();
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = authMode === 'register' ? 'Création…' : 'Connexion…';
+  }
+  try {
+    const { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } = window._firebase;
+    if (authMode === 'register') {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(cred.user);
+      await signOut(auth);
+      setAuthMode('login');
+      showAuthInfo('Compte créé. Un email de validation vient d’être envoyé. Clique sur le lien reçu avant de te connecter.', true);
+    } else {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      if (!cred.user.emailVerified) {
+        await signOut(auth);
+        showAuthInfo('Ton adresse email n’est pas encore validée. Vérifie ta boîte mail puis reconnecte-toi.', true);
+        return;
+      }
+    }
+  } catch (e) {
+    showAuthError(mapAuthError(e));
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = authMode === 'register' ? 'Créer mon compte' : 'Se connecter';
+    }
+  }
+}
+async function resendVerificationEmail() {
+  const email = (document.getElementById('auth-email')?.value || '').trim();
+  const password = (document.getElementById('auth-password')?.value || '').trim();
+  if (!email || !password) {
+    showAuthError('Pour renvoyer l’email, renseigne l’email et le mot de passe du compte.');
+    return;
+  }
+  clearAuthError();
+  try {
+    const { auth, signInWithEmailAndPassword, sendEmailVerification, signOut } = window._firebase;
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    if (cred.user.emailVerified) {
+      await signOut(auth);
+      showAuthInfo('Cette adresse est déjà validée. Tu peux te connecter.', false);
+      return;
+    }
+    await sendEmailVerification(cred.user);
+    await signOut(auth);
+    showAuthInfo('Email de validation renvoyé. Pense à vérifier tes spams.', true);
+  } catch (e) {
+    showAuthError(mapAuthError(e));
+  }
+}
+async function logoutUser() {
+  try {
+    await window._firebase.signOut(window._firebase.auth);
+  } catch (e) {
+    showToast('Erreur de déconnexion : ' + e.message, true);
+  }
+}
+function updateAuthUI(user) {
+  const email = user?.email || 'Utilisateur';
+  const loginBtn = document.getElementById('btn-login');
+  const logoutBtn = document.getElementById('btn-logout');
+  const pill = document.getElementById('auth-pill');
+  const pillEmail = document.getElementById('auth-user-email');
+  const label = document.getElementById('fb-label');
+  const saveBtn = document.getElementById('btn-save');
+  const dot = document.getElementById('fb-dot');
+  if (user) {
+    if (pillEmail) pillEmail.textContent = email;
+    if (pill) pill.style.display = 'inline-flex';
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+    if (label) label.textContent = 'Connecté';
+    if (saveBtn) saveBtn.disabled = false;
+    if (dot) dot.className = 'fb-dot connected';
+  } else {
+    if (pill) pill.style.display = 'none';
+    if (loginBtn) loginBtn.style.display = 'inline-flex';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+    if (label) label.textContent = 'Hors ligne';
+    if (saveBtn) saveBtn.disabled = true;
+    if (dot) dot.className = 'fb-dot';
+  }
+}
+function initBlankAccountSession() {
+  cvList = [{ id: 'cv_default', name: 'Mon CV', data: snapshotCurrentCV() }];
+  currentCvId = 'cv_default';
+  clearAllContent();
+  const cur = cvList[0];
+  if (cur) cur.data = snapshotCurrentCV();
+  renderCvTabs();
+  showPrimaryNav('contenu');
+}
+
 // ---- UNDO / REDO ----
 let undoStack = [], redoStack = [];
 const MAX_UNDO = 50;
@@ -1974,7 +2951,10 @@ function captureStyleExtras() {
     accentColor: cvAccentColor,
     font: cvFont,
     orgBold, titleBold, titleItalic,
-    nameSeparator
+    nameSeparator,
+    contactIcons,
+    densityMode: currentDensityMode,
+    recruiterScanMode
   };
 }
 
@@ -2036,6 +3016,11 @@ function restoreFromSnap(snap) {
     }
     if (se.font) setFont(se.font);
     if (se.nameSeparator) setNameSeparator(se.nameSeparator);
+    if (se.contactIcons) setContactIcons(se.contactIcons);
+    if (se.densityMode) setDensityMode(se.densityMode, true);
+    recruiterScanMode = false;
+    document.getElementById('btn-scan')?.classList.remove('active');
+    if (se.recruiterScanMode) toggleRecruiterScan();
     if (se.orgBold !== undefined) orgBold = se.orgBold;
     if (se.titleBold !== undefined) titleBold = se.titleBold;
     if (se.titleItalic !== undefined) titleItalic = se.titleItalic;
@@ -2684,18 +3669,24 @@ function runAtsCheck() {
 let previewSize = 'a4';
 function setPreviewSize(size) {
   previewSize = size;
-  const page = document.querySelector('.cv-page');
+  const page    = document.querySelector('.cv-page');
+  const wrapper = document.getElementById('cv-pages-wrapper');
   document.getElementById('psz-a4').classList.toggle('active', size === 'a4');
   document.getElementById('psz-mobile').classList.toggle('active', size === 'mobile');
   if (size === 'mobile') {
     page.classList.add('mobile-preview');
-    // Override padding for mobile
     page.style.padding = '20px 18px';
+    if (wrapper) { wrapper.style.width = '375px'; }
+    page.style.width = '375px';
+    page.style.minHeight = '812px';
   } else {
     page.classList.remove('mobile-preview');
-    applyMargins(); // restore user margins
+    if (wrapper) { wrapper.style.width = '750px'; }
+    page.style.width = '';
+    page.style.minHeight = '';
+    applyMargins();
   }
-  requestAnimationFrame(updateDensity);
+  requestAnimationFrame(updatePages);
 }
 
 // ---- FOCUS MODE ----
@@ -2719,45 +3710,192 @@ function updateSectionLabel(el) {
   }
 }
 
-// ---- PAGE DENSITY ----
-// A4 at 96dpi ≈ 1123px, but cv-page min-height is 1060px (our reference)
+// ---- PAGE DENSITY + MULTI-PAGE PREVIEW ----
+// A4 at 96dpi: 21cm × 29.7cm → 793px × 1122px
+// cv-page width is 750px (slightly narrower for padding), height reference = 1060px
 const A4_HEIGHT_PX = 1060;
-function updateDensity() {
+let relayoutRaf = null;
+let paginationResizeObserver = null;
+let paginationMutationObserver = null;
+
+function queueRelayout() {
+  if (relayoutRaf) cancelAnimationFrame(relayoutRaf);
+  relayoutRaf = requestAnimationFrame(() => {
+    relayoutRaf = null;
+    updatePages();
+  });
+}
+
+function installAutoPaginationObservers() {
   const preview = document.getElementById('cv-preview');
-  if (!preview) return;
-  const contentH = preview.scrollHeight;
-  const pct = Math.min(Math.round((contentH / A4_HEIGHT_PX) * 100), 150);
-  const fill = document.getElementById('density-bar-fill');
-  const label = document.getElementById('density-label');
-  const overLine = document.getElementById('cv-overflow-line');
-  if (!fill || !label) return;
+  const wrapper = document.getElementById('cv-pages-wrapper');
+  if (!preview || !wrapper) return;
 
-  fill.style.width = Math.min(pct, 100) + '%';
-  fill.className = 'density-bar-fill' + (pct >= 100 ? ' over' : pct >= 85 ? ' warn' : '');
-  label.textContent = pct + '% rempli';
-  label.className = 'density-label' + (pct >= 100 ? ' over' : '');
+  if (paginationResizeObserver) paginationResizeObserver.disconnect();
+  if (paginationMutationObserver) paginationMutationObserver.disconnect();
 
-  // Overflow dashed line
-  if (overLine) {
-    if (pct >= 100) {
-      overLine.classList.add('visible');
-      overLine.style.top = A4_HEIGHT_PX + 'px';
-    } else {
-      overLine.classList.remove('visible');
+  if ('ResizeObserver' in window) {
+    paginationResizeObserver = new ResizeObserver(() => queueRelayout());
+    paginationResizeObserver.observe(preview);
+    paginationResizeObserver.observe(wrapper);
+  }
+
+  paginationMutationObserver = new MutationObserver((mutations) => {
+    if (preview.dataset.paginationPass === '1') return;
+    const meaningful = mutations.some(m => (
+      m.type === 'childList' ||
+      (m.type === 'attributes' && !['style','data-pagination-pass'].includes(m.attributeName))
+    ));
+    if (meaningful) queueRelayout();
+  });
+  paginationMutationObserver.observe(preview, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: false
+  });
+}
+
+function updateDensity() { updatePages(); } // alias kept for all existing callers
+
+function clearPaginationArtifacts(preview, wrapper) {
+  preview.querySelectorAll('.page-break-spacer,.cv-page-sep,.cv-page-margin-bottom,#cv-overflow-banner').forEach(el => el.remove());
+  wrapper?.querySelectorAll('.cv-page-sheet').forEach(el => el.remove());
+}
+
+function paginatePreviewBlocks(preview, mgTB, PAGE_H) {
+  const blockSelector = '.cv-contact, .cv-section-title, .cv-entry, .cv-skills-list, .cv-plain, .cv-bullets li';
+  const maxContentPerPage = PAGE_H - (mgTB * 2);
+  let changed = true;
+  let guard = 0;
+
+  while (changed && guard < 30) {
+    changed = false;
+    guard += 1;
+    preview.querySelectorAll('.page-break-spacer').forEach(el => el.remove());
+
+    const blocks = [...preview.querySelectorAll(blockSelector)];
+    for (const block of blocks) {
+      const top = block.offsetTop;
+      const bottom = top + block.offsetHeight;
+      const pageIndex = Math.floor(top / PAGE_H);
+      const pageStart = pageIndex * PAGE_H;
+      const pageContentStart = pageStart + mgTB;
+      const pageLimit = pageStart + (PAGE_H - mgTB);
+
+      let blockBottom = bottom;
+      if (block.classList.contains('cv-section-title')) {
+        const section = block.closest('.cv-section');
+        const nextKeep = section?.querySelector('.cv-entry, .cv-skills-list, .cv-plain, .cv-bullets li');
+        if (nextKeep && nextKeep.offsetTop >= top) {
+          blockBottom = Math.max(blockBottom, nextKeep.offsetTop + nextKeep.offsetHeight);
+        }
+      }
+
+      const blockHeight = blockBottom - top;
+      const pinnedAtFreshPage = Math.abs(top - pageContentStart) < 2;
+      if (blockHeight > maxContentPerPage && pinnedAtFreshPage) continue;
+
+      if (blockBottom > pageLimit) {
+        const nextPageStart = ((pageIndex + 1) * PAGE_H) + mgTB;
+        const spacerHeight = Math.max(0, nextPageStart - top);
+        if (spacerHeight > 1) {
+          const spacer = document.createElement('div');
+          spacer.className = 'page-break-spacer';
+          spacer.style.height = `${spacerHeight}px`;
+          block.parentNode.insertBefore(spacer, block);
+          changed = true;
+          break;
+        }
+      }
     }
   }
 }
 
+function updatePages() {
+  const preview = document.getElementById('cv-preview');
+  const wrapper = document.getElementById('cv-pages-wrapper');
+  const fill    = document.getElementById('density-bar-fill');
+  const label   = document.getElementById('density-label');
+  if (!preview || !wrapper || !fill || !label) return;
+
+  preview.dataset.paginationPass = '1';
+  try {
+  const mgTB   = parseFloat(document.getElementById('mg-tb')?.value || 32);
+  const PAGE_H = A4_HEIGHT_PX;
+  const usablePageHeight = PAGE_H - (mgTB * 2);
+  const limitY = PAGE_H - mgTB;
+
+  preview.style.overflow = 'visible';
+  preview.style.height = 'auto';
+  preview.style.minHeight = PAGE_H + 'px';
+
+  clearPaginationArtifacts(preview, wrapper);
+  paginatePreviewBlocks(preview, mgTB, PAGE_H);
+
+  const contentH = Math.max(preview.scrollHeight, PAGE_H);
+  const pageCount = Math.max(1, Math.ceil(contentH / PAGE_H));
+  const totalHeight = pageCount * PAGE_H;
+
+  preview.style.height = totalHeight + 'px';
+  wrapper.style.height = totalHeight + 'px';
+
+  for (let i = 0; i < pageCount; i += 1) {
+    const sheet = document.createElement('div');
+    sheet.className = 'cv-page-sheet';
+    sheet.style.top = `${i * PAGE_H}px`;
+    wrapper.insertBefore(sheet, preview);
+
+    const marginZone = document.createElement('div');
+    marginZone.className = 'cv-page-margin-bottom';
+    marginZone.style.top = `${(i * PAGE_H) + limitY}px`;
+    marginZone.style.height = `${PAGE_H - limitY}px`;
+    preview.appendChild(marginZone);
+
+    if (i > 0) {
+      const sep = document.createElement('div');
+      sep.className = 'cv-page-sep';
+      sep.dataset.label = `PAGE ${i + 1}`;
+      sep.style.top = `${i * PAGE_H}px`;
+      preview.appendChild(sep);
+    }
+  }
+
+  const lastPageUsed = Math.max(0, contentH - ((pageCount - 1) * PAGE_H) - mgTB);
+  const pct = Math.max(0, Math.round((lastPageUsed / Math.max(usablePageHeight, 1)) * 100));
+  fill.style.width = Math.min(pct, 100) + '%';
+  fill.className = 'density-bar-fill' + (pct >= 100 ? ' over' : pct >= 85 ? ' warn' : '');
+  label.textContent = pageCount > 1 ? `${pageCount} pages · ${Math.min(pct, 100)}%` : `${pct}% rempli`;
+  label.className = 'density-label' + (pct >= 100 ? ' over' : '');
+  } finally {
+    delete preview.dataset.paginationPass;
+  }
+}
+
+
 // ---- MARGINS ----
 function applyMargins() {
-  const l  = document.getElementById('mg-l')?.value  || 62;
-  const r  = document.getElementById('mg-r')?.value  || 52;
-  const tb = document.getElementById('mg-tb')?.value || 32;
+  const l  = parseFloat(document.getElementById('mg-l')?.value  || 62);
+  const r  = parseFloat(document.getElementById('mg-r')?.value  || 52);
+  const tb = parseFloat(document.getElementById('mg-tb')?.value || 32);
   const page = document.querySelector('.cv-page');
+  const wrapper = document.getElementById('cv-pages-wrapper');
   if (!page) return;
-  if (previewSize === 'mobile') return; // mobile preview has its own fixed padding
+  if (previewSize === 'mobile') return;
+
+  // Keep a symmetric printable area: top margin, side margins, and automatic bottom margin handling.
   page.style.padding = `${tb}px ${r}px ${tb}px ${l}px`;
-  requestAnimationFrame(updateDensity);
+  page.style.boxSizing = 'border-box';
+  page.style.setProperty('--cv-margin-left', `${l}px`);
+  page.style.setProperty('--cv-margin-right', `${r}px`);
+  page.style.setProperty('--cv-margin-tb', `${tb}px`);
+  if (wrapper) {
+    wrapper.style.setProperty('--cv-margin-left', `${l}px`);
+    wrapper.style.setProperty('--cv-margin-right', `${r}px`);
+    wrapper.style.setProperty('--cv-margin-tb', `${tb}px`);
+  }
+
+  queueRelayout();
   triggerSnapshot();
 }
 function resetMargins() {
@@ -2768,6 +3906,63 @@ function resetMargins() {
     if (lbl) lbl.textContent = def + 'px';
   });
   applyMargins();
+}
+
+
+function resetSpacingOnly() {
+  if (typeof pushUndo === 'function') pushUndo();
+
+  const spacingEl = document.getElementById('sz-spacing');
+  const spacingVal = document.getElementById('sz-spacing-val');
+  if (spacingEl) spacingEl.value = 14;
+  if (spacingVal) spacingVal.textContent = '14px';
+  if (typeof applySectionSpacing === 'function') applySectionSpacing(14);
+
+  const lhEl = document.getElementById('sz-lineheight');
+  const lhVal = document.getElementById('sz-lineheight-val');
+  if (lhEl) lhEl.value = 1.2;
+  if (lhVal) lhVal.textContent = '1.20';
+  if (typeof applyBulletLineHeight === 'function') applyBulletLineHeight(1.2);
+
+  const indEl = document.getElementById('sz-indent');
+  const indVal = document.getElementById('sz-indent-val');
+  if (indEl) indEl.value = 32;
+  if (indVal) indVal.textContent = '32px';
+  if (typeof applyBulletIndent === 'function') applyBulletIndent(32);
+
+  [['mg-l','62'],['mg-r','52'],['mg-tb','32']].forEach(([id, def]) => {
+    const el = document.getElementById(id);
+    const lbl = document.getElementById(id + '-val');
+    if (el) el.value = def;
+    if (lbl) lbl.textContent = def + 'px';
+  });
+  if (typeof applyMargins === 'function') applyMargins();
+
+  if (typeof sectionBulletSpacing === 'object' && sectionBulletSpacing) {
+    ['education','experience','leadership','projects','hobbies'].forEach(sec => {
+      sectionBulletSpacing[sec] = 0;
+      const slider = document.getElementById(`sp-${sec}`);
+      const label = document.getElementById(`sp-${sec}-val`);
+      if (slider) slider.value = 0;
+      if (label) label.textContent = '0px';
+    });
+  }
+
+  if (typeof render === 'function') render();
+  if (typeof triggerSnapshot === 'function') triggerSnapshot();
+  if (typeof showToast === 'function') showToast('Espacements réinitialisés ✓');
+}
+
+function resetHeaderStyleOnly() {
+  if (typeof pushUndo === 'function') pushUndo();
+
+  if (typeof setNameWeight === 'function') setNameWeight('600');
+  if (typeof setNameSeparator === 'function') setNameSeparator('none');
+  if (typeof setContactIcons === 'function') setContactIcons('none');
+
+  if (typeof render === 'function') render();
+  if (typeof triggerSnapshot === 'function') triggerSnapshot();
+  if (typeof showToast === 'function') showToast('Header réinitialisé ✓');
 }
 
 // ---- JSON EXPORT / IMPORT ----
@@ -3239,84 +4434,81 @@ function attachPreviewDragListeners() {
   });
 }
 
-// ---- PDF EXPORT — pixel-perfect match of preview ----
+// ---- PDF EXPORT — multi-page, pixel-perfect ----
 async function downloadPdf() {
   const btn = document.querySelector('.btn-pdf');
   btn.disabled = true;
   btn.textContent = 'Génération…';
 
-  // Disable analysis overlays
   const wcWas = wordCountOn, verbWas = verbCheckOn;
   if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); await new Promise(r => setTimeout(r, 100)); }
 
   const cvEl = document.querySelector('.cv-page');
+  const wrapper = document.getElementById('cv-pages-wrapper');
 
-  // Snap out of mobile preview if needed
   const wasMobile = previewSize === 'mobile';
-  if (wasMobile) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 80)); }
+  if (wasMobile && cvEl) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 80)); }
 
-  // Remove any UI zoom/transform on the wrapper so html2canvas sees the real element
-  const inner = document.querySelector('.preview-panel-inner');
-  const prevTransform = inner ? inner.style.transform : null;
-  if (inner) inner.style.transform = 'none';
+  const prevWrapperTransform = wrapper ? wrapper.style.transform : null;
+  if (wrapper) wrapper.style.transform = 'none';
   await new Promise(r => setTimeout(r, 60));
 
   try {
-    // Capture at the element's natural layout size (no override)
-    const naturalW = cvEl.offsetWidth;   // true CSS px width (e.g. 750)
-    const naturalH = cvEl.scrollHeight;  // full content height incl. overflow
+    updatePages();
+    document.body.classList.add('exporting-pdf');
+    await new Promise(r => setTimeout(r, 40));
 
-    const SCALE = 4; // 4× → ~384dpi at screen 96dpi, crisp on Letter
-    const canvas = await html2canvas(cvEl, {
+    const exportEl = wrapper || cvEl;
+    const naturalW = exportEl.offsetWidth;
+    const totalHeight = exportEl.offsetHeight;
+    const pageCount = Math.max(1, Math.ceil(totalHeight / A4_HEIGHT_PX));
+    const SCALE = 4;
+
+    const canvas = await html2canvas(exportEl, {
       scale: SCALE,
       useCORS: true,
       allowTaint: false,
       backgroundColor: '#ffffff',
       logging: false,
       width: naturalW,
-      height: naturalH,
+      height: totalHeight,
       scrollX: 0,
       scrollY: 0,
       windowWidth: naturalW,
-      windowHeight: naturalH
+      windowHeight: totalHeight
     });
-
-    // Convert the exact px dimensions to mm using screen DPI (96px = 25.4mm)
-    // This preserves the preview's proportions 1-to-1 — no stretching
-    const PX_TO_MM = 25.4 / 96;
-    const pdfW = naturalW * PX_TO_MM;   // 750px → ~198.4mm
-    const pdfH = naturalH * PX_TO_MM;   // exact content height in mm
 
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({
-      orientation: pdfW > pdfH ? 'landscape' : 'portrait',
-      unit: 'mm',
-      format: [pdfW, pdfH],  // custom page = exact preview dimensions
-      compress: true
-    });
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
+    const slicePxHeight = A4_HEIGHT_PX * SCALE;
 
-    const imgData = canvas.toDataURL('image/png');
-    // Image fills page exactly — same aspect ratio, zero distortion
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfW, pdfH, undefined, 'FAST');
+    for (let i = 0; i < pageCount; i += 1) {
+      if (i > 0) pdf.addPage();
+      const slice = document.createElement('canvas');
+      slice.width = canvas.width;
+      slice.height = slicePxHeight;
+      const ctx = slice.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, slice.width, slice.height);
+      ctx.drawImage(canvas, 0, i * slicePxHeight, canvas.width, slicePxHeight, 0, 0, slice.width, slice.height);
+      pdf.addImage(slice.toDataURL('image/png'), 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+    }
 
-    const filename = getExportFilename() + '.pdf';
-    pdf.save(filename);
-
+    pdf.save(getExportFilename() + '.pdf');
   } catch(err) {
     alert('Erreur PDF : ' + err.message);
     console.error(err);
+  } finally {
+    document.body.classList.remove('exporting-pdf');
+    if (wrapper && prevWrapperTransform !== null) wrapper.style.transform = prevWrapperTransform;
+    btn.disabled = false;
+    btn.textContent = '⬇ PDF';
+    if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
   }
-
-  // Restore UI state
-  if (inner && prevTransform !== null) inner.style.transform = prevTransform;
-  if (wasMobile) { cvEl.classList.add('mobile-preview'); cvEl.style.padding = '20px 18px'; }
-  if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
-
-  btn.disabled = false;
-  btn.textContent = '⬇ PDF';
 }
 
-// ---- DOCX EXPORT (HTML-to-Word blob, no external lib needed) ----
+
+// ---- WORD EXPORT (preview-faithful via page images) ----
 function downloadDocx() {
   const btn = document.getElementById('btn-dl');
   btn.disabled = true;
@@ -3526,24 +4718,81 @@ function downloadDocx() {
       if (docxSectionBuilders[key]) body += docxSectionBuilders[key]();
     });
 
+    // Convert px slider values → cm for Word @page margins
+    // A4 width = 21cm. cv-page width = 750px. At 96dpi: 1px = 2.54/96 cm ≈ 0.026458cm
+    const PX_TO_CM = 2.54 / 96;
+    const mgLpx  = parseFloat(document.getElementById('mg-l')?.value  || 62);
+    const mgRpx  = parseFloat(document.getElementById('mg-r')?.value  || 52);
+    const mgTBpx = parseFloat(document.getElementById('mg-tb')?.value || 32);
+
+    // cv-page content width (750px) + left margin + right margin = total page width
+    // We anchor to A4 (21cm wide). The cv-page itself is 750px wide at 96dpi ≈ 19.84cm
+    // So we use the px→cm ratio directly for margins
+    const mgLcm  = (mgLpx  * PX_TO_CM).toFixed(2);
+    const mgRcm  = (mgRpx  * PX_TO_CM).toFixed(2);
+    const mgTBcm = (mgTBpx * PX_TO_CM).toFixed(2);
+
     const html = `
-      <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+      <html xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:w="urn:schemas-microsoft-com:office:word"
+            xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+            xmlns="http://www.w3.org/TR/REC-html40">
       <head><meta charset="utf-8">
+      <xml>
+        <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:Zoom>100</w:Zoom>
+          <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+      </xml>
       <style>
-        @page WordSection1 { margin: 1.5cm 1.8cm; }
-        div.WordSection1 { page: WordSection1; }
-        body { margin: 0; padding: 0; }
-        p { margin: 0; padding: 0; }
-        table { border-collapse: collapse; width: 100%; }
-        td { border: none; padding: 0; }
-        ul, li { margin: 0; padding: 0; }
+        @page WordSection1 {
+          size: 21cm 29.7cm;
+          margin-top:    ${mgTBcm}cm;
+          margin-bottom: ${mgTBcm}cm;
+          margin-left:   ${mgLcm}cm;
+          margin-right:  ${mgRcm}cm;
+          mso-page-orientation: portrait;
+          mso-footer-margin: 0cm;
+          mso-header-margin: 0cm;
+        }
+        div.WordSection1 {
+          page: WordSection1;
+          mso-element: para-map;
+        }
+        body {
+          font-family: '${docxFont}', serif;
+          font-size: ${szBullets}pt;
+          margin: 0; padding: 0;
+          color: #000000;
+          line-height: ${lh};
+          mso-line-height-rule: exactly;
+        }
+        p  { margin: 0; padding: 0; mso-line-height-rule: exactly; }
+        h1, h2, h3 { margin: 0; padding: 0; }
+        table { border-collapse: collapse; width: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        td  { border: none; padding: 0; vertical-align: top; }
+        ul  { margin: 2px 0 0 0; padding-left: ${szIndent}px; mso-margin-top-alt: 0; }
+        li  { margin: 0; padding: 0; mso-line-height-rule: exactly; }
+        a   { color: #1a56a0; text-decoration: underline; }
+        .hr-section {
+          border: none;
+          border-bottom: 1pt solid ${cvAccentColor || '#000000'};
+          mso-element: para-map;
+        }
       </style>
-      </head><body><div class="WordSection1">${body}</div></body></html>`;
+      </head>
+      <body>
+      <div class="WordSection1">
+      ${body}
+      </div>
+      </body>
+      </html>`;
 
     const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
     a.download = getExportFilename() + '.doc';
     a.click();
     URL.revokeObjectURL(url);
@@ -3602,7 +4851,7 @@ function applySectionSpacing(val) {
 }
 
 // ---- NAME WEIGHT ----
-let nameWeight = 'bold';
+let nameWeight = '600';
 let orgBold = true;       // Noms entreprises/écoles en gras
 let titleBold = false;    // Titres de postes en gras
 let titleItalic = true;   // Titres de postes en italique
@@ -3710,31 +4959,26 @@ let _currentZoom = 1;
 function applyZoom(val) {
   const pct = val / 100;
   _currentZoom = pct;
-  const inner = document.getElementById('preview-panel-inner');
-  if (!inner) return;
+  const wrapper = document.getElementById('cv-pages-wrapper');
+  if (!wrapper) return;
 
-  inner.style.transform = `scale(${pct})`;
-  inner.style.transformOrigin = 'top center';
+  wrapper.style.transform = `scale(${pct})`;
+  wrapper.style.transformOrigin = 'top center';
 
-  // Compensate scroll area:
-  // When scaled down, the element "shrinks" visually but keeps its layout size,
-  // leaving white space. We shrink the container height to match visual size.
-  // When scaled up, we expand it so scroll works correctly.
-  const rect = inner.getBoundingClientRect();
-  const naturalH = inner.offsetHeight;
-  const scaledH = naturalH * pct;
-  // Negative margin collapses the extra space when zoomed out
-  inner.style.marginBottom = `${scaledH - naturalH}px`;
+  // Compensate layout space: wrapper keeps its natural size in the flow,
+  // so we adjust margins to collapse/expand the gap visually.
+  const naturalH = wrapper.offsetHeight;
+  const scaledH  = naturalH * pct;
+  wrapper.style.marginBottom = `${scaledH - naturalH}px`;
 
-  // Also adjust width centering: when zoomed out, center by adding h-margins
-  const naturalW = inner.offsetWidth;
-  const scaledW = naturalW * pct;
+  const naturalW = wrapper.offsetWidth;
+  const scaledW  = naturalW * pct;
   if (pct < 1) {
-    inner.style.marginLeft = `${(naturalW - scaledW) / 2}px`;
-    inner.style.marginRight = `${(naturalW - scaledW) / 2}px`;
+    wrapper.style.marginLeft  = `${(naturalW - scaledW) / 2}px`;
+    wrapper.style.marginRight = `${(naturalW - scaledW) / 2}px`;
   } else {
-    inner.style.marginLeft = '';
-    inner.style.marginRight = '';
+    wrapper.style.marginLeft  = '';
+    wrapper.style.marginRight = '';
   }
 
   document.getElementById('zoom-label').textContent = val + '%';
@@ -3856,8 +5100,294 @@ function initSliders() {
 }
 
 // ---- MULTI-CV STATE ----
+
+// ---- PRODUCT HELPERS / GUARDRAILS ----
+function clampValue(v, min, max) {
+  return Math.max(min, Math.min(max, parseFloat(v)));
+}
+function setSliderAndLabel(id, value, suffix='') {
+  const el = document.getElementById(id);
+  const lbl = document.getElementById(id + '-val');
+  if (el) el.value = value;
+  if (lbl) lbl.textContent = `${value}${suffix}`;
+}
+function getPageCount() {
+  const preview = document.getElementById('cv-preview');
+  const PAGE_H = typeof A4_HEIGHT_PX !== 'undefined' ? A4_HEIGHT_PX : 1060;
+  if (!preview) return 1;
+  return Math.max(1, Math.ceil((preview.scrollHeight || PAGE_H) / PAGE_H));
+}
+function isOverflowingPreview() {
+  return getPageCount() > 1;
+}
+
+// ---- PRESETS ----
+const rolePresets = {
+  ib:    { theme:'goldman', density:'compact', sectionSpacing:12, lineHeight:1.12, indent:28, margins:{l:58,r:46,tb:28}, sizes:{name:18, section:11.5, org:10.5, title:10, bullets:9.3, date:8.8}, header:{weight:'600', separator:'none', icons:'none'} },
+  snt:   { theme:'classic', density:'balanced', sectionSpacing:14, lineHeight:1.18, indent:30, margins:{l:60,r:50,tb:30}, sizes:{name:18, section:12, org:11, title:10.5, bullets:9.5, date:9}, header:{weight:'600', separator:'none', icons:'none'} },
+  pe:    { theme:'minimal', density:'compact', sectionSpacing:11, lineHeight:1.12, indent:28, margins:{l:58,r:46,tb:28}, sizes:{name:18, section:11.5, org:10.5, title:10, bullets:9.2, date:8.8}, header:{weight:'600', separator:'thin', icons:'none'} },
+  quant: { theme:'minimal', density:'compact', sectionSpacing:10, lineHeight:1.1, indent:26, margins:{l:56,r:46,tb:26}, sizes:{name:17.5, section:11, org:10.2, title:9.8, bullets:9, date:8.6}, header:{weight:'600', separator:'none', icons:'none'} }
+};
+
+function applyPreset(name) {
+  const p = rolePresets[name];
+  if (!p) return;
+  if (typeof pushUndo === 'function') pushUndo();
+
+  document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('preset-btn-' + name)?.classList.add('active');
+
+  if (p.theme && typeof applyTheme === 'function') applyTheme(p.theme);
+  if (p.density) setDensityMode(p.density, true);
+
+  if (p.sizes) {
+    if (p.sizes.name != null) { setSliderAndLabel('sz-name', p.sizes.name, 'pt'); applyFontSize('cv-name', 'sz-name'); }
+    if (p.sizes.section != null) { setSliderAndLabel('sz-section', p.sizes.section, 'pt'); applyFontSize('cv-section-title', 'sz-section'); }
+    if (p.sizes.org != null) { setSliderAndLabel('sz-org', p.sizes.org, 'pt'); applyFontSize('cv-entry-org', 'sz-org'); }
+    if (p.sizes.title != null) { setSliderAndLabel('sz-title', p.sizes.title, 'pt'); applyFontSize('cv-entry-title', 'sz-title'); }
+    if (p.sizes.bullets != null) { setSliderAndLabel('sz-bullets', p.sizes.bullets, 'pt'); applyFontSize('cv-bullets', 'sz-bullets'); }
+    if (p.sizes.date != null) {
+      setSliderAndLabel('sz-date', p.sizes.date, 'pt');
+      applyDateSize(p.sizes.date);
+    }
+  }
+
+  setSliderAndLabel('sz-spacing', p.sectionSpacing, 'px');
+  applySectionSpacing(clampValue(p.sectionSpacing, 8, 24));
+
+  setSliderAndLabel('sz-lineheight', Number(p.lineHeight).toFixed(2), '');
+  applyBulletLineHeight(clampValue(p.lineHeight, 1.0, 1.35));
+
+  setSliderAndLabel('sz-indent', p.indent, 'px');
+  applyBulletIndent(clampValue(p.indent, 20, 42));
+
+  setSliderAndLabel('mg-l', p.margins.l, 'px');
+  setSliderAndLabel('mg-r', p.margins.r, 'px');
+  setSliderAndLabel('mg-tb', p.margins.tb, 'px');
+  applyMargins();
+
+  setNameWeight(p.header.weight || '600');
+  setNameSeparator(p.header.separator || 'none');
+  setContactIcons(p.header.icons || 'none');
+
+  render();
+  showToast('Preset appliqué ✓');
+}
+
+// ---- DENSITY ----
+let currentDensityMode = 'balanced';
+function setDensityMode(mode, silent=false) {
+  currentDensityMode = mode;
+  document.querySelectorAll('.density-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('density-btn-' + mode)?.classList.add('active');
+
+  const configs = {
+    compact:  { spacing:10, lineHeight:1.1, indent:28 },
+    balanced: { spacing:14, lineHeight:1.2, indent:32 },
+    airy:     { spacing:18, lineHeight:1.28, indent:36 }
+  };
+  const cfg = configs[mode] || configs.balanced;
+
+  setSliderAndLabel('sz-spacing', cfg.spacing, 'px');
+  applySectionSpacing(cfg.spacing);
+  setSliderAndLabel('sz-lineheight', cfg.lineHeight.toFixed(2), '');
+  applyBulletLineHeight(cfg.lineHeight);
+  setSliderAndLabel('sz-indent', cfg.indent, 'px');
+  applyBulletIndent(cfg.indent);
+
+  if (!silent) {
+    render();
+    showToast(`Densité ${mode} appliquée ✓`);
+  }
+}
+
+// ---- AUTO FIT 1 PAGE ----
+function autoFitOnePage() {
+  if (typeof pushUndo === 'function') pushUndo();
+  const minSpacing = 8, minLineHeight = 1.0, minIndent = 20;
+  const minBullet = 8.5, minTitle = 9.5, minOrg = 9.5, minSection = 10.5;
+  let guard = 0;
+  render();
+  queueRelayout();
+
+  while (isOverflowingPreview() && guard < 30) {
+    guard += 1;
+
+    let spacing = clampValue(document.getElementById('sz-spacing')?.value || 14, minSpacing, 24);
+    let lineHeight = clampValue(document.getElementById('sz-lineheight')?.value || 1.2, minLineHeight, 1.35);
+    let indent = clampValue(document.getElementById('sz-indent')?.value || 32, minIndent, 42);
+    let bullet = clampValue(document.getElementById('sz-bullets')?.value || 9.5, minBullet, 12);
+    let title = clampValue(document.getElementById('sz-title')?.value || 10.5, minTitle, 13);
+    let org = clampValue(document.getElementById('sz-org')?.value || 11, minOrg, 14);
+    let section = clampValue(document.getElementById('sz-section')?.value || 12, minSection, 16);
+
+    if (spacing > minSpacing) {
+      spacing = Math.max(minSpacing, spacing - 1);
+      setSliderAndLabel('sz-spacing', spacing, 'px');
+      applySectionSpacing(spacing);
+    } else if (lineHeight > minLineHeight) {
+      lineHeight = Math.max(minLineHeight, +(lineHeight - 0.03).toFixed(2));
+      setSliderAndLabel('sz-lineheight', lineHeight.toFixed(2), '');
+      applyBulletLineHeight(lineHeight);
+    } else if (indent > minIndent) {
+      indent = Math.max(minIndent, indent - 2);
+      setSliderAndLabel('sz-indent', indent, 'px');
+      applyBulletIndent(indent);
+    } else if (bullet > minBullet) {
+      bullet = Math.max(minBullet, +(bullet - 0.2).toFixed(1));
+      setSliderAndLabel('sz-bullets', bullet, 'pt');
+      applyFontSize('cv-bullets', 'sz-bullets');
+    } else if (title > minTitle) {
+      title = Math.max(minTitle, +(title - 0.2).toFixed(1));
+      setSliderAndLabel('sz-title', title, 'pt');
+      applyFontSize('cv-entry-title', 'sz-title');
+    } else if (org > minOrg) {
+      org = Math.max(minOrg, +(org - 0.2).toFixed(1));
+      setSliderAndLabel('sz-org', org, 'pt');
+      applyFontSize('cv-entry-org', 'sz-org');
+    } else if (section > minSection) {
+      section = Math.max(minSection, +(section - 0.2).toFixed(1));
+      setSliderAndLabel('sz-section', section, 'pt');
+      applyFontSize('cv-section-title', 'sz-section');
+    } else {
+      break;
+    }
+
+    render();
+    queueRelayout();
+  }
+
+  showToast(isOverflowingPreview() ? 'Auto-fit partiel appliqué' : 'Auto-fit 1 page appliqué ✓');
+}
+
+// ---- RECRUITER SCAN MODE ----
+let recruiterScanMode = false;
+function toggleRecruiterScan() {
+  recruiterScanMode = !recruiterScanMode;
+  document.getElementById('btn-scan')?.classList.toggle('active', recruiterScanMode);
+  const preview = document.getElementById('cv-preview');
+  if (!preview) return;
+  preview.querySelectorAll('.scan-highlight, .scan-dim').forEach(el => {
+    el.classList.remove('scan-highlight', 'scan-dim');
+  });
+  if (!recruiterScanMode) return;
+
+  preview.querySelectorAll('.cv-section-title, .cv-name, .cv-entry-org, .cv-entry-title, .cv-entry-date').forEach(el => {
+    el.classList.add('scan-highlight');
+  });
+  preview.querySelectorAll('.cv-bullets li, .cv-plain, .cv-contact').forEach(el => {
+    el.classList.add('scan-dim');
+  });
+}
+
+// ---- VERSIONS ----
+let namedVersions = [];
+function renderVersionHistory() {
+  const box = document.getElementById('version-list');
+  if (!box) return;
+  if (!namedVersions.length) {
+    box.innerHTML = '<div class="version-empty">Aucune version enregistrée pour l’instant.</div>';
+    return;
+  }
+  box.innerHTML = namedVersions.map(v => `
+    <div class="version-item">
+      <div class="version-item-head">
+        <div>
+          <div class="version-item-title">${esc(v.name)}</div>
+          <div class="version-item-meta">${esc(v.meta || '')}</div>
+        </div>
+      </div>
+      <div class="version-actions">
+        <button class="btn-secondary" onclick="restoreNamedVersion('${v.id}')">Restaurer</button>
+        <button class="btn-secondary" onclick="deleteNamedVersion('${v.id}')">Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+}
+function saveNamedVersion() {
+  const cur = cvList.find(c => c.id === currentCvId);
+  if (cur) cur.data = snapshotCurrentCV();
+  const suggested = (cur?.name || 'CV') + ' — version ' + (namedVersions.length + 1);
+  const name = prompt('Nom de la version :', suggested);
+  if (!name || !name.trim()) return;
+  const now = new Date();
+  namedVersions.unshift({
+    id: 'ver_' + Date.now(),
+    name: name.trim(),
+    meta: now.toLocaleDateString('fr-FR') + ' • ' + now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}),
+    data: JSON.parse(JSON.stringify(snapshotCurrentCV()))
+  });
+  renderVersionHistory();
+  showToast('Version enregistrée ✓');
+}
+function restoreNamedVersion(id) {
+  const found = namedVersions.find(v => v.id === id);
+  if (!found) return;
+  if (typeof pushUndo === 'function') pushUndo();
+  restoreCV(JSON.parse(JSON.stringify(found.data)));
+  renderVersionHistory();
+  showToast('Version restaurée ✓');
+}
+function deleteNamedVersion(id) {
+  namedVersions = namedVersions.filter(v => v.id !== id);
+  renderVersionHistory();
+}
+
+// ---- ONBOARDING ----
+function openOnboarding() {
+  document.getElementById('onboarding-overlay')?.classList.add('visible');
+}
+function closeOnboarding() {
+  document.getElementById('onboarding-overlay')?.classList.remove('visible');
+}
+function clearAllContent() {
+  state.education=[]; state.experience=[]; state.leadership=[]; state.projects=[]; state.hobbies=[];
+  eduCount=0; expCount=0; leadCount=0; projCount=0; hobbyCount=0;
+  ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  renderForms(); render();
+}
+function startBlankCV() {
+  if (typeof pushUndo === 'function') pushUndo();
+  createPendingCV();
+  closeOnboarding();
+  showPrimaryNav('contenu');
+  showToast('Nouveau CV vide créé ✓');
+}
+function startFinanceTemplate() {
+  if (typeof pushUndo === 'function') pushUndo();
+  createPendingCV();
+  document.getElementById('id-name').value = 'Prénom NOM';
+  document.getElementById('id-address').value = 'Paris, France';
+  document.getElementById('id-phone').value = '+33 6 00 00 00 00';
+  document.getElementById('id-email').value = 'prenom.nom@email.com';
+  document.getElementById('id-linkedin').value = 'linkedin.com/in/prenom-nom';
+  document.getElementById('sk-lang').value = 'French (Native); English (Fluent)';
+  document.getElementById('sk-it').value = 'Python, VBA, Excel, PowerPoint, Bloomberg Terminal';
+  addEdu();
+  state.education[0].school = 'Nom de l’école / université';
+  state.education[0].location = 'Ville, Pays';
+  state.education[0].degree = 'Master in Finance / MSc Financial Markets';
+  state.education[0].date = '2024 – 2026';
+  addExp();
+  state.experience[0].company = 'Nom de la société';
+  state.experience[0].location = 'Paris, France';
+  state.experience[0].title = 'Summer Analyst / Intern';
+  state.experience[0].date = '2025';
+  state.experience[0].bullets = ['Built...', 'Analysed...', 'Supported...'];
+  applyPreset('snt');
+  renderForms();
+  render();
+  closeOnboarding();
+  showPrimaryNav('contenu');
+  showToast('Modèle finance chargé ✓');
+}
+
+
 let cvList = []; // [{id, name, data}]
 let currentCvId = null;
+let pendingNewCvName = null;
 
 function snapshotCurrentCV() {
   const fields = {};
@@ -3887,7 +5417,9 @@ function snapshotCurrentCV() {
     marginR: document.getElementById('mg-r')?.value  || 52,
     marginTB: document.getElementById('mg-tb')?.value || 32,
     sectionBulletSpacing: {...sectionBulletSpacing},
-    orgBold, titleBold, titleItalic
+    orgBold, titleBold, titleItalic,
+    contactIcons,
+    densityMode: currentDensityMode
   };
   return { state: JSON.parse(JSON.stringify(state)), fields, sliders, style };
 }
@@ -4003,20 +5535,30 @@ function switchCV(id) {
 }
 
 function addNewCV() {
-  // Save current first
   const cur = cvList.find(c => c.id === currentCvId);
   if (cur) cur.data = snapshotCurrentCV();
+
+  pendingNewCvName = 'CV ' + (cvList.length + 1);
+  openOnboarding();
+}
+
+function createPendingCV() {
   const id = 'cv_' + Date.now();
-  const name = 'CV ' + (cvList.length + 1);
-  cvList.push({ id, name, data: { state: { education:[], experience:[], leadership:[], projects:[] }, fields:{}, sliders:{} } });
-  currentCvId = id;
-  // Reset everything
-  state.education=[]; state.experience=[]; state.leadership=[]; state.projects=[]; state.hobbies=[];
-  eduCount=0; expCount=0; leadCount=0; projCount=0; hobbyCount=0;
-  ['id-name','id-address','id-phone','id-email','id-linkedin','id-github','sk-lang','sk-it','sk-cert'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value='';
+  const name = pendingNewCvName || ('CV ' + (cvList.length + 1));
+  cvList.push({
+    id,
+    name,
+    data: {
+      state: { education:[], experience:[], leadership:[], projects:[], hobbies:[] },
+      fields: {},
+      sliders: {}
+    }
   });
-  renderForms(); render(); renderCvTabs();
+  currentCvId = id;
+  pendingNewCvName = null;
+  clearAllContent();
+  renderCvTabs();
+  return id;
 }
 
 function deleteCV(id) {
@@ -4101,6 +5643,7 @@ render = function() {
   _render();
   const cur = cvList.find(c => c.id === currentCvId);
   if (cur) cur.data = snapshotCurrentCV();
+  queueRelayout();
 };
 
 // ---- INIT ----
@@ -4108,78 +5651,67 @@ render = function() {
 document.querySelector('.form-panel').addEventListener('input', e => {
   const tag = e.target.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA') pushUndoDebounced();
+  queueRelayout();
 }, true);
 renderForms();
 render();
+renderVersionHistory();
 initSliders();
 updateUndoButtons();
+installAutoPaginationObservers();
 resetMargins();
 applyOrgTitleStyles();
+setNameWeight('600');
+setDensityMode('balanced', true);
+queueRelayout();
+// onboarding opens only when creating a new CV
 
 // Initialize first CV slot
 cvList = [{ id: 'cv_default', name: 'Mon CV', data: null }];
 currentCvId = 'cv_default';
 renderCvTabs();
+updateAuthUI(null);
+setAuthMode('login');
+openAuthModal();
 
-// Wait for Firebase then load, or prefill
-window._onFirebaseReady = async function(uid) {
-  const dot = document.getElementById('fb-dot');
-  const saveBtn = document.getElementById('btn-save');
-  dot.className = 'fb-dot connected';
-  saveBtn.disabled = false;
+document.getElementById('auth-password')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitAuth();
+});
+document.getElementById('auth-email')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitAuth();
+});
 
-  const loaded = await loadFromFirebase(uid);
-  if (!loaded) {
-    // Pre-fill with David's data for demo
-    document.getElementById('id-name').value = 'David MAQUOI';
-    document.getElementById('id-address').value = '58 rue des vignes, 75016 Paris, France';
-    document.getElementById('id-phone').value = '+33(0)7 66 23 92 52';
-    document.getElementById('id-email').value = 'dmaquoi11@gmail.com';
-    document.getElementById('id-linkedin').value = 'linkedin.com/in/david-maquoi';
-    document.getElementById('sk-lang').value = 'French (Native); English (Fluent)';
-    document.getElementById('sk-it').value = 'Python (Advanced), VBA (Advanced), MS Office (Advanced), R, SQL, Bloomberg Terminal';
-    document.getElementById('sk-cert').value = 'Bloomberg Market Concepts (BMC) – Equities, FIC, Commodities, Portfolio Management';
-    addEdu();
-    state.education[0].school = 'University Paris II Panthéon ASSAS';
-    state.education[0].location = 'Paris, France';
-    state.education[0].degree = 'MSc Quantitative Finance & Financial Markets / Magistère in Banking and Finance';
-    state.education[0].note = ['Highly selective dual degree ranked 1st in Banking and Finance specialization (Eduniversal 2023)', 'Relevant Coursework: Stochastic Calculus, Derivatives, Structured Products, Fixed Income, VBA, Python'];
-    state.education[0].date = 'Expected 2026';
-    addEdu();
-    state.education[1].school = 'University Lyon 3';
-    state.education[1].location = 'Lyon, France';
-    state.education[1].degree = 'Bachelor\'s degree in Applied Mathematics and Economics; high honors (Top 3%); GPA (4.0/4.0)';
-    state.education[1].date = '2020 – 2022';
-    addExp();
-    state.experience[0].company = 'Crédit Agricole CIB';
-    state.experience[0].location = 'Paris, France';
-    state.experience[0].title = 'Rates, Credit & Hybrid Structuring — Apprenticeship';
-    state.experience[0].date = 'September 2025 – June 2026';
-    state.experience[0].bullets = ['Pricing all Rates, Credit and Hybrid Structured Products', 'Promotion of Interest Rates hedging and investment strategies', 'Interaction with Trading and Middle Office on pre-trade and post-trade', 'Creation of toolkit to generate trade ideas and automate pricing'];
-    addExp();
-    state.experience[1].company = 'Crédit Agricole CIB';
-    state.experience[1].location = 'Paris, France';
-    state.experience[1].title = 'Rates, Credit & Hybrid Structuring — Off-Cycle';
-    state.experience[1].date = 'November 2024 – May 2025';
-    state.experience[1].bullets = ['Pricing all Rates, Credit and Hybrid Structured Products', 'Promotion of Interest Rates hedging and investment strategies', 'Interaction with Trading and Middle Office on pre-trade and post-trade', 'Creation of toolkit to generate trade ideas and automate pricing'];
-    addExp();
-    state.experience[2].company = 'Société Générale CIB';
-    state.experience[2].location = 'Paris La Défense, France';
-    state.experience[2].title = 'Cross Asset Structured Products Sales — Off-Cycle';
-    state.experience[2].date = 'May 2024 – November 2024';
-    state.experience[2].bullets = ['Assisted sales representatives and engineers on the team, and participated in commercial presentations', 'Designed various sales materials and contributed to the development of sales support tools', 'Monitored and reported on products, conducted competitive intelligence, and participated in the entire process of launching new products', 'Priced diverse structured products, conducted historical performance simulations, and analyzed product valuations'];
-    addLead();
-    state.leadership[0].title = 'High Level Footballer';
-    state.leadership[0].bullets = ['Nîmes Olympique Professional Soccer Club Academy (level: National)', 'Captain of Assas Soccer Team'];
-    addLead();
-    state.leadership[1].title = 'Puissance 4 (Connect 4)';
-    state.leadership[1].bullets = ['Top 20 players in the world', 'Based on a principle of parity, allowing me to predict in 3 moves the line where I will win'];
-    addProj();
-    state.projects[0].title = 'Option Trading Learning Interface (Python)';
-    state.projects[0].bullets = ['Developed in python a learning application for option trading (Streamlit, Tkinter, Pandas, Numpy, Black and Scholes Model, Monte Carlo Simulations, Option Strategies)'];
-    renderForms();
-    render();
+window._onFirebaseReady = async function(user) {
+  if (!user?.emailVerified) {
+    updateAuthUI(null);
+    openAuthModal();
+    showAuthInfo('Valide ton adresse email depuis le lien reçu avant d’accéder à ton espace.', true);
+    try { await window._firebase.signOut(window._firebase.auth); } catch (e) {}
+    return;
   }
+
+  updateAuthUI(user);
+  closeAuthModal();
+  if (!authInitialized) authInitialized = true;
+
+  const loaded = await loadFromFirebase(user.uid);
+  if (!loaded) {
+    initBlankAccountSession();
+    await saveToFirebase();
+    setTimeout(() => openOnboarding(), 120);
+    showToast('Compte validé : choisis comment démarrer ton premier CV ✓');
+  } else {
+    showToast('Session chargée ✓');
+  }
+};
+
+window._onFirebaseLogout = function() {
+  updateAuthUI(null);
+  clearAllContent();
+  cvList = [{ id: 'cv_default', name: 'Mon CV', data: null }];
+  currentCvId = 'cv_default';
+  renderCvTabs();
+  openAuthModal();
 };
 // ---- BULLET EXPAND PANEL ----
 let _bepEntryRef = null, _bepField = null, _bepIdx = null;
@@ -4262,4 +5794,26 @@ document.addEventListener('mousedown', e => {
   if (e.target.closest('.btn-bullet-expand')) return;
   closeBulletExpand();
 });
+
+// ---- DARK MODE ----
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('cvbuilder-darkmode', isDark ? '1' : '0');
+  const icon = document.getElementById('dark-toggle-icon');
+  const label = document.getElementById('dark-toggle-label');
+  if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+  if (label) label.textContent = isDark ? 'Light' : 'Dark';
+}
+
+// Restore dark mode preference on load
+(function() {
+  const pref = localStorage.getItem('cvbuilder-darkmode');
+  if (pref === '1') {
+    document.body.classList.add('dark-mode');
+    const icon = document.getElementById('dark-toggle-icon');
+    const label = document.getElementById('dark-toggle-label');
+    if (icon) icon.textContent = '☀️';
+    if (label) label.textContent = 'Light';
+  }
+})();
 </script>
