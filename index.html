@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV Builder — Finance Template</title>
+<title>CV Builder</title>
+<meta name="description" content="Créez un CV professionnel en quelques minutes. Modèle finance optimisé, export PDF, sauvegarde cloud.">
+<meta property="og:title" content="CV Builder — Créez votre CV professionnel">
+<meta property="og:description" content="Outil de création de CV professionnel avec export PDF, sauvegarde cloud et modèle finance.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231a1a2e'/><text y='.9em' font-size='72' x='12'>📄</text></svg>">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
@@ -1822,37 +1827,89 @@
   }
 
   @media print {
-    body { overflow: visible !important; height: auto !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      overflow: visible !important;
+      height: auto !important;
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Masquer tout sauf le CV */
     header, .cv-tabs-bar, .form-panel, .preview-actions,
-    .density-bar-wrap, .cv-page-sep, .dup-warning-banner,
-    #dup-warning-banner, .btn-undo, .btn-redo, .btn-focus,
+    .density-bar-wrap, .cv-page-sep, .cv-page-sep-label,
+    .dup-warning-banner, #dup-warning-banner,
+    .btn-undo, .btn-redo, .btn-focus,
     .preview-size-toggle, .zoom-row, .btn-gray,
-    .pact-group, .verb-legend { display: none !important; }
-    .app { display: block !important; overflow: visible !important; }
+    .pact-group, .verb-legend, .auth-overlay,
+    .bullet-expand-panel, .onboarding-overlay,
+    .toast, .ai-modal-overlay, .tb-row,
+    .cv-entry-drag-handle, .cv-section-drag-grip,
+    .cv-page-margin-bottom, #cv-overflow-banner,
+    .auth-userbar, .preview-panel-inner > *:not(.cv-pages-wrapper) {
+      display: none !important;
+    }
+
+    .app {
+      display: block !important;
+      overflow: visible !important;
+    }
+
     .preview-panel {
-      background: white !important; padding: 0 !important;
-      overflow: visible !important; display: block !important;
-      align-items: unset !important;
+      background: white !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      display: block !important;
     }
+
     .preview-panel-inner {
-      transform: none !important; margin: 0 !important;
+      transform: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
+
     .cv-pages-wrapper {
-      transform: none !important; margin: 0 !important;
-      position: relative !important;
-    }
-    .cv-page-sheet {
-      page-break-after: always;
-      height: auto !important; overflow: visible !important;
-      box-shadow: none !important;
+      transform: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
       position: static !important;
     }
+
+    /* Feuilles blanches de fond — on les cache, le navigateur gère les pages */
+    .cv-page-sheet { display: none !important; }
+
+    /* Le CV lui-même */
     .cv-page {
-      box-shadow: none !important; width: 100% !important;
-      min-height: auto !important; filter: none !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      min-height: 0 !important;
+      height: auto !important;
+      filter: none !important;
       position: static !important;
+      /* Les marges du CV (déjà définies via padding inline) */
+      page-break-inside: auto;
+      overflow: visible !important;
     }
-    .cv-entry-drag-handle, .cv-section-drag-grip { display: none !important; }
+
+    /* Sauts de page entre les pages CV */
+    .page-break-spacer {
+      display: block !important;
+      page-break-before: always !important;
+      break-before: page !important;
+      height: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Éviter les coupures dans les entrées CV */
+    .cv-entry, .cv-section { page-break-inside: avoid; }
   }
 
   /* ===== DARK MODE OVERRIDES ===== */
@@ -2037,6 +2094,40 @@
     cursor: pointer;
   }
   .auth-link-btn:hover { text-decoration: underline; }
+  .auth-footer-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .auth-footer-links button, .auth-footer-links a {
+    background: none; border: none; padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; color: var(--accent2);
+    font-weight: 600; cursor: pointer;
+    text-decoration: none;
+  }
+  .auth-footer-links button:hover, .auth-footer-links a:hover { text-decoration: underline; }
+  .auth-spam-note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+    line-height: 1.4;
+    display: none;
+  }
+  .auth-spam-note.visible { display: block; }
+  .auth-cgu {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 12px;
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+  .auth-cgu a { color: var(--accent2); text-decoration: underline; cursor: pointer; }
   .auth-actions {
     display: flex;
     gap: 10px;
@@ -2066,20 +2157,20 @@
 <!-- ONBOARDING MODAL -->
 <div class="onboarding-overlay" id="onboarding-overlay">
   <div class="onboarding-modal">
-    <div class="onboarding-title">Bienvenue dans ton CV Builder</div>
-    <div class="onboarding-sub">Choisis un point de départ pour le nouveau CV. Tu peux commencer avec un modèle finance, repartir d’un CV vide, ou fermer cette fenêtre et continuer sur le CV actuel.</div>
+    <div class="onboarding-title">Bienvenue dans CV Builder</div>
+    <div class="onboarding-sub">Choisissez un point de départ pour votre CV. Vous pourrez modifier le contenu et le style à tout moment.</div>
     <div class="onboarding-grid">
       <div class="onboarding-card" onclick="startFinanceTemplate()">
         <h3>Modèle Finance</h3>
-        <p>Structure prête pour marchés, IB, S&amp;T, structuring ou quant.</p>
+        <p>Structure prête pour marchés financiers, IB, S&amp;T, structuring ou quant.</p>
       </div>
       <div class="onboarding-card" onclick="startBlankCV()">
         <h3>CV vide</h3>
-        <p>Réinitialise le contenu pour repartir proprement tout en gardant le moteur de style.</p>
+        <p>Commencez avec une page blanche et construisez votre CV de zéro.</p>
       </div>
       <div class="onboarding-card" onclick="closeOnboarding()">
         <h3>Continuer</h3>
-        <p>Ferme cette fenêtre et continue avec l’état actuel de ton fichier.</p>
+        <p>Fermer cette fenêtre et revenir au CV en cours d’édition.</p>
       </div>
     </div>
   </div>
@@ -2106,8 +2197,8 @@
 
 <div class="auth-overlay visible" id="auth-overlay">
   <div class="auth-card">
-    <div class="auth-title">Ton espace CV</div>
-    <div class="auth-sub">Crée un compte ou connecte-toi pour retrouver uniquement tes CV. L’accès au compte est validé par email : chaque utilisateur doit confirmer son inscription depuis sa boîte mail.</div>
+    <div class="auth-title">Votre espace CV</div>
+    <div class="auth-sub">Créez un compte ou connectez-vous pour accéder à vos CV et les retrouver à tout moment.</div>
     <div class="auth-tabs">
       <button class="auth-tab active" id="auth-tab-login" onclick="setAuthMode('login')">Connexion</button>
       <button class="auth-tab" id="auth-tab-register" onclick="setAuthMode('register')">Créer un compte</button>
@@ -2118,9 +2209,16 @@
     <input type="password" id="auth-password" placeholder="Minimum 6 caractères" autocomplete="current-password">
     <div class="auth-error" id="auth-error"></div>
     <div class="auth-info" id="auth-info"></div>
-    <button class="auth-link-btn" id="auth-resend" onclick="resendVerificationEmail()" style="display:none;">Renvoyer l’email de validation</button>
+    <div class="auth-spam-note" id="auth-spam-note">📬 Si vous ne recevez pas l’email, vérifiez vos spams.</div>
+    <div class="auth-footer-links">
+      <button id="auth-resend" onclick="resendVerificationEmail()" style="display:none;">Renvoyer l’email de validation</button>
+      <button id="auth-forgot" onclick="forgotPassword()">Mot de passe oublié ?</button>
+    </div>
     <div class="auth-actions">
       <button class="auth-submit" id="auth-submit" onclick="submitAuth()">Se connecter</button>
+    </div>
+    <div class="auth-cgu" id="auth-cgu-register" style="display:none;">
+      En créant un compte, vous acceptez nos <a onclick="showCGU()">Conditions d’utilisation</a> et notre <a onclick="showCGU()">Politique de confidentialité</a>. Vos données sont stockées de manière sécurisée via Firebase (Google). Vous pouvez supprimer votre compte à tout moment.
     </div>
   </div>
 </div>
@@ -2130,7 +2228,7 @@
     <div class="header-logo">📄</div>
     <div class="header-brand-text">
       <span class="header-brand-title">CV Builder</span>
-      <span class="header-brand-sub">Finance Template</span>
+      <span class="header-brand-sub">Professional CV</span>
     </div>
   </div>
 
@@ -2188,11 +2286,11 @@
     <button class="bep-close" onclick="closeBulletExpand()" title="Fermer (Escape)">×</button>
   </div>
   <div class="bep-body">
-    <span class="bep-hint">Édite le bullet ci-dessous — les modifications sont reflétées en temps réel dans le CV.</span>
-    <textarea class="bep-textarea" id="bep-textarea" placeholder="Écris ton bullet point ici..."></textarea>
+    <span class="bep-hint">Modifiez le bullet ci-dessous — les modifications sont reflétées en temps réel dans le CV.</span>
+    <textarea class="bep-textarea" id="bep-textarea" placeholder="Rédigez votre bullet point ici..."></textarea>
     <div class="bep-actions">
-      <button class="bep-btn bep-btn-bold" onclick="bepApplyBold()"><b>B</b> Gras (sélection)</button>
-      <button class="bep-btn bep-btn-unbold" onclick="bepRemoveBold()"><s>B</s> Enlever gras</button>
+      <button class="bep-btn bep-btn-bold" onclick="bepApplyBold()"><b>B</b> Mettre en gras</button>
+      <button class="bep-btn bep-btn-unbold" onclick="bepRemoveBold()"><s>B</s> Retirer le gras</button>
     </div>
   </div>
 </div>
@@ -2233,19 +2331,19 @@
     <!-- IDENTITY -->
     <div id="tab-identity" class="form-section active">
       <label>Prénom Nom</label>
-      <input type="text" id="id-name" placeholder="David MAQUOI" oninput="render();checkNameATS()">
+      <input type="text" id="id-name" placeholder="Prénom NOM" oninput="render();checkNameATS()">
       <div class="ats-name-warning" id="ats-name-warning">⚠ Caractères spéciaux détectés dans le nom — certains systèmes ATS pourraient mal les interpréter.</div>
       <label>Adresse</label>
-      <input type="text" id="id-address" placeholder="58 rue des vignes, 75016 Paris, France" oninput="render()">
+      <input type="text" id="id-address" placeholder="123 rue Example, 75001 Paris, France" oninput="render()">
       <label>Téléphone</label>
-      <input type="text" id="id-phone" placeholder="+33(0)7 66 23 92 52" oninput="render()">
+      <input type="text" id="id-phone" placeholder="+33 6 00 00 00 00" oninput="render()">
       <label>Email</label>
-      <input type="text" id="id-email" placeholder="dmaquoi11@gmail.com" oninput="render();validateEmail()">
+      <input type="text" id="id-email" placeholder="prenom@email.com" oninput="render();validateEmail()">
       <div class="field-warning" id="email-warning">⚠ Format d'email invalide</div>
       <label>LinkedIn (URL ou identifiant)</label>
-      <input type="text" id="id-linkedin" placeholder="linkedin.com/in/david-maquoi" oninput="render()">
+      <input type="text" id="id-linkedin" placeholder="linkedin.com/in/prenom-nom" oninput="render()">
       <label>GitHub (facultatif)</label>
-      <input type="text" id="id-github" placeholder="github.com/dmaquoi" oninput="render()">
+      <input type="text" id="id-github" placeholder="github.com/username" oninput="render()">
     </div>
 
     <!-- EDUCATION -->
@@ -2325,7 +2423,7 @@
 
     <!-- ATS CHECK -->
     <div id="tab-ats" class="form-section">
-      <p style="font-size:11px;color:var(--muted);margin-bottom:14px;font-style:italic;">Colle une offre d'emploi ci-dessous pour analyser l'adéquation avec ton CV.</p>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:14px;font-style:italic;">Collez une offre d'emploi ci-dessous pour analyser l'adéquation avec votre CV.</p>
       <label>Offre d'emploi</label>
       <textarea id="ats-jobdesc" class="bullets-input" style="min-height:130px;font-size:12px;" placeholder="Colle ici le texte complet de l'offre (Sales, Trading, Structuring...)"></textarea>
       <button class="btn-ats-check" onclick="runAtsCheck()">🔍 Analyser l'adéquation</button>
@@ -2465,7 +2563,7 @@
       <div class="style-group">
         <div class="style-group-title">Nom du fichier exporté</div>
         <div class="filename-row">
-          <input type="text" id="export-filename" placeholder="David_MAQUOI_CV" value="">
+          <input type="text" id="export-filename" placeholder="Laisser vide pour nom automatique">
           <span class="filename-ext">.pdf / .doc</span>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:6px;font-style:italic;">Laisse vide pour utiliser le nom du CV automatiquement.</p>
@@ -2498,7 +2596,7 @@
           <button class="btn-add" style="margin-top:0;flex:1;" onclick="saveNamedVersion()">＋ Sauvegarder une version</button>
         </div>
         <div class="version-list" id="version-list">
-          <div class="version-empty">Aucune version enregistrée pour l’instant.</div>
+          <div class="version-empty">Aucune version enregistrée pour l'instant.</div>
         </div>
       </div>
 
@@ -2680,7 +2778,7 @@
         </div>
         <div class="tb-sep"></div>
         <div class="pact-group pact-right">
-          <button class="btn-pdf" onclick="downloadPdf()">↓ PDF</button>
+          <button class="btn-pdf" onclick="downloadPdf()" title="Exporter en PDF via la boîte d'impression du navigateur — choisissez 'Enregistrer en PDF'">↓ PDF</button>
           <button class="btn-download" onclick="downloadDocx()" id="btn-dl"
             style="color:#7aabdf;border-color:rgba(26,80,140,0.4);background:rgba(26,58,92,0.2);">↓ DOCX</button>
         </div>
@@ -2703,11 +2801,10 @@
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -2725,7 +2822,7 @@ const db = getFirestore(app);
 
 window._firebase = {
   auth, db, doc, getDoc, setDoc, collection, getDocs, deleteDoc,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail
 };
 
 onAuthStateChanged(auth, user => {
@@ -2782,8 +2879,12 @@ function setAuthMode(mode) {
   document.getElementById('auth-tab-register')?.classList.toggle('active', authMode === 'register');
   const submit = document.getElementById('auth-submit');
   const pwd = document.getElementById('auth-password');
+  const forgot = document.getElementById('auth-forgot');
+  const cgu = document.getElementById('auth-cgu-register');
   if (submit) submit.textContent = authMode === 'register' ? 'Créer mon compte' : 'Se connecter';
   if (pwd) pwd.setAttribute('autocomplete', authMode === 'register' ? 'new-password' : 'current-password');
+  if (forgot) forgot.style.display = authMode === 'login' ? 'inline-block' : 'none';
+  if (cgu) cgu.style.display = authMode === 'register' ? 'block' : 'none';
   clearAuthError();
 }
 function openAuthModal() {
@@ -2801,33 +2902,33 @@ function showAuthError(message) {
 function showAuthInfo(message, allowResend = false) {
   const el = document.getElementById('auth-info');
   const resend = document.getElementById('auth-resend');
-  if (el) {
-    el.textContent = message;
-    el.classList.add('visible');
-  }
+  const spamNote = document.getElementById('auth-spam-note');
+  if (el) { el.textContent = message; el.classList.add('visible'); }
   if (resend) resend.style.display = allowResend ? 'inline-block' : 'none';
+  if (spamNote) spamNote.classList.toggle('visible', allowResend);
 }
 function clearAuthError() {
   document.getElementById('auth-error')?.classList.remove('visible');
   document.getElementById('auth-info')?.classList.remove('visible');
+  document.getElementById('auth-spam-note')?.classList.remove('visible');
   const resend = document.getElementById('auth-resend');
   if (resend) resend.style.display = 'none';
 }
 function mapAuthError(error) {
   const code = error?.code || '';
-  if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')) return 'Email ou mot de passe incorrect.';
-  if (code.includes('email-already-in-use')) return 'Cet email est déjà utilisé.';
-  if (code.includes('invalid-email')) return 'L’adresse email est invalide.';
-  if (code.includes('weak-password')) return 'Le mot de passe doit contenir au moins 6 caractères.';
-  if (code.includes('network-request-failed')) return 'Problème réseau. Réessaie.';
-  return error?.message || 'Une erreur est survenue.';
+  if (code.includes('invalid-credential') || code.includes('wrong-password') || code.includes('user-not-found')) return "Email ou mot de passe incorrect.";
+  if (code.includes('email-already-in-use')) return "Cet email est déjà utilisé.";
+  if (code.includes('invalid-email')) return "L'adresse email est invalide.";
+  if (code.includes('weak-password')) return "Le mot de passe doit contenir au moins 6 caractères.";
+  if (code.includes('network-request-failed')) return "Problème réseau. Réessaie.";
+  return error?.message || "Une erreur est survenue.";
 }
 async function submitAuth() {
   const email = (document.getElementById('auth-email')?.value || '').trim();
   const password = (document.getElementById('auth-password')?.value || '').trim();
   const btn = document.getElementById('auth-submit');
   if (!email || !password) {
-    showAuthError('Renseigne un email et un mot de passe.');
+    showAuthError("Renseignez un email et un mot de passe.");
     return;
   }
   clearAuthError();
@@ -2842,12 +2943,12 @@ async function submitAuth() {
       await sendEmailVerification(cred.user);
       await signOut(auth);
       setAuthMode('login');
-      showAuthInfo('Compte créé. Un email de validation vient d’être envoyé. Clique sur le lien reçu avant de te connecter.', true);
+      showAuthInfo("Compte créé. Un email de validation vient d'être envoyé. Cliquez sur le lien reçu avant de vous connecter.", true);
     } else {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       if (!cred.user.emailVerified) {
         await signOut(auth);
-        showAuthInfo('Ton adresse email n’est pas encore validée. Vérifie ta boîte mail puis reconnecte-toi.', true);
+        showAuthInfo("Votre adresse email n'est pas encore validée. Vérifiez votre boîte mail puis reconnectez-vous.", true);
         return;
       }
     }
@@ -2864,7 +2965,7 @@ async function resendVerificationEmail() {
   const email = (document.getElementById('auth-email')?.value || '').trim();
   const password = (document.getElementById('auth-password')?.value || '').trim();
   if (!email || !password) {
-    showAuthError('Pour renvoyer l’email, renseigne l’email et le mot de passe du compte.');
+    showAuthError("Pour renvoyer l'email, renseignez l'email et le mot de passe du compte.");
     return;
   }
   clearAuthError();
@@ -2873,16 +2974,64 @@ async function resendVerificationEmail() {
     const cred = await signInWithEmailAndPassword(auth, email, password);
     if (cred.user.emailVerified) {
       await signOut(auth);
-      showAuthInfo('Cette adresse est déjà validée. Tu peux te connecter.', false);
+      showAuthInfo('Cette adresse est déjà validée. Vous pouvez vous connecter.', false);
       return;
     }
     await sendEmailVerification(cred.user);
     await signOut(auth);
-    showAuthInfo('Email de validation renvoyé. Pense à vérifier tes spams.', true);
+    showAuthInfo('Email de validation renvoyé. Vérifiez vos spams.', true);
   } catch (e) {
     showAuthError(mapAuthError(e));
   }
 }
+async function forgotPassword() {
+  const email = (document.getElementById('auth-email')?.value || '').trim();
+  if (!email) {
+    showAuthError("Entrez votre adresse email pour réinitialiser le mot de passe.");
+    return;
+  }
+  clearAuthError();
+  try {
+    const { auth, sendPasswordResetEmail } = window._firebase;
+    await sendPasswordResetEmail(auth, email);
+    showAuthInfo("Un email de réinitialisation a été envoyé. Vérifiez vos spams.", false);
+  } catch (e) {
+    showAuthError(mapAuthError(e));
+  }
+}
+
+function showCGU() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:white;border-radius:12px;max-width:520px;width:100%;padding:28px;font-family:'DM Sans',sans-serif;max-height:80vh;overflow-y:auto;">
+      <div style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:16px;">Conditions d'utilisation & Confidentialité</div>
+      <div style="font-size:13px;color:#444;line-height:1.7;">
+        <b>Données collectées</b><br>
+        CV Builder collecte uniquement votre adresse email (pour l'authentification) et le contenu de vos CV (textes saisis). Aucune donnée sensible n'est collectée.
+        <br><br>
+        <b>Stockage</b><br>
+        Vos données sont stockées de manière sécurisée via Firebase (Google Cloud). Elles sont accessibles uniquement avec votre compte vérifié.
+        <br><br>
+        <b>Utilisation</b><br>
+        Vos données ne sont jamais partagées, vendues ou utilisées à des fins publicitaires.
+        <br><br>
+        <b>Suppression</b><br>
+        Vous pouvez supprimer votre compte et toutes vos données à tout moment en nous contactant.
+        <br><br>
+        <b>Cookies</b><br>
+        Aucun cookie tiers. Firebase utilise le stockage local pour maintenir votre session.
+        <br><br>
+        <b>Contact</b><br>
+        Pour toute question : contactez l'éditeur de l'application.
+      </div>
+      <button onclick="this.closest('div[style]').remove()" style="margin-top:20px;background:#1a3a5c;color:white;border:none;border-radius:6px;padding:10px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:100%;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
 async function logoutUser() {
   try {
     await window._firebase.signOut(window._firebase.auth);
@@ -2971,7 +3120,7 @@ function undo() {
   const snap = JSON.parse(undoStack.pop());
   restoreFromSnap(snap);
   updateUndoButtons();
-  showToast('Action annulée');
+  showToast('Annulé');
 }
 
 function redo() {
@@ -2980,7 +3129,7 @@ function redo() {
   const snap = JSON.parse(redoStack.pop());
   restoreFromSnap(snap);
   updateUndoButtons();
-  showToast('Action rétablie');
+  showToast('Rétabli');
 }
 
 function restoreFromSnap(snap) {
@@ -3260,7 +3409,7 @@ function renderForms() {
       <label>Titre</label>
       <input type="text" value="${esc(e.title)}" placeholder="Footballeur Haut Niveau" oninput="state.leadership[${i}].title=this.value;render()">
       <label>Détails</label>
-      ${renderBulletFields(`leadership-${i}`, 'bullets', e.bullets, 'Ex: Nîmes Olympique — Académie Pro...')}
+      ${renderBulletFields(`leadership-${i}`, 'bullets', e.bullets, "Ex: Capitaine de l'équipe universitaire, Vice-président d'association...")}
       <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
     </div>
   `).join('');
@@ -3293,7 +3442,7 @@ function renderForms() {
       <label>Titre / Catégorie</label>
       <input type="text" value="${esc(e.title)}" placeholder="Sports, Voyages, Musique..." oninput="state.hobbies[${i}].title=this.value;render()">
       <label>Détails (facultatif)</label>
-      ${renderBulletFields(`hobbies-${i}`, 'bullets', e.bullets||[], 'Ex: Niveau national, top 20 mondial...')}
+      ${renderBulletFields(`hobbies-${i}`, 'bullets', e.bullets||[], 'Ex: Niveau national, compétition internationale...')}
       <p class="bullets-hint">↵ Entrée = nouveau bullet</p>
     </div>
   `).join('');
@@ -3629,7 +3778,7 @@ const ATS_KEYWORDS = [
 
 function runAtsCheck() {
   const jd = (document.getElementById('ats-jobdesc')?.value || '').toLowerCase();
-  if (!jd.trim()) { showToast('Colle une offre d\'emploi d\'abord', true); return; }
+  if (!jd.trim()) { showToast("Collez d'abord une offre d'emploi.", true); return; }
 
   // Build CV text blob
   const cvText = [
@@ -3657,7 +3806,7 @@ function runAtsCheck() {
   ring.textContent = score + '%';
   ring.className = 'ats-score-ring ' + (score >= 70 ? 'good' : score >= 40 ? 'warn' : 'bad');
   document.getElementById('ats-title').textContent = score >= 70 ? 'Bonne adéquation ✓' : score >= 40 ? 'Adéquation partielle' : 'Faible adéquation';
-  document.getElementById('ats-subtitle').textContent = `${found.length} / ${jdKeywords.length} mots-clés de l'offre détectés dans ton CV.`;
+  document.getElementById('ats-subtitle').textContent = `${found.length} / ${jdKeywords.length} mots-clés de l'offre détectés dans votre CV.`;
   document.getElementById('ats-found').innerHTML   = found.map(k   => `<span class="ats-tag found">✓ ${k}</span>`).join('');
   document.getElementById('ats-missing').innerHTML = missing.map(k => `<span class="ats-tag missing">✗ ${k}</span>`).join('');
   if (!jdKeywords.length) {
@@ -4071,8 +4220,14 @@ function triggerSnapshot() {
 function getExportFilename() {
   const custom = document.getElementById('export-filename')?.value?.trim();
   if (custom) return custom.replace(/\s+/g, '_');
+  // Format automatique : Prenom_NOM_CV
   const name = val('id-name') || 'CV';
-  return name.replace(/\s+/g, '_');
+  const parts = name.trim().split(/\s+/);
+  // Dernier mot en majuscules = NOM, reste = Prenom
+  const formatted = parts.length >= 2
+    ? parts.slice(0, -1).join('_') + '_' + parts[parts.length - 1].toUpperCase() + '_CV'
+    : parts[0] + '_CV';
+  return formatted;
 }
 
 // ---- RENDER CV PREVIEW ----
@@ -4434,77 +4589,40 @@ function attachPreviewDragListeners() {
   });
 }
 
-// ---- PDF EXPORT — multi-page, pixel-perfect ----
-async function downloadPdf() {
-  const btn = document.querySelector('.btn-pdf');
-  btn.disabled = true;
-  btn.textContent = 'Génération…';
-
-  const wcWas = wordCountOn, verbWas = verbCheckOn;
-  if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); await new Promise(r => setTimeout(r, 100)); }
-
-  const cvEl = document.querySelector('.cv-page');
+// ---- PDF EXPORT — texte natif via window.print() ----
+function downloadPdf() {
+  const cvPage = document.querySelector('.cv-page');
   const wrapper = document.getElementById('cv-pages-wrapper');
 
+  // Sauvegarder l'état
+  const wcWas = wordCountOn, verbWas = verbCheckOn;
+  const wasGray = cvPage?.classList.contains('grayscale');
   const wasMobile = previewSize === 'mobile';
-  if (wasMobile && cvEl) { cvEl.classList.remove('mobile-preview'); applyMargins(); await new Promise(r => setTimeout(r, 80)); }
+  const prevZoom = document.getElementById('zoom-slider')?.value || '100';
+  const prevTransform = wrapper?.style.transform || '';
 
-  const prevWrapperTransform = wrapper ? wrapper.style.transform : null;
+  // Nettoyer avant impression
+  if (wcWas || verbWas) { wordCountOn = false; verbCheckOn = false; render(); }
+  if (wasGray && cvPage) cvPage.classList.remove('grayscale');
+  if (wasMobile) setPreviewSize('a4');
   if (wrapper) wrapper.style.transform = 'none';
-  await new Promise(r => setTimeout(r, 60));
+  applyZoom(100);
 
-  try {
-    updatePages();
-    document.body.classList.add('exporting-pdf');
-    await new Promise(r => setTimeout(r, 40));
+  // Laisser le DOM se mettre à jour sur 2 frames puis imprimer
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      window.print();
 
-    const exportEl = wrapper || cvEl;
-    const naturalW = exportEl.offsetWidth;
-    const totalHeight = exportEl.offsetHeight;
-    const pageCount = Math.max(1, Math.ceil(totalHeight / A4_HEIGHT_PX));
-    const SCALE = 4;
-
-    const canvas = await html2canvas(exportEl, {
-      scale: SCALE,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: naturalW,
-      height: totalHeight,
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: naturalW,
-      windowHeight: totalHeight
+      // Restaurer après impression
+      setTimeout(() => {
+        if (wasMobile) setPreviewSize('mobile');
+        if (wasGray && cvPage) cvPage.classList.add('grayscale');
+        if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
+        if (wrapper) wrapper.style.transform = prevTransform;
+        applyZoom(prevZoom);
+      }, 500);
     });
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
-    const slicePxHeight = A4_HEIGHT_PX * SCALE;
-
-    for (let i = 0; i < pageCount; i += 1) {
-      if (i > 0) pdf.addPage();
-      const slice = document.createElement('canvas');
-      slice.width = canvas.width;
-      slice.height = slicePxHeight;
-      const ctx = slice.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, slice.width, slice.height);
-      ctx.drawImage(canvas, 0, i * slicePxHeight, canvas.width, slicePxHeight, 0, 0, slice.width, slice.height);
-      pdf.addImage(slice.toDataURL('image/png'), 'PNG', 0, 0, 210, 297, undefined, 'FAST');
-    }
-
-    pdf.save(getExportFilename() + '.pdf');
-  } catch(err) {
-    alert('Erreur PDF : ' + err.message);
-    console.error(err);
-  } finally {
-    document.body.classList.remove('exporting-pdf');
-    if (wrapper && prevWrapperTransform !== null) wrapper.style.transform = prevWrapperTransform;
-    btn.disabled = false;
-    btn.textContent = '⬇ PDF';
-    if (wcWas || verbWas) { wordCountOn = wcWas; verbCheckOn = verbWas; render(); }
-  }
+  });
 }
 
 
@@ -5286,7 +5404,7 @@ function renderVersionHistory() {
   const box = document.getElementById('version-list');
   if (!box) return;
   if (!namedVersions.length) {
-    box.innerHTML = '<div class="version-empty">Aucune version enregistrée pour l’instant.</div>';
+    box.innerHTML = "<div class='version-empty'>Aucune version enregistrée pour l'instant.</div>";
     return;
   }
   box.innerHTML = namedVersions.map(v => `
@@ -5353,7 +5471,7 @@ function startBlankCV() {
   createPendingCV();
   closeOnboarding();
   showPrimaryNav('contenu');
-  showToast('Nouveau CV vide créé ✓');
+  showToast('Nouveau CV créé ✓');
 }
 function startFinanceTemplate() {
   if (typeof pushUndo === 'function') pushUndo();
@@ -5366,7 +5484,7 @@ function startFinanceTemplate() {
   document.getElementById('sk-lang').value = 'French (Native); English (Fluent)';
   document.getElementById('sk-it').value = 'Python, VBA, Excel, PowerPoint, Bloomberg Terminal';
   addEdu();
-  state.education[0].school = 'Nom de l’école / université';
+  state.education[0].school = "Nom de l'école / université";
   state.education[0].location = 'Ville, Pays';
   state.education[0].degree = 'Master in Finance / MSc Financial Markets';
   state.education[0].date = '2024 – 2026';
@@ -5612,7 +5730,7 @@ async function saveToFirebase() {
       updatedAt: new Date().toISOString()
     });
     dot.className = 'fb-dot connected';
-    showToast('CV sauvegardé avec succès ✓');
+    showToast('CV sauvegardé ✓');
   } catch(e) {
     dot.className = 'fb-dot';
     showToast('Erreur : ' + e.message, true);
@@ -5685,7 +5803,7 @@ window._onFirebaseReady = async function(user) {
   if (!user?.emailVerified) {
     updateAuthUI(null);
     openAuthModal();
-    showAuthInfo('Valide ton adresse email depuis le lien reçu avant d’accéder à ton espace.', true);
+    showAuthInfo("Validez votre adresse email depuis le lien reçu avant d'accéder à votre espace.", true);
     try { await window._firebase.signOut(window._firebase.auth); } catch (e) {}
     return;
   }
@@ -5699,9 +5817,9 @@ window._onFirebaseReady = async function(user) {
     initBlankAccountSession();
     await saveToFirebase();
     setTimeout(() => openOnboarding(), 120);
-    showToast('Compte validé : choisis comment démarrer ton premier CV ✓');
+    showToast('Compte validé — choisissez votre point de départ ✓');
   } else {
-    showToast('Session chargée ✓');
+    showToast('Contenu chargé ✓');
   }
 };
 
